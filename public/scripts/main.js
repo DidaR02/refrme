@@ -266,6 +266,10 @@ function onCreateAplicationOrderSubmit(e) {
     }
 }
 
+function generateNewUser() {
+
+}
+
 // Triggers when the auth state change for instance when the user signs-in or signs-out.
 function authStateObserver(user) {
 
