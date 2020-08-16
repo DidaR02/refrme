@@ -16,17 +16,17 @@
 'use strict';
 
 // Signs-in Friendly Chat.
-function signIn() {
-    // Sign into Firebase using popup auth & Google as the identity provider.
-    var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider);
-}
+// function signIn() {
+//     // Sign into Firebase using popup auth & Google as the identity provider.
+//     var provider = new firebase.auth.GoogleAuthProvider();
+//     firebase.auth().signInWithPopup(provider);
+// }
 
-// Signs-out of Friendly Chat.
-function signOut() {
-    // Sign out of Firebase.
-    firebase.auth().signOut();
-}
+// // Signs-out of Friendly Chat.
+// function signOut() {
+//     // Sign out of Firebase.
+//     firebase.auth().signOut();
+// }
 
 // Initiate firebase auth.
 function initFirebaseAuth() {
@@ -37,24 +37,24 @@ function initFirebaseAuth() {
 // Returns the signed-in user's profile Pic URL.
 function getProfilePicUrl() {
     // TODO 4: Return the user's profile pic URL.
-    return firebase.auth().currentUser.photoURL || '/images/profile_placeholder.png';
+    //return firebase.auth().currentUser.photoURL || '/images/profile_placeholder.png';
 }
 
 // Returns the signed-in user's display name.
 function getUserName() {
     // TODO 5: Return the user's display name.
 
-    if (isUserSignedIn() === false) {
-        return;
-    }
+    // if (isUserSignedIn() === false) {
+    //     return;
+    // }
 
-    return firebase.auth().currentUser.displayName;
+    // return firebase.auth().currentUser.displayName;
 }
 
 // Returns true if a user is signed-in.
 function isUserSignedIn() {
     // TODO 6: Return true if a user is signed-in.
-    return !!firebase.auth().currentUser;
+    // return !!firebase.auth().currentUser;
 }
 
 
@@ -218,90 +218,101 @@ function onMediaFileSelected(event) {
     }
 }
 
+
+
+class NewUser {
+    constructor() {
+
+    }
+}
+
 // Triggered when the send new message form is submitted.
 function onCreateAplicationOrderSubmit(e) {
     e.preventDefault();
 
-    if (checkSignedInWithMessage()) {
+    //if (checkSignedInWithMessage()) {
 
-        //var newUser = new NewUser();
-        //var salesApplication = new SalesApplication();
-        //var ispQuestionairMetaData = new IspQuestionairMetaData();
+    //var salesApplication = new SalesApplication();
+    //var ispQuestionairMetaData = new IspQuestionairMetaData();
 
-        // Check that the user entered a message and is signed in.
-        if (firstNameInputElement.value) {
-            //newUser.FirstName = firstNameInputElement.value;
-        }
+    // Check that the user entered a message and is signed in.
+    if (firstNameInputElement.value) {}
+    if (lastNameInputElement.value) {}
+    if (idNumberInputElement.value) {}
+    if (emailInputElement.value) {}
+    if (mobileNumberInputElement.value) {}
 
-        if (lastNameInputElement.value) {
-            //newUser.LastName = LastName.value;
-        }
-        if (idNumberInputElement.value) {
-            //newUser.IDNumber =  IDNumber.value;
-        }
-        if (emailInputElement.value) {
-            //newUser.Email =  Email.value;
-        }
-        if (mobileNumberInputElement.value) {
-            //newUser.MobileNumber =  MobileNumber.value;
-        }
 
-        var saveResults = saveNewUser(newUser);
+    var saveResults = saveNewUser(generateNewUser());
+    console.log("saveResults", saveResults);
+    var resetNewUserTextfield = saveResults.then(function() {
+        // Clear message text field and re-enable the SEND button.
+        resetMaterialTextfield(firstNameInputElement);
+        resetMaterialTextfield(lastNameInputElement);
+        resetMaterialTextfield(idNumberInputElement);
+        resetMaterialTextfield(emailInputElement);
+        resetMaterialTextfield(mobileNumberInputElement);
+        toggleButton();
+    });
 
-        saveResults.then(function() {
-            // Clear message text field and re-enable the SEND button.
-            resetMaterialTextfield(firstNameInputElement);
-            resetMaterialTextfield(lastNameInputElement);
-            resetMaterialTextfield(idNumberInputElement);
-            resetMaterialTextfield(emailInputElement);
-            resetMaterialTextfield(mobileNumberInputElement);
-            toggleButton();
-        });
-        //IspQuestionairMetaData	
-        //salesApplication.AgentCode = AgentCode;
-        //salesApplication.NetworkOperator = NetworkOperator;
-        //salesApplication.IsFirbreInstalled = IsFirbreInstalled;
-        //newUser.newUser = newUser;
-        //IspQuestionairMetaData.IspQuestionairMetaData = IspQuestionairMetaData;
-    }
+    console.log("resetNewUserTextfield", resetNewUserTextfield);
+    //IspQuestionairMetaData	
+    //salesApplication.AgentCode = AgentCode;
+    //salesApplication.NetworkOperator = NetworkOperator;
+    //salesApplication.IsFirbreInstalled = IsFirbreInstalled;
+    //newUser.newUser = newUser;
+    //IspQuestionairMetaData.IspQuestionairMetaData = IspQuestionairMetaData;
+    //}
 }
 
 function generateNewUser() {
+    debugger;
+    var newUser = new NewUser();
+    newUser.FirstName = firstNameInputElement.value;
+    newUser.LastName = lastNameInputElement.value;
+    newUser.IDNumber = idNumberInputElement.value;
+    newUser.Email = emailInputElement.value;
+    newUser.MobileNumber = mobileNumberInputElement.value;
+
+    return newUser;
 
 }
 
+function createApplication() {
+
+}
 // Triggers when the auth state change for instance when the user signs-in or signs-out.
-function authStateObserver(user) {
+// function authStateObserver(user) {
 
-    if (user) { // User is signed in!
-        // Get the signed-in user's profile pic and name.
-        var profilePicUrl = getProfilePicUrl();
-        var userName = getUserName();
+//     if (user) { // User is signed in!
+//         // Get the signed-in user's profile pic and name.
+//         var profilePicUrl = getProfilePicUrl();
+//         var userName = getUserName();
 
-        // Set the user's profile pic and name.
-        userPicElement.style.backgroundImage = 'url(' + addSizeToGoogleProfilePic(profilePicUrl) + ')';
-        userNameElement.textContent = userName;
+//         // Set the user's profile pic and name.
+//         userPicElement.style.backgroundImage = 'url(' + addSizeToGoogleProfilePic(profilePicUrl) + ')';
+//         userNameElement.textContent = userName;
 
-        // Show user's profile and sign-out button.
-        userNameElement.removeAttribute('hidden');
-        userPicElement.removeAttribute('hidden');
-        signOutButtonElement.removeAttribute('hidden');
+//         // Show user's profile and sign-out button.
+//         userNameElement.removeAttribute('hidden');
+//         userPicElement.removeAttribute('hidden');
+//         signOutButtonElement.removeAttribute('hidden');
 
-        // Hide sign-in button.
-        signInButtonElement.setAttribute('hidden', 'true');
+//         // Hide sign-in button.
+//         signInButtonElement.setAttribute('hidden', 'true');
 
-        // We save the Firebase Messaging Device token and enable notifications.
-        saveMessagingDeviceToken();
-    } else { // User is signed out!
-        // Hide user's profile and sign-out button.
-        userNameElement.setAttribute('hidden', 'true');
-        userPicElement.setAttribute('hidden', 'true');
-        signOutButtonElement.setAttribute('hidden', 'true');
+//         // We save the Firebase Messaging Device token and enable notifications.
+//         saveMessagingDeviceToken();
+//     } else { // User is signed out!
+//         // Hide user's profile and sign-out button.
+//         userNameElement.setAttribute('hidden', 'true');
+//         userPicElement.setAttribute('hidden', 'true');
+//         signOutButtonElement.setAttribute('hidden', 'true');
 
-        // Show sign-in button.
-        signInButtonElement.removeAttribute('hidden');
-    }
-}
+//         // Show sign-in button.
+//         signInButtonElement.removeAttribute('hidden');
+//     }
+// }
 
 // Returns true if user is signed-in. Otherwise false and displays a message.
 function checkSignedInWithMessage() {
@@ -427,11 +438,13 @@ function displayNetworkOperators(id, timestamp, name, text, picUrl, imageUrl) {
 // Enables or disables the submit button depending on the values of the input
 // fields.
 function toggleButton() {
-    if (firstNameInputElement.value) {
-        submitButtonElement.removeAttribute('disabled');
-    } else {
-        submitButtonElement.setAttribute('disabled', 'true');
-    }
+
+    //ToDO: Dissable button when something is invalid
+    // if (firstNameInputElement.value) {
+    //     submitButtonElement.removeAttribute('disabled');
+    // } else {
+    //     submitButtonElement.setAttribute('disabled', 'true');
+    // }
 }
 
 // Checks that the Firebase SDK has been correctly setup and configured.
@@ -443,45 +456,62 @@ function checkSetup() {
     }
 }
 
+
 // Checks that Firebase has been imported.
 checkSetup();
 
 // Shortcuts to DOM Elements.
-var messageListElement = document.getElementById('messages');
-var messageFormElement = document.getElementById('message-form');
-var firstNameInputElement = document.getElementById('message');
+
+var applicationFormElement = document.getElementById('application-form');
 var submitButtonElement = document.getElementById('submit');
-var imageButtonElement = document.getElementById('submitImage');
-var imageFormElement = document.getElementById('image-form');
-var mediaCaptureElement = document.getElementById('mediaCapture');
-var userPicElement = document.getElementById('user-pic');
-var userNameElement = document.getElementById('user-name');
-var signInButtonElement = document.getElementById('sign-in');
-var signOutButtonElement = document.getElementById('sign-out');
-var signInSnackbarElement = document.getElementById('must-signin-snackbar');
+
+//GetDropDownList
+var messageListElement = document.getElementById('messages');
+
+//GetUserInput
+var firstNameInputElement = document.getElementById('firstName');
+var lastNameInputElement = document.getElementById('lastName');
+var idNumberInputElement = document.getElementById('idNumber');
+var emailInputElement = document.getElementById('email');
+var emailInputElement = document.getElementById('confirmEmail');
+var mobileNumberInputElement = document.getElementById('mobileNumber');
+
+
+
+
+
+
+//var imageButtonElement = document.getElementById('submitImage');
+// var imageFormElement = document.getElementById('image-form');
+// var mediaCaptureElement = document.getElementById('mediaCapture');
+// var userPicElement = document.getElementById('user-pic');
+// var userNameElement = document.getElementById('user-name');
+// var signInButtonElement = document.getElementById('sign-in');
+// var signOutButtonElement = document.getElementById('sign-out');
+// var signInSnackbarElement = document.getElementById('must-signin-snackbar');
 
 // Saves message on form submit.
-messageFormElement.addEventListener('submit', onCreateAplicationOrderSubmit);
-signOutButtonElement.addEventListener('click', signOut);
-signInButtonElement.addEventListener('click', signIn);
+applicationFormElement.addEventListener('submit', onCreateAplicationOrderSubmit);
+// signOutButtonElement.addEventListener('click', signOut);
+// signInButtonElement.addEventListener('click', signIn);
 
 // Toggle for the button.
-firstNameInputElement.addEventListener('keyup', toggleButton);
-firstNameInputElement.addEventListener('change', toggleButton);
+// firstNameInputElement.addEventListener('keyup', toggleButton);
+// firstNameInputElement.addEventListener('change', toggleButton);
 
 // Events for image upload.
-imageButtonElement.addEventListener('click', function(e) {
-    e.preventDefault();
-    mediaCaptureElement.click();
-});
-mediaCaptureElement.addEventListener('change', onMediaFileSelected);
+// imageButtonElement.addEventListener('click', function(e) {
+//     e.preventDefault();
+//     mediaCaptureElement.click();
+// });
+// mediaCaptureElement.addEventListener('change', onMediaFileSelected);
 
 // initialize Firebase
-initFirebaseAuth();
+// initFirebaseAuth();
 
 // TODO: Enable Firebase Performance Monitoring.
 
 // We load currently existing chat messages and listen to new ones.
-loadMessages();
+//loadMessages();
 
-firebase.performance();
+// firebase.performance();

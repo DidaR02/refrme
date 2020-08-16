@@ -30,7 +30,7 @@
             <h1 style="text-align: center;">Online Order Form</h1>
             <br>
 
-            <form>
+            <form id="application-form" action="#">
 
                 <div class="form-group">
                     <label for="AgentCode">Please input Agent or Promo Code if applicable. Field is not mandatory if you do not have an agent code.</label>
@@ -288,20 +288,51 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-success btn-primary">Submit</button>
+                <button type="submit" class="btn btn-success btn-primary" onClick="createApplication()">Submit Application</button>
             </form>
         </div>
 
     </div>
     <!-- update the version number as needed -->
-    <script defer src="/__/firebase/7.18.0/firebase-app.js"></script>
+    <!-- <script src="/__/firebase/7.18.0/firebase-app.js"></script> -->
     <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/7.18.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/7.18.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/7.18.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/7.18.0/firebase-storage.js"></script>
+    <!-- <script src="/__/firebase/7.18.0/firebase-auth.js"></script>
+    <script src="/__/firebase/7.18.0/firebase-database.js"></script>
+    <script src="/__/firebase/7.18.0/firebase-messaging.js"></script>
+    <script src="/__/firebase/7.18.0/firebase-storage.js"></script> -->
     <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
+    <!-- <script src="/__/firebase/init.js"></script> -->
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-storage.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-analytics.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyDdXR3LUKKRY2Cm_vm96W6WJXxS9IHz5tI",
+            authDomain: "refrme-fbbe8.firebaseapp.com",
+            databaseURL: "https://refrme-fbbe8.firebaseio.com",
+            projectId: "refrme-fbbe8",
+            storageBucket: "refrme-fbbe8.appspot.com",
+            messagingSenderId: "911716839396",
+            appId: "1:911716839396:web:33d511d0b9045e33a461f1",
+            measurementId: "G-DRN4PVH6YJ"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+
+
+
+    <script src="scripts/main.js"></script>
 </body>
 
 </html>
