@@ -10,8 +10,9 @@ export class UserPersonalDetails{
 export class AddresDetails{
     public AddressLine1: string;
     public AddressLine2: string;
+    public Suburb: string;
     public City: string;
-    public Province: string;
+    public Province: string = "Limpopo";
     public ZipCode: string;
     public Country: string = "South Africa";
     public AddressType: string; //FreeStanding, Complex, Estate

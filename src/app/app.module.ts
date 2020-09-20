@@ -10,6 +10,8 @@ import { AngularFirestoreModule} from '@angular/fire/firestore';
 import { AngularFireStorageModule} from '@angular/fire/storage';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 
+import { FireBaseCrudService } from './Service/fire-base-crud.service'
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireStorageModule,
