@@ -14,7 +14,8 @@ export class FireBaseCrudService {
   constructor(private fireStore: AngularFirestore, private fireStorage: AngularFireStorage, private fireDb: AngularFireDatabase) { }
 
   public NetworkOperatorList: AngularFireList<any>;
-
+  public ServiceProviderList: AngularFireList<any>;
+  public NetworkOperatorProductList: AngularFireList<any>;
 
   saveUserDetails(userDetails: UserPersonalDetails){
     if(userDetails)
@@ -33,4 +34,14 @@ export class FireBaseCrudService {
       return this.NetworkOperatorList;
     };
 
+    getServiceProvider(){
+      this.ServiceProviderList = this.fireDb.list('ServiceProvider');
+      return this.ServiceProviderList;
+    };
+
+    getNetworkOperatorProducts()
+    {
+      this.NetworkOperatorProductList = this.fireDb.list('NetworkOperatorProducts');
+      return this.NetworkOperatorProductList;
+    }
 }
