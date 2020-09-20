@@ -85,18 +85,19 @@ export class AppComponent implements OnInit {
 
   buildNetworkOperatorProductListMessage(networkOperatorProducts: NetworkOperatorProducts[])
   {
-    if(this.networkOperatorProducts && this.networkOperatorProducts.length > 0)
-    {
-      for(var product = 0 ; product < this.networkOperatorProducts.length; prod++)
-      {
-        var products = this.networkOperatorProducts[product]['Products'];
-        for(var prod = 0 ; prod <= products.length; prod++) {
-          this.productListMessage = [];
-          this.productListMessage.push();
-        };
-        //console.log("products", this.networkOperatorProducts[prod]['Products']);
-      }
-    }
+    // if(this.networkOperatorProducts && this.networkOperatorProducts.length > 0)
+    // {
+    //   for(var product = 0 ; product < this.networkOperatorProducts.length; prod++)
+    //   {
+    //     var products = this.networkOperatorProducts[product]['Products'];
+    //     for(var prod = 0 ; prod <= products.length; prod++) {
+    //       //console.log("prod",prod);
+    //       //this.productListMessage = [];
+    //       //this.productListMessage.push();
+    //     };
+    //     //console.log("products", this.networkOperatorProducts[prod]['Products']);
+    //   }
+    // }
   }
 
   getServiceProvider(){
