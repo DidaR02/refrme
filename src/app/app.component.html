@@ -13,21 +13,15 @@
 
             <div class="form-group">
                 <label for="selectNetworkOperator">Please select network operator</label>
-                <select class="form-control" id="selectNetworkOperator">
-                    <option value="Vuma Home Fibre">Vuma Home Fibre</option>
-                    <option value="OpenServe Home Fibre">OpenServe Home Fibre</option>
-                    <option value="SADV Home Fibre">SADV Home Fibre</option>
-                    <option value="MFN Home Fibre">MFN Home Fibre</option>
-                    <option value="Octotel Home Fibre">Octotel Home Fibre</option>
-                    <option value="Avianto Home Fibre">Avianto Home Fibre</option>
-                    <option value="Frogfoot Home Fibre">Frogfoot Home Fibre</option>
+                <select class="form-control" id="selectNetworkOperator" (change)='onSelectedNetworkOperator($event)'>
+                    <option *ngFor="let netOp of networkOperators" [value]="netOp.NetOpId">{{netOp.NetOpName}}</option>
                   </select>
             </div>
 
             <div>
                 <h4>
                     <!--SADV needs to change to selectNetworkOperator selected name-->
-                    SADV Package Options. *Installation of R1,725 not applicable if you have a SADV CPE installed into your home already.
+                    {{netOpName}} Package Options. *Installation of R1,725 not applicable if you have a {{netOpName}} CPE installed into your home already.
                 </h4>
             </div>
 

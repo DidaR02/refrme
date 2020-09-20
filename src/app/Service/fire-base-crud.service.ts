@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 
 import {UserPersonalDetails,AddresDetails} from '../Models/UserModel'
 
@@ -13,6 +13,9 @@ export class FireBaseCrudService {
 
   constructor(private fireStore: AngularFirestore, private fireStorage: AngularFireStorage, private fireDb: AngularFireDatabase) { }
 
+  public NetworkOperatorList: AngularFireList<any>;
+
+
   saveUserDetails(userDetails: UserPersonalDetails){
     if(userDetails)
     {
@@ -23,5 +26,11 @@ export class FireBaseCrudService {
       alert("Please enter applicant personal details!");
     }
   }
+
+
+  getNetworkOperator(){
+      this.NetworkOperatorList = this.fireDb.list('NetworkOperator');
+      return this.NetworkOperatorList;
+    };
 
 }
