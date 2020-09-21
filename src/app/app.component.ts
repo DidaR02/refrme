@@ -3,7 +3,7 @@ import {UserPersonalDetails,AddresDetails} from './Models/UserModel';
 import { ServiceProvider, UserServiceProvider} from './Models/ServiceProviderModel';
 import {FireBaseCrudService} from './Service/fire-base-crud.service'
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'; // Reactive form services
-import { NetworkOperator, NetworkOperatorProducts } from './Models/NetworkOperatorModel';
+import { NetworkOperator, NetworkOperatorProducts, ProductMessage } from './Models/NetworkOperatorModel';
 import { IfStmt } from '@angular/compiler';
 
 @Component({
@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   networkOperators: NetworkOperator[];
   serviceProvider: ServiceProvider[];
   networkOperatorProducts: NetworkOperatorProducts[];
-  productListMessage: string[] = [];
+  productListMessage: ProductMessage[] = [];
   netOpId: string = "";
   netOpName: string = "";
 
@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
   ngOnInit(){
     this.getNetworkOperator();
     this.getServiceProvider();
-    //this.buildNetworkOperatorProductListMessage();
+    
   }
 
   getNetworkOperator(){
@@ -70,34 +70,53 @@ export class AppComponent implements OnInit {
             }
           }
         );
-        this.buildNetworkOperatorProductListMessage(this.networkOperatorProducts);
+
+        if(this.networkOperatorProducts[0]){
+          this.productListMessage = [];
+
+          for(var prodList = 0 ; prodList < this.networkOperatorProducts.length; prodList++){
+            
+            if(this.networkOperatorProducts[prodList]['Products']){
+              for(var prodItem in this.networkOperatorProducts[prodList]['Products']){
+
+                let message = new ProductMessage();
+                message.OperatorId = this.netOpId;
+                message.prodId = this.networkOperatorProducts[prodList]['Products'][prodItem]['ProdId'];
+                message.OperatorName = this.netOpName;
+                message.ProductMessage = this.buildNetworkOperatorProductListMessage(this.networkOperatorProducts[prodList]['Products'][prodItem]['ProdName'],
+                this.networkOperatorProducts[prodList]['Products'][prodItem]['Download'],
+                this.networkOperatorProducts[prodList]['Products'][prodItem]['Upload'],
+                this.networkOperatorProducts[prodList]['Products'][prodItem]['ProdPrice'],
+                this.networkOperatorProducts[prodList]['Products'][prodItem]['PaymentTerms'],
+                   "R1725",
+                   "R499");
+                
+                this.productListMessage.push(message as ProductMessage);
+                // console.log("productListMessage", this.productListMessage);
+                // console.log("Message", message);
+              }
+            }
+          }
+        }
       },
       function(error){
         console.log("This is error getNetworkOperatorProductList",error);
       },
       function(){
-        this.buildNetworkOperatorProductListMessage(this.networkOperatorProducts);
       }
     );
 
     
   }
 
-  buildNetworkOperatorProductListMessage(networkOperatorProducts: NetworkOperatorProducts[])
+  buildNetworkOperatorProductListMessage( productName: string, download: string, upload: string, amount: string, payTerms: string, installAmount: string, existInstallAmount: string)
   {
-    // if(this.networkOperatorProducts && this.networkOperatorProducts.length > 0)
-    // {
-    //   for(var product = 0 ; product < this.networkOperatorProducts.length; prod++)
-    //   {
-    //     var products = this.networkOperatorProducts[product]['Products'];
-    //     for(var prod = 0 ; prod <= products.length; prod++) {
-    //       //console.log("prod",prod);
-    //       //this.productListMessage = [];
-    //       //this.productListMessage.push();
-    //     };
-    //     //console.log("products", this.networkOperatorProducts[prod]['Products']);
-    //   }
-    // }
+    enum payMentTerms{
+      "Monthly" = "Per Month"
+    };
+
+    var message = this.netOpName + " " + productName + " " + download +"Mbps Download and "+ upload +"Mbps Upload: R"+amount+ " " +payMentTerms.Monthly+ " (New Installation and Activation R1725) - (Existing Installation activation R499)";
+    return message;
   }
 
   getServiceProvider(){

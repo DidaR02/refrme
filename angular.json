@@ -28,7 +28,11 @@
                         ],
                         "scripts": [],
                         "allowedCommonJsDependencies": ["lodash",
-                            "lodash/dropRight"
+                            "lodash/dropRight",
+                            "@firebase/app",
+                            "@firebase/firestore",
+                            "@firebase/database",
+                            "firebase/app"
                         ]
                     },
                     "configurations": {

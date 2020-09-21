@@ -15,3 +15,10 @@ export class NetworkOperatorProducts{
     ProdSupport : string;
     RouterSupport : string;
 }
+
+export class ProductMessage{
+    OperatorId: string;
+    prodId: string;
+    OperatorName: string;
+    ProductMessage: string;
+}

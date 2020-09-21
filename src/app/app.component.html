@@ -36,12 +36,8 @@
 
             <div class="form-group">
                 <select class="form-control" id="selectServicePackage">
-                <option selected="selected">Please select your Internet speed package. *Installation of R1,725 not applicable if you have a SADV CPE installed into your home already.</option>
-                <option>SADV Home Fibre 10Mbps Download and 10Mbps Upload: R740 per month (New Installation and activation R1 725) - (Existing Installation activation R499)</option>
-                <option>SADV Home Fibre 20Mbps Download and 20Mbps Upload: R900 per month  (New Installation and activation R1 725) - (Existing Installation activation R499)</option>
-                <option>SADV Home Fibre 50Mbps Download and 50Mbps Upload: R1 045 per month  (New Installation and activation R1 725) - (Existing Installation activation R499)</option>
-                <option>SADV Home Fibre 100Mbps Download and 100Mbps Upload: R1 175 per month  (New Installation and activation R1 725) - (Existing Installation activation R499)</option>
-                <option>SADV Home Fibre 200Mbps Download and 200Mbps Upload: R1 335 per month  (New Installation and activation R1 725) - (Existing Installation activation R499)</option>
+                <option selected="selected">Please select your Internet speed package. *Installation of R1,725 not applicable if you have a {{netOpName}} CPE installed into your home already.</option>
+                <option *ngFor="let Products of productListMessage" [value]="Products.prodId">{{Products.ProductMessage}}</option>
               </select>
             </div>
 
@@ -85,9 +81,9 @@
                         <div class="form-group" formGroupName="AddressDetails">
                             <label>What type of home do you live in? *</label>
                             <br>
-                            <label class="radio-inline"><input type="radio" name="optHomeType" class="building-type">Free Standing Home</label>
-                            <label class="radio-inline"><input type="radio" name="optHomeType" class="building-type">Complex</label>
-                            <label class="radio-inline"><input type="radio" name="optHomeType" class="building-type">Estate</label>
+                            <label class="radio-inline"><input type="radio" formControlName="AddressType"  name="AddressType" class="building-type">Free Standing Home</label>
+                            <label class="radio-inline"><input type="radio" formControlName="AddressType"  name="AddressType" class="building-type">Complex</label>
+                            <label class="radio-inline"><input type="radio" formControlName="AddressType"  name="AddressType" class="building-type">Estate</label>
                         </div>
                     </div>
 
