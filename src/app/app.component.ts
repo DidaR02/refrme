@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {UserPersonalDetails,AddresDetails} from './Models/UserModel';
 import { ServiceProvider, UserServiceProvider} from './Models/ServiceProviderModel';
 import {FireBaseCrudService} from './Service/fire-base-crud.service'
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'; // Reactive form services
 import { NetworkOperator, NetworkOperatorProducts, ProductMessage } from './Models/NetworkOperatorModel';
-import { IfStmt } from '@angular/compiler';
+// import { IfStmt } from '@angular/compiler';
+import{ DeliveryInstallOption } from './Models/DeliveryInstallOption';
+
 
 @Component({
   selector: 'app-root',
@@ -23,6 +25,8 @@ export class AppComponent implements OnInit {
   servProvId: string = "1";
   servProvName: string = "ReferMe";
   
+  @Input() AddressType: FormControl = new FormControl();
+  @Input() DeliveryInstallOption: FormControl = new FormControl();
 
   constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder){}
 
@@ -140,22 +144,29 @@ export class AppComponent implements OnInit {
     );
   };
 
+  public addressDetails= new FormGroup({
+    AddressLine1: new FormControl(),
+    AddressLine2: new FormControl(),
+    City: new FormControl(),
+    Province: new FormControl(),
+    ZipCode: new FormControl(),
+    Suburb: new FormControl(),
+    AddressType: new FormControl(this.AddressType.value) //FreeS
+  });
   public userPersonalDetails = new FormGroup({
     FirstName: new FormControl(),
     LastName: new FormControl(),
     IdNumber: new FormControl(),
     Email: new FormControl(),
     MobileNumber: new FormControl(),
-    AddressDetails: new FormGroup({
-      AddressLine1: new FormControl(),
-      AddressLine2: new FormControl(),
-      City: new FormControl(),
-      Province: new FormControl(),
-      ZipCode: new FormControl(),
-      Suburb: new FormControl(),
-      AddressType: new FormControl() //FreeS
-    })
+    AddressDetails: new FormGroup(this.addressDetails.controls),
+    SpecialComments: new FormControl()
   });
+
+  public deliveryInstallOption = new FormGroup({
+    DeliveryInstallOption: new FormControl(this.DeliveryInstallOption.value)
+  });
+
 
   ResetForm() {
     this.userPersonalDetails.reset();
@@ -177,12 +188,14 @@ export class AppComponent implements OnInit {
     {
           this.getNetworkOperatorProducts(this.netOpId);
     }
-
   }
-
+  changeAddressType(event){
+    console.log(event.target.value);
+  }
+  
   submitUserDetails(){
 
-    //NewUser
+    
     this.fsCrud.saveUserDetails(this.userPersonalDetails.value);
 
     //

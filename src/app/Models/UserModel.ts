@@ -5,6 +5,7 @@ export class UserPersonalDetails{
     public Email: string;
     public MobileNumber: string;
     public AddressDetails: AddresDetails;
+    public SpecialComments: string;
 }
 
 export class AddresDetails{

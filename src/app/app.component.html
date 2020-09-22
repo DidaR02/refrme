@@ -81,9 +81,9 @@
                         <div class="form-group" formGroupName="AddressDetails">
                             <label>What type of home do you live in? *</label>
                             <br>
-                            <label class="radio-inline"><input type="radio" formControlName="AddressType"  name="AddressType" class="building-type">Free Standing Home</label>
-                            <label class="radio-inline"><input type="radio" formControlName="AddressType"  name="AddressType" class="building-type">Complex</label>
-                            <label class="radio-inline"><input type="radio" formControlName="AddressType"  name="AddressType" class="building-type">Estate</label>
+                            <label class="radio-inline"><input type="radio" class="form-control" formControlName="AddressType" name="AddressType" class="building-type" (change)="changeAddressType($event)" value="Free Standing Home">Free Standing Home</label>
+                            <label class="radio-inline"><input type="radio" class="form-control" formControlName="AddressType" name="AddressType" class="building-type" (change)="changeAddressType($event)" value="Complex">Complex</label>
+                            <label class="radio-inline"><input type="radio" class="form-control" formControlName="AddressType" name="AddressType" class="building-type" (change)="changeAddressType($event)" value="Estate">Estate</label>
                         </div>
                     </div>
 
@@ -126,39 +126,37 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="comment">Special Instructions</label>
-                            <textarea class="form-control" id="comment" name="comment" rows="5" placeholder="Do you have any special instructions or anything at all that you would like to inform our installation / orders team about"></textarea>
+                            <textarea class="form-control" formControlName="SpecialComments" id="comment" name="comment" rows="5" placeholder="Do you have any special instructions or anything at all that you would like to inform our installation / orders team about"></textarea>
                         </div>
                     </div>
 
 
                 </div>
 
-
-
             </div>
 
             <div class="panel panel-primary">
                 <div class="panel-heading">Router Delivery/ Installation Option</div>
                 <div class="panel-body">
-
-                    <div class="form-group">
-                        <label>We supply very easy to use instructions on how to plug in your Router if you do not select the on-site technician option *</label>
-                        <ul class="installationOptionList" id="installationOption" style="list-style-type: none;">
-                            <li class="installationOption-list">
-                                <label class="radio-inline"><input type="radio" name="optinstallationOption" class="installation-option">Courier delivery for Free</label>
-                            </li>
-                            <li class="installationOption-list">
-                                <label class="radio-inline"><input type="radio" name="optinstallationOption" class="installation-option">Collection at our Head office in Bryanston, Johannesburg</label>
-                            </li>
-                            <li class="installationOption-list">
-                                <label class="radio-inline"><input type="radio" name="optinstallationOption" class="installation-option">On-site Technician (For 10Mbps - 50Mbps packages R599)</label>
-                            </li>
-                            <li class="installationOption-list">
-                                <label class="radio-inline"><input type="radio" name="optinstallationOption" class="installation-option">On-site Technician (For 100Mbps+ packages Free)</label>
-                            </li>
-                        </ul>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>We supply very easy to use instructions on how to plug in your Router if you do not select the on-site technician option *</label>
+                            <ul class="deliveryInstallOption" id="deliveryInstallOption" style="list-style-type: none;">
+                                <li class="DeliveryInstallOption-list">
+                                    <label class="radio-inline"><input type="radio" name="DeliveryInstallOption" class="installation-option" value="Courier delivery for Free">Courier delivery for Free</label>
+                                </li>
+                                <li class="DeliveryInstallOption-list">
+                                    <label class="radio-inline"><input type="radio"  name="DeliveryInstallOption" class="installation-option" value="Collection at our Head office in Bryanston, Johannesburg">Collection at our Head office in Bryanston, Johannesburg</label>
+                                </li>
+                                <li class="DeliveryInstallOption-list">
+                                    <label class="radio-inline"><input type="radio"  name="DeliveryInstallOption" class="installation-option" value="On-site Technician (For 10Mbps - 50Mbps packages R599)">On-site Technician (For 10Mbps - 50Mbps packages R599)</label>
+                                </li>
+                                <li class="DeliveryInstallOption-list">
+                                    <label class="radio-inline"><input type="radio"  name="DeliveryInstallOption" class="installation-option" value="On-site Technician (For 100Mbps+ packages Free)">On-site Technician (For 100Mbps+ packages Free)</label>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-
                 </div>
             </div>
 
@@ -224,14 +222,6 @@
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="exampleCheck1">
                             <label class="form-check-label" for="exampleCheck1">Yes, I Agree to the Electronic Mandate terms listed below. <a href="https://www.bitco.co.za/wp-content/uploads/BitCO-Home-Debit-Order-Mandate-Generic.pdf" target="_blank">Click here to read debit order mandate</a></label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="electronicMandateTerms">I have read, understand and agree to the Terms listed below, and declare that the information given is true and correct:</label>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Yes, I agree to the General & Service Terms. <a href="https://www.bitco.co.za/wp-content/uploads/BitCo-Home-Terms-and-Conditions_20181113.pdf" target="_blank">Click Here To Read Terms and Conditions</a></label>
                         </div>
                     </div>
 
