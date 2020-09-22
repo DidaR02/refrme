@@ -1,9 +1,10 @@
 export class FileElement {
-    id?: string;
-    UserFileType: string;
-    name: string;
-    size?: number;
-    downloadURL?: string;
-    metaData?: any;
+    Id?: string;
+    FileType: string;
+    Name: string;
+    Size?: number;
+    DownloadURL?: string;
+    MetaData?: any;
     ApplicationId: string;
+    VerificationDocumentName: string
 }

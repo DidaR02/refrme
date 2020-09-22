@@ -5,8 +5,8 @@ import {FireBaseCrudService} from './Service/fire-base-crud.service'
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'; // Reactive form services
 import { NetworkOperator, NetworkOperatorProducts, ProductMessage } from './Models/NetworkOperatorModel';
 // import { IfStmt } from '@angular/compiler';
-import{ DeliveryInstallOption } from './Models/DeliveryInstallOption';
-
+import { DeliveryInstallOption } from './Models/DeliveryInstallOption';
+import { SaleApplication } from './Models/SalesApplicationModel'
 
 @Component({
   selector: 'app-root',
@@ -16,11 +16,11 @@ import{ DeliveryInstallOption } from './Models/DeliveryInstallOption';
 export class AppComponent implements OnInit {
   title = 'RefrMe';
   networkOperators: NetworkOperator[];
-  serviceProvider: ServiceProvider[];
+  serviceProvider: ServiceProvider[] = [];
   networkOperatorProducts: NetworkOperatorProducts[];
   productListMessage: ProductMessage[] = [];
-  netOpId: string = "";
-  netOpName: string = "";
+  networkOperatorId: string = "";
+  networkOperatorName: string = "";
 
   servProvId: string = "1";
   servProvName: string = "ReferMe";
@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
     this.getNetworkOperator();
     this.getServiceProvider();
     
+    console.log(this.serviceProvider.indexOf(this.serviceProvider[1]));
   }
 
   getNetworkOperator(){
@@ -43,7 +44,7 @@ export class AppComponent implements OnInit {
         this.networkOperators = [];
         data.forEach( item =>{
           let operator = item.payload.toJSON();
-          operator['NetOpId'] = item.key
+          operator['NetworkOperatorId'] = item.key
            if(operator)
           {
             this.networkOperators.push(operator as NetworkOperator);
@@ -51,9 +52,9 @@ export class AppComponent implements OnInit {
         });
         if(this.networkOperators)
         {
-          this.netOpId = this.networkOperators[0]?.NetOpId;
-          this.netOpName = this.networkOperators[0]?.NetOpName.replace(" Home Fibre", "");
-          this.getNetworkOperatorProducts(this.netOpId);
+          this.networkOperatorId = this.networkOperators[0]?.NetworkOperatorId;
+          this.networkOperatorName = this.networkOperators[0]?.NetworkOperatorName;
+          this.getNetworkOperatorProducts(this.networkOperatorId);
         }
       }
     );
@@ -65,7 +66,7 @@ export class AppComponent implements OnInit {
       data => {
         this.networkOperatorProducts = [];
         data.forEach(item =>{
-            if(item.key == this.netOpId)
+            if(item.key == this.networkOperatorId)
             {
               let products = item.payload.toJSON();
               if(products){
@@ -84,9 +85,9 @@ export class AppComponent implements OnInit {
               for(var prodItem in this.networkOperatorProducts[prodList]['Products']){
 
                 let message = new ProductMessage();
-                message.OperatorId = this.netOpId;
+                message.OperatorId = this.networkOperatorId;
                 message.prodId = this.networkOperatorProducts[prodList]['Products'][prodItem]['ProdId'];
-                message.OperatorName = this.netOpName;
+                message.OperatorName = this.networkOperatorName;
                 message.ProductMessage = this.buildNetworkOperatorProductListMessage(this.networkOperatorProducts[prodList]['Products'][prodItem]['ProdName'],
                 this.networkOperatorProducts[prodList]['Products'][prodItem]['Download'],
                 this.networkOperatorProducts[prodList]['Products'][prodItem]['Upload'],
@@ -96,8 +97,6 @@ export class AppComponent implements OnInit {
                    "R499");
                 
                 this.productListMessage.push(message as ProductMessage);
-                // console.log("productListMessage", this.productListMessage);
-                // console.log("Message", message);
               }
             }
           }
@@ -119,7 +118,7 @@ export class AppComponent implements OnInit {
       "Monthly" = "Per Month"
     };
 
-    var message = this.netOpName + " " + productName + " " + download +"Mbps Download and "+ upload +"Mbps Upload: R"+amount+ " " +payMentTerms.Monthly+ " (New Installation and Activation R1725) - (Existing Installation activation R499)";
+    var message = this.networkOperatorName + " " + productName + " " + download +"Mbps Download and "+ upload +"Mbps Upload: R"+amount+ " " +payMentTerms.Monthly+ " (New Installation and Activation R1725) - (Existing Installation activation R499)";
     return message;
   }
 
@@ -153,6 +152,7 @@ export class AppComponent implements OnInit {
     Suburb: new FormControl(),
     AddressType: new FormControl(this.AddressType.value) //FreeS
   });
+
   public userPersonalDetails = new FormGroup({
     FirstName: new FormControl(),
     LastName: new FormControl(),
@@ -167,8 +167,19 @@ export class AppComponent implements OnInit {
     DeliveryInstallOption: new FormControl(this.DeliveryInstallOption.value)
   });
 
+  //private serviceProviderB: ServiceProvider = this.serviceProvider[this.serviceProvider.findIndex(x => x.ServiceProviderId === this.servProvId)]; 
+
+  public salesApplication = new FormGroup({
+    AgentPromoCode: new FormControl(),
+    ServiceProvider: new FormControl(),
+    NetworkOperator: new FormControl(),
+    IsCpeFirbreInstalled: new FormControl(),
+    NetworkOperatorPackage: new FormControl(),
+    UserPersonalDetails: new FormGroup(this.userPersonalDetails.controls)
+  });
 
   ResetForm() {
+    this.salesApplication.reset();
     this.userPersonalDetails.reset();
   } 
 
@@ -176,27 +187,28 @@ export class AppComponent implements OnInit {
     if(this.networkOperators)
     {
       const selectedNetOpId = event.target.value;
-      const getOpItem = this.networkOperators.map(opId => opId.NetOpId).indexOf(selectedNetOpId);
+      const getOpItem = this.networkOperators.map(opId => opId.NetworkOperatorId).indexOf(selectedNetOpId);
       if(getOpItem)
       {
-        this.netOpId = this.networkOperators[getOpItem]?.NetOpId;
-        this.netOpName = this.networkOperators[getOpItem]?.NetOpName.replace(" Home Fibre", "");
+        this.networkOperatorId = this.networkOperators[getOpItem]?.NetworkOperatorId;
+        this.networkOperatorName = this.networkOperators[getOpItem]?.NetworkOperatorName.replace(" Home Fibre", "");
       }
     }
 
-    if(this.netOpId != null || this.netOpId != undefined || this.netOpId != "")
+    if(this.networkOperatorId != null || this.networkOperatorId != undefined || this.networkOperatorId != "")
     {
-          this.getNetworkOperatorProducts(this.netOpId);
+          this.getNetworkOperatorProducts(this.networkOperatorId);
     }
   }
   changeAddressType(event){
-    console.log(event.target.value);
+    //console.log(event.target.value);
   }
   
   submitUserDetails(){
 
-    
-    this.fsCrud.saveUserDetails(this.userPersonalDetails.value);
+    console.log(this.serviceProvider);
+    console.log(this.salesApplication.value);
+    //this.fsCrud.saveUserDetails(this.userPersonalDetails.value);
 
     //
 

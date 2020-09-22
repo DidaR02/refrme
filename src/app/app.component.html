@@ -4,29 +4,29 @@
         <h1 style="text-align: center;">Online Order Form</h1>
         <br>
 
-        <form [formGroup]="userPersonalDetails" id="application-form" action="#" (ngSubmit)="submitUserDetails()">
+        <form [formGroup]="salesApplication" id="application-form" action="#" (ngSubmit)="submitUserDetails()">
 
             <div class="form-group">
-                <label for="AgentCode">Please input Agent or Promo Code if applicable. Field is not mandatory if you do not have an agent code.</label>
-                <input type="text" class="form-control" id="AgentCode" name="AgentCode" placeholder="Agent Code/ Promo Code if Applicable. *Not Mandatory">
+                <label for="AgentPromoCode">Please input Agent or Promo Code if applicable. Field is not mandatory if you do not have an agent code.</label>
+                <input type="text" class="form-control" formControlName="AgentPromoCode" id="AgentPromoCode" name="AgentPromoCode" placeholder="Agent Code/ Promo Code if Applicable. *Not Mandatory">
             </div>
 
             <div class="form-group">
                 <label for="selectNetworkOperator">Please select network operator</label>
-                <select class="form-control" id="selectNetworkOperator" (change)='onSelectedNetworkOperator($event)'>
-                    <option *ngFor="let netOp of networkOperators" [value]="netOp.NetOpId">{{netOp.NetOpName}}</option>
+                <select class="form-control" formControlName="NetworkOperator" id="selectNetworkOperator" (change)='onSelectedNetworkOperator($event)'>
+                    <option *ngFor="let netOp of networkOperators" [value]="netOp.NetworkOperatorId">{{netOp.NetworkOperatorName}}</option>
                   </select>
             </div>
 
             <div>
                 <h4>
                     <!--SADV needs to change to selectNetworkOperator selected name-->
-                    {{netOpName}} Package Options. *Installation of R1,725 not applicable if you have a {{netOpName}} CPE installed into your home already.
+                    {{networkOperatorName}} Package Options. *Installation of R1,725 not applicable if you have a {{networkOperatorName}} CPE installed into your home already.
                 </h4>
             </div>
 
             <div class="form-group">
-                <select class="form-control" id="isFirbreInstalled">
+                <select class="form-control" formControlName="IsCpeFirbreInstalled" id="isCpeFirbreInstalled">
                   <option selected="selected">Do you have Fibre installed already?</option>
                   <option>No. I need Fibre installed into my home.</option>
                   <option>Yes. I have Fibre installed but i have no Internet Service Provider.</option>
@@ -35,7 +35,7 @@
             </div>
 
             <div class="form-group">
-                <select class="form-control" id="selectServicePackage">
+                <select class="form-control" formControlName="NetworkOperatorPackage" id="selectNetworkOperatorPackage">
                 <option selected="selected">Please select your Internet speed package. *Installation of R1,725 not applicable if you have a {{netOpName}} CPE installed into your home already.</option>
                 <option *ngFor="let Products of productListMessage" [value]="Products.prodId">{{Products.ProductMessage}}</option>
               </select>
@@ -46,16 +46,16 @@
                 <div class="panel-body">
 
                     <div class="form-row ">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6" [formGroup]="userPersonalDetails">
                             <label for="firstName">First Name</label>
                             <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" aria-required="true" formControlName="FirstName">
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6" [formGroup]="userPersonalDetails">
                             <label for="lastName">lastName</label>
                             <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" aria-required="true" formControlName="LastName">
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6" [formGroup]="userPersonalDetails">
                             <label for="idNumber">SA ID Number or Passport Number *</label>
                             <input type="text" class="form-control" id="idNumber" name="idNumber" placeholder="SA ID Number or Passport Number *" aria-required="true" formControlName="IdNumber">
                         </div>
@@ -63,22 +63,22 @@
 
 
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6" [formGroup]="userPersonalDetails">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="Email *" aria-required="true" formControlName="Email">
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6" [formGroup]="userPersonalDetails">
                             <label for="confirmEmail">Confirm Email *</label>
                             <input type="text" class="form-control" id="confirmEmail" name="confirmEmail" placeholder="Confirm Email *" aria-required="true">
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6" [formGroup]="userPersonalDetails">
                             <label for="mobileNumber">Mobile Number *</label>
                             <input type="text" class="form-control" id="mobileNumber" name="mobileNumber" placeholder="Mobile Number *" aria-required="true" formControlName="MobileNumber">
                         </div>
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group" formGroupName="AddressDetails">
+                        <div class="form-group" [formGroup]="addressDetails">
                             <label>What type of home do you live in? *</label>
                             <br>
                             <label class="radio-inline"><input type="radio" class="form-control" formControlName="AddressType" name="AddressType" class="building-type" (change)="changeAddressType($event)" value="Free Standing Home">Free Standing Home</label>
@@ -87,27 +87,27 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-6" formGroupName="AddressDetails">
+                    <div class="form-group col-md-6" [formGroup]="addressDetails">
                         <label for="buildingUnitNumber">Address Line 1 *</label>
                         <input type="text" class="form-control" formControlName="AddressLine1" id="buildingUnitNumber" name="buildingUnitNumber" placeholder="Please enter the name of the complex/ estate and unit number">
                     </div>
 
-                    <div class="form-group col-md-6" formGroupName="AddressDetails">
+                    <div class="form-group col-md-6" [formGroup]="addressDetails">
                         <label for="streetAddress">Address line 2</label>
                         <input type="text" class="form-control" formControlName="AddressLine2" id="streetAddress" name="streetAddress" placeholder="Confirm Street Address *">
                     </div>
 
-                    <div class="form-group col-md-6" formGroupName="AddressDetails">
+                    <div class="form-group col-md-6" [formGroup]="addressDetails">
                         <label for="city">Suburb *</label>
                         <input type="text" class="form-control" formControlName="Suburb" id="suburb" name="suburb" placeholder="Suburb *" aria-required="true">
                     </div>
 
-                    <div class="form-group col-md-6" formGroupName="AddressDetails">
+                    <div class="form-group col-md-6" [formGroup]="addressDetails">
                         <label for="city">City *</label>
                         <input type="text" class="form-control" formControlName="City" id="city" name="city" placeholder="City *" aria-required="true">
                     </div>
 
-                    <div class="form-group col-md-6" formGroupName="AddressDetails">
+                    <div class="form-group col-md-6" [formGroup]="addressDetails">
                         <label for="selectStateProvince">State / Province</label>
                         <select class="form-control" formControlName="Province" id="selectStateProvince" aria-required="true">
                                   <option value="" selected>State / province</option>
@@ -124,7 +124,7 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6" [formGroup]="userPersonalDetails">
                             <label for="comment">Special Instructions</label>
                             <textarea class="form-control" formControlName="SpecialComments" id="comment" name="comment" rows="5" placeholder="Do you have any special instructions or anything at all that you would like to inform our installation / orders team about"></textarea>
                         </div>

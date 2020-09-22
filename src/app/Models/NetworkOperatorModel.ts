@@ -1,7 +1,9 @@
 export class NetworkOperator{
-    isActive: boolean;
-    NetOpId: string;
-    NetOpName: string;
+    IsActive: boolean;
+    NetworkOperatorId: string;
+    NetworkOperatorName: string;
+    NetworkOperatorNewInstallAmount: string;
+    NetworkOperatorExistingInstallAmount: string;
 }
 
 export class NetworkOperatorProducts{
