@@ -36,7 +36,7 @@
 
             <div class="form-group">
                 <select class="form-control" formControlName="NetworkOperatorPackage" id="selectNetworkOperatorPackage">
-                <option selected="selected">Please select your Internet speed package. *Installation of R1,725 not applicable if you have a {{netOpName}} CPE installed into your home already.</option>
+                <option selected="selected">Please select your Internet speed package. *Installation of R1,725 not applicable if you have a {{networkOperatorName}} CPE installed into your home already.</option>
                 <option *ngFor="let Products of productListMessage" [value]="Products.prodId">{{Products.ProductMessage}}</option>
               </select>
             </div>
@@ -143,16 +143,16 @@
                             <label>We supply very easy to use instructions on how to plug in your Router if you do not select the on-site technician option *</label>
                             <ul class="deliveryInstallOption" id="deliveryInstallOption" style="list-style-type: none;">
                                 <li class="DeliveryInstallOption-list">
-                                    <label class="radio-inline"><input type="radio" name="DeliveryInstallOption" class="installation-option" value="Courier delivery for Free">Courier delivery for Free</label>
+                                    <label class="radio-inline"><input type="radio" class="form-control" formControlName="DeliveryInstallOption" name="DeliveryInstallOption" class="installation-option" value="Courier delivery for Free">Courier delivery for Free</label>
                                 </li>
                                 <li class="DeliveryInstallOption-list">
-                                    <label class="radio-inline"><input type="radio"  name="DeliveryInstallOption" class="installation-option" value="Collection at our Head office in Bryanston, Johannesburg">Collection at our Head office in Bryanston, Johannesburg</label>
+                                    <label class="radio-inline"><input type="radio" class="form-control" formControlName="DeliveryInstallOption" name="DeliveryInstallOption" class="installation-option" value="Collection at our Head office in Bryanston, Johannesburg">Collection at our Head office in Bryanston, Johannesburg</label>
                                 </li>
                                 <li class="DeliveryInstallOption-list">
-                                    <label class="radio-inline"><input type="radio"  name="DeliveryInstallOption" class="installation-option" value="On-site Technician (For 10Mbps - 50Mbps packages R599)">On-site Technician (For 10Mbps - 50Mbps packages R599)</label>
+                                    <label class="radio-inline"><input type="radio" class="form-control" formControlName="DeliveryInstallOption" name="DeliveryInstallOption" class="installation-option" value="On-site Technician (For 10Mbps - 50Mbps packages R599)">On-site Technician (For 10Mbps - 50Mbps packages R599)</label>
                                 </li>
                                 <li class="DeliveryInstallOption-list">
-                                    <label class="radio-inline"><input type="radio"  name="DeliveryInstallOption" class="installation-option" value="On-site Technician (For 100Mbps+ packages Free)">On-site Technician (For 100Mbps+ packages Free)</label>
+                                    <label class="radio-inline"><input type="radio" class="form-control" formControlName="DeliveryInstallOption" name="DeliveryInstallOption" class="installation-option" value="On-site Technician (For 100Mbps+ packages Free)">On-site Technician (For 100Mbps+ packages Free)</label>
                                 </li>
                             </ul>
                         </div>
@@ -168,37 +168,41 @@
                     We will only start billing the day the service is activated. Please note that all services are billed pro-rata. Billing takes
 
                     <br>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="accountName">Account Name *</label>
-                            <input type="text" class="form-control" id="accountName" name="accountName" placeholder="Account Name *" aria-required="true">
+                    <div class="form-group" [formGroup]="billingBankDetails">
+
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6" [formGroup]="billingBankDetails">
+                                <label for="accountName">Account Name *</label>
+                                <input type="text" class="form-control" formControlName="AccountName" id="accountName" name="accountName" placeholder="Account Name *" aria-required="true">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="bank">Bank *</label>
+                                <input type="text" class="form-control" formControlName="BankName" id="bank" name="bank" placeholder="Bank *" aria-required="true">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="branch">Branch *</label>
+                                <input type="text" class="form-control" formControlName="BranchName" id="branch" name="branch" placeholder="Branch *" aria-required="true">
+                            </div>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="bank">Bank *</label>
-                            <input type="text" class="form-control" id="bank" name="bank" placeholder="Bank *" aria-required="true">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="branch">Branch *</label>
-                            <input type="text" class="form-control" id="branch" name="branch" placeholder="Branch *" aria-required="true">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="branchCode">Branch code *</label>
-                            <input type="text" class="form-control" id="branchCode" name="branchCode" placeholder="Branch code *" aria-required="true">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="accountNumber">Account number *</label>
-                            <input type="text" class="form-control" id="accountNumber" name="accountNumber" placeholder="Account number *" aria-required="true">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="selectAccountType">Account type *</label>
-                            <select class="form-control" id="selectAccountType" aria-required="true">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="branchCode">Branch code *</label>
+                                <input type="text" class="form-control" formControlName="BranchCode" id="branchCode" name="branchCode" placeholder="Branch code *" aria-required="true">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="accountNumber">Account number *</label>
+                                <input type="text" class="form-control" formControlName="AccountNumber" id="accountNumber" name="accountNumber" placeholder="Account number *" aria-required="true">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="selectAccountType">Account type *</label>
+                                <select class="form-control" formControlName="AccountType" id="selectAccountType" aria-required="true">
                                   <option value="" selected>Account type *</option>
                                   <option value="Current / Cheque Account">Current / Cheque Account</option>
                                   <option value="Savings Account">Savings Account</option>
                                   <option value="Transmission Account">Transmission Account</option>
                               </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -211,11 +215,11 @@
 
                     <div class="form-group">
                         <label for="uploadIDCopy">Please upload a copy of your ID</label>
-                        <input type="file" class="form-control-file" id="uploadIDCopy">
+                        <input type="file" class="form-control-file" formControlName="ProofOfIdentityDoc" id="uploadIDCopy">
                     </div>
                     <div class="form-group">
                         <label for="uploadProofOfResidence">Please upload your most recent proof of residence</label>
-                        <input type="file" class="form-control-file" id="uploadProofOfResidence">
+                        <input type="file" class="form-control-file" formControlName="ProofOfResidenceDoc" id="uploadProofOfResidence">
                     </div>
                     <div class="form-group">
                         <label for="electronicMandateTerms">I hereby authorize Bitco, to debit my account in advance with the total amount payable on my monthly account</label>
@@ -250,7 +254,7 @@
 
                     <div class="form-group">
                         <label for="comment">Kindly leave a review or suggestion to improve our services</label>
-                        <textarea class="form-control" id="comment" name="comment" rows="5" placeholder="Kindly leave a review or suggestion to improve our services"></textarea>
+                        <textarea class="form-control" formControlName="ApplicationFeedback" id="comment" name="comment" rows="5" placeholder="Kindly leave a review or suggestion to improve our services"></textarea>
                     </div>
 
                 </div>

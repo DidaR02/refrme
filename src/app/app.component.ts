@@ -16,25 +16,28 @@ import { SaleApplication } from './Models/SalesApplicationModel'
 export class AppComponent implements OnInit {
   title = 'RefrMe';
   networkOperators: NetworkOperator[];
-  serviceProvider: ServiceProvider[] = [];
+  serviceProviders: ServiceProvider[] = [];
+  serviceProvider: ServiceProvider = null;
   networkOperatorProducts: NetworkOperatorProducts[];
   productListMessage: ProductMessage[] = [];
   networkOperatorId: string = "";
   networkOperatorName: string = "";
 
   servProvId: string = "1";
-  servProvName: string = "ReferMe";
+  servProvName: string = "RefrMe";
   
   @Input() AddressType: FormControl = new FormControl();
   @Input() DeliveryInstallOption: FormControl = new FormControl();
 
+  verificationDocuments: File[];
+  
   constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder){}
 
   ngOnInit(){
     this.getNetworkOperator();
-    this.getServiceProvider();
+    this.getServiceProviders();
     
-    console.log(this.serviceProvider.indexOf(this.serviceProvider[1]));
+    
   }
 
   getNetworkOperator(){
@@ -122,27 +125,39 @@ export class AppComponent implements OnInit {
     return message;
   }
 
-  getServiceProvider(){
+  getServiceProviders(){
     let getServiceProviderpList = this.fsCrud.getServiceProvider();
     getServiceProviderpList.snapshotChanges().subscribe(
       data =>{
-        this.serviceProvider = [];
+        this.serviceProviders = [];
         data.forEach( item =>{
           let sp = item.payload.toJSON();
           if(sp)
           {
-            this.serviceProvider.push(sp as ServiceProvider);
+            this.serviceProviders.push(sp as ServiceProvider);
           }
         });
-        if(this.serviceProvider)
-        {
-          this.servProvId = this.serviceProvider[0]?.ServiceProviderId;
-          this.servProvName = this.serviceProvider[0]?.ServiceProviderName;
-        }
+        this.getServiceProvider();
       }
     );
+
+    
   };
 
+  getServiceProvider()
+  {
+    
+    if(this.serviceProviders)
+    {
+      for(var sp = 0 ; sp <= this.serviceProviders.length; sp++)
+      {
+        if(this.serviceProviders[sp]?.ServiceProviderId == this.servProvId && this.serviceProviders[sp]?.ServiceProviderName === this.servProvName)
+        {
+          this.serviceProvider = this.serviceProviders[sp];
+        }
+      }
+    }
+  }
   public addressDetails= new FormGroup({
     AddressLine1: new FormControl(),
     AddressLine2: new FormControl(),
@@ -168,14 +183,27 @@ export class AppComponent implements OnInit {
   });
 
   //private serviceProviderB: ServiceProvider = this.serviceProvider[this.serviceProvider.findIndex(x => x.ServiceProviderId === this.servProvId)]; 
+  public billingBankDetails = new FormGroup({
+    AccountName: new FormControl(),
+    BankName: new FormControl(),
+    BranchName: new FormControl(),
+    BranchCode: new FormControl(),
+    AccountNumber: new FormControl(),
+    AccountType: new FormControl()
+  });
 
   public salesApplication = new FormGroup({
     AgentPromoCode: new FormControl(),
-    ServiceProvider: new FormControl(),
     NetworkOperator: new FormControl(),
     IsCpeFirbreInstalled: new FormControl(),
     NetworkOperatorPackage: new FormControl(),
-    UserPersonalDetails: new FormGroup(this.userPersonalDetails.controls)
+    UserPersonalDetails: new FormGroup(this.userPersonalDetails.controls),
+    AddressDetails: new FormGroup(this.addressDetails.controls),
+    ApplicationFeedback: new FormControl(),
+    DeliveryInstallOption: new FormControl(),
+    BillingBankDetails: new FormGroup(this.billingBankDetails.controls),
+    ProofOfIdentityDoc: new FormControl(),
+    ProofOfResidenceDoc: new FormControl(),
   });
 
   ResetForm() {
@@ -200,6 +228,7 @@ export class AppComponent implements OnInit {
           this.getNetworkOperatorProducts(this.networkOperatorId);
     }
   }
+  
   changeAddressType(event){
     //console.log(event.target.value);
   }
@@ -207,7 +236,7 @@ export class AppComponent implements OnInit {
   submitUserDetails(){
 
     console.log(this.serviceProvider);
-    console.log(this.salesApplication.value);
+    //console.log(this.salesApplication.value);
     //this.fsCrud.saveUserDetails(this.userPersonalDetails.value);
 
     //
