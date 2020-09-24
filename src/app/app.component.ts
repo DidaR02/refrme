@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
   @Input() AddressType: FormControl = new FormControl();
   @Input() DeliveryInstallOption: FormControl = new FormControl();
 
-  verificationDocuments: File[];
+  verificationDocuments: File[] = [];
   
   constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder){}
 
@@ -204,6 +204,9 @@ export class AppComponent implements OnInit {
     BillingBankDetails: new FormGroup(this.billingBankDetails.controls),
     ProofOfIdentityDoc: new FormControl(),
     ProofOfResidenceDoc: new FormControl(),
+    DebitOrderMandateAccepted: new FormControl(),
+    TermsAndConditionsAccepted: new FormControl(),
+    MarketingConsent: new FormControl(),
   });
 
   ResetForm() {
@@ -233,15 +236,27 @@ export class AppComponent implements OnInit {
     //console.log(event.target.value);
   }
   
+  getIdentityDocumentFile(event) {
+    this.verificationDocuments.push(event.target.files[0]);
+
+    //Set Metdadata
+  }
+
+  getProofOfResidence(event) {
+    debugger;
+    this.verificationDocuments.push(event.target.files[0]);
+    //Set Metdadata
+  }
+
   submitUserDetails(){
 
-    console.log(this.serviceProvider);
+    //console.log(this.serviceProvider);
     //console.log(this.salesApplication.value);
     //this.fsCrud.saveUserDetails(this.userPersonalDetails.value);
-
+    console.log(this.verificationDocuments);
     //
 
     //reset form
-    this.ResetForm(); 
+    //this.ResetForm(); 
   }
 }

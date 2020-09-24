@@ -215,33 +215,33 @@
 
                     <div class="form-group">
                         <label for="uploadIDCopy">Please upload a copy of your ID</label>
-                        <input type="file" class="form-control-file" formControlName="ProofOfIdentityDoc" id="uploadIDCopy">
+                        <input type="file" class="form-control-file" formControlName="ProofOfIdentityDoc" id="uploadIDCopy" (change)="getIdentityDocumentFile($event)">
                     </div>
                     <div class="form-group">
                         <label for="uploadProofOfResidence">Please upload your most recent proof of residence</label>
-                        <input type="file" class="form-control-file" formControlName="ProofOfResidenceDoc" id="uploadProofOfResidence">
+                        <input type="file" class="form-control-file" formControlName="ProofOfResidenceDoc" id="uploadProofOfResidence" (change)="getProofOfResidence($event)">
                     </div>
                     <div class="form-group">
-                        <label for="electronicMandateTerms">I hereby authorize Bitco, to debit my account in advance with the total amount payable on my monthly account</label>
+                        <label for="debitOrderMandateAccepted">I hereby authorize Bitco, to debit my account in advance with the total amount payable on my monthly account</label>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Yes, I Agree to the Electronic Mandate terms listed below. <a href="https://www.bitco.co.za/wp-content/uploads/BitCO-Home-Debit-Order-Mandate-Generic.pdf" target="_blank">Click here to read debit order mandate</a></label>
+                            <input type="checkbox" class="form-check-input form-control-file" id="debitOrderMandateAccepted" formControlName="DebitOrderMandateAccepted" value="Yes">
+                            <label class="form-check-label" for="debitOrderMandateAccepted">Yes, I Agree to the Electronic Mandate terms listed below. <a href="https://www.bitco.co.za/wp-content/uploads/BitCO-Home-Debit-Order-Mandate-Generic.pdf" target="_blank">Click here to read debit order mandate</a></label>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="electronicMandateTerms">I have read, understand and agree to the Terms listed below, and declare that the information given is true and correct:</label>
+                        <label for="termsAndConditionsAccepted">I have read, understand and agree to the Terms listed below, and declare that the information given is true and correct:</label>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Yes, I agree to the General & Service Terms. <a href="https://www.bitco.co.za/wp-content/uploads/BitCo-Home-Terms-and-Conditions_20181113.pdf" target="_blank">Click Here To Read Terms and Conditions</a></label>
+                            <input type="checkbox" class="form-check-input form-control-file" id="termsAndConditionsAccepted" formControlName="TermsAndConditionsAccepted" value="Yes">
+                            <label class="form-check-label" for="termsAndConditionsAccepted">Yes, I agree to the General & Service Terms. <a href="https://www.bitco.co.za/wp-content/uploads/BitCo-Home-Terms-and-Conditions_20181113.pdf" target="_blank">Click Here To Read Terms and Conditions</a></label>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label>I hereby give BitCo authority to send service related and product related information via e-mail</label>
                         <br>
-                        <label class="radio-inline"><input type="radio" name="optMarketingConsent" class="marketingConsent">Yes</label>
-                        <label class="radio-inline"><input type="radio" name="optMarketingConsent" class="marketingConsent">No</label>
+                        <label class="radio-inline"><input type="radio" class="form-control-file" formControlName="MarketingConsent" name="MarketingConsent" class="marketingConsent" value="Yes">Yes</label>
+                        <label class="radio-inline"><input type="radio" class="form-control-file" formControlName="MarketingConsent" name="MarketingConsent" class="marketingConsent" value="No">No</label>
                     </div>
 
                 </div>
