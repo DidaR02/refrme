@@ -248,14 +248,26 @@ export class AppComponent implements OnInit {
     //Set Metdadata
   }
 
+  saveFile(uploadFiles: File[])
+  {
+    if(uploadFiles != null || uploadFiles != undefined){
+      uploadFiles.forEach(file => {
+        this.fsCrud.saveFile(file);
+      });
+      // (var file in uploadFiles){
+      //   this.fsCrud.saveFile(file);
+      // }
+    }
+  }
+
   submitUserDetails(){
 
     //console.log(this.serviceProvider);
     //console.log(this.salesApplication.value);
     //this.fsCrud.saveUserDetails(this.userPersonalDetails.value);
-    console.log(this.verificationDocuments);
+    //console.log(this.verificationDocuments);
     //
-
+    this.saveFile(this.verificationDocuments);
     //reset form
     //this.ResetForm(); 
   }
