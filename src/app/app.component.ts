@@ -31,6 +31,8 @@ export class AppComponent implements OnInit {
 
   verificationDocuments: File[] = [];
   
+  createFileElementTagName  = new Map<string, File>();
+
   constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder){}
 
   ngOnInit(){
@@ -212,6 +214,8 @@ export class AppComponent implements OnInit {
   ResetForm() {
     this.salesApplication.reset();
     this.userPersonalDetails.reset();
+    this.verificationDocuments = null;
+    this.createFileElementTagName = null;
   } 
 
   onSelectedNetworkOperator(event){
@@ -237,38 +241,45 @@ export class AppComponent implements OnInit {
   }
   
   getIdentityDocumentFile(event) {
-    this.verificationDocuments.push(event.target.files[0]);
-
-    //Set Metdadata
+    this.createFileElementTagName.set("IdentityDocument",event.target.files[0]);
   }
 
   getProofOfResidence(event) {
-    debugger;
-    this.verificationDocuments.push(event.target.files[0]);
-    //Set Metdadata
+    this.createFileElementTagName.set("ProofOfResidence",event.target.files[0]);
   }
 
-  saveFile(uploadFiles: File[])
+  saveFile(uploadFiles?: File, additionalAttributesObject?: any)
   {
     if(uploadFiles != null || uploadFiles != undefined){
-      uploadFiles.forEach(file => {
-        this.fsCrud.saveFile(file);
-      });
-      // (var file in uploadFiles){
-      //   this.fsCrud.saveFile(file);
-      // }
+        this.fsCrud.saveFile(uploadFiles,undefined,additionalAttributesObject);
     }
   }
 
   submitUserDetails(){
 
-    //console.log(this.serviceProvider);
-    //console.log(this.salesApplication.value);
-    //this.fsCrud.saveUserDetails(this.userPersonalDetails.value);
-    //console.log(this.verificationDocuments);
-    //
-    this.saveFile(this.verificationDocuments);
-    //reset form
-    //this.ResetForm(); 
+    var formDetails = this.salesApplication.value;
+    var userPersonalDetails: UserPersonalDetails = formDetails?.UserPersonalDetails;
+    var addressDetails: AddresDetails = formDetails?.AddressDetails;
+    userPersonalDetails.AddressDetails = addressDetails;
+
+    var saleApplication: SaleApplication = formDetails;
+
+    if(userPersonalDetails || saleApplication)
+    {
+      this.fsCrud.saveUserDetails(userPersonalDetails);
+      this.fsCrud.saveSaleApplication(formDetails);
+      if(this.createFileElementTagName != null || this.createFileElementTagName != undefined){
+        //Iterate over map keys  
+        for (let fileElementTag of this.createFileElementTagName.entries()) {  
+            this.saveFile(fileElementTag[1], fileElementTag[0]);
+        }  
+      }
+    }
+    else{
+      alert("Please enter applicantion details.");
+      return;
+    }
+
+    this.ResetForm(); 
   }
 }
