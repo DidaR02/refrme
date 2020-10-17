@@ -23,4 +23,6 @@ export class ProductMessage{
     prodId: string;
     OperatorName: string;
     ProductMessage: string;
+    InstallationAmount?: string;
+    ActivationAmount?: string;
 }

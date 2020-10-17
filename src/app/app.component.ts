@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
   verificationDocuments: File[] = [];
   
   createFileElementTagName  = new Map<string, File>();
+  message = new ProductMessage();
 
   constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder){}
 
@@ -89,19 +90,22 @@ export class AppComponent implements OnInit {
             if(this.networkOperatorProducts[prodList]['Products']){
               for(var prodItem in this.networkOperatorProducts[prodList]['Products']){
 
-                let message = new ProductMessage();
-                message.OperatorId = this.networkOperatorId;
-                message.prodId = this.networkOperatorProducts[prodList]['Products'][prodItem]['ProdId'];
-                message.OperatorName = this.networkOperatorName;
-                message.ProductMessage = this.buildNetworkOperatorProductListMessage(this.networkOperatorProducts[prodList]['Products'][prodItem]['ProdName'],
+                this.message = new ProductMessage();
+                this.message.OperatorId = this.networkOperatorId;
+                this.message.prodId = this.networkOperatorProducts[prodList]['Products'][prodItem]['ProdId'];
+                this.message.OperatorName = this.networkOperatorName;
+                this.message.InstallationAmount= this.networkOperators[parseInt(this.networkOperatorId)]?.NetworkOperatorNewInstallAmount;
+                this.message.ActivationAmount = this.networkOperators[parseInt(this.networkOperatorId)]?.NetworkOperatorExistingInstallAmount
+                this.message.ProductMessage = this.buildNetworkOperatorProductListMessage(this.networkOperatorProducts[prodList]['Products'][prodItem]['ProdName'],
+                
                 this.networkOperatorProducts[prodList]['Products'][prodItem]['Download'],
                 this.networkOperatorProducts[prodList]['Products'][prodItem]['Upload'],
                 this.networkOperatorProducts[prodList]['Products'][prodItem]['ProdPrice'],
                 this.networkOperatorProducts[prodList]['Products'][prodItem]['PaymentTerms'],
-                   "R1725",
-                   "R499");
+                this.message.InstallationAmount,
+                this.message.ActivationAmount);
                 
-                this.productListMessage.push(message as ProductMessage);
+                this.productListMessage.push(this.message as ProductMessage);
               }
             }
           }
@@ -123,7 +127,7 @@ export class AppComponent implements OnInit {
       "Monthly" = "Per Month"
     };
 
-    var message = this.networkOperatorName + " " + productName + " " + download +"Mbps Download and "+ upload +"Mbps Upload: R"+amount+ " " +payMentTerms.Monthly+ " (New Installation and Activation R1725) - (Existing Installation activation R499)";
+    var message = this.networkOperatorName + " " + productName + " " + download +"Mbps Download and "+ upload +"Mbps Upload: R"+amount+ " " +payMentTerms.Monthly+ " (New Installation and Activation " + (installAmount === 'FREE'? " is free": installAmount?.toString().startsWith('R',0)? installAmount : "R" + installAmount) +") - (Existing Installation activation " + (existInstallAmount === 'FREE'? " is free": existInstallAmount?.toString().startsWith('R',0)? existInstallAmount : "R" + existInstallAmount) +")";
     return message;
   }
 

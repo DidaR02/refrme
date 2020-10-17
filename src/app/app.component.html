@@ -21,7 +21,7 @@
             <div>
                 <h4>
                     <!--SADV needs to change to selectNetworkOperator selected name-->
-                    {{networkOperatorName}} Package Options. *Installation of R1,725 not applicable if you have a {{networkOperatorName}} CPE installed into your home already.
+                    {{networkOperatorName}} Package Options. *Installation of R {{message.InstallationAmount}} not applicable if you have a {{networkOperatorName}} CPE installed into your home already.
                 </h4>
             </div>
 
@@ -36,7 +36,7 @@
 
             <div class="form-group">
                 <select class="form-control" formControlName="NetworkOperatorPackage" id="selectNetworkOperatorPackage">
-                <option selected="selected">Please select your Internet speed package. *Installation of R1,725 not applicable if you have a {{networkOperatorName}} CPE installed into your home already.</option>
+                <option selected="selected">Please select your Internet speed package. *Installation of R {{message.InstallationAmount}} not applicable if you have a {{networkOperatorName}} CPE installed into your home already.</option>
                 <option *ngFor="let Products of productListMessage" [value]="Products.prodId">{{Products.ProductMessage}}</option>
               </select>
             </div>
