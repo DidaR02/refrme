@@ -94,8 +94,8 @@ export class AppComponent implements OnInit {
                 this.message.OperatorId = this.networkOperatorId;
                 this.message.prodId = this.networkOperatorProducts[prodList]['Products'][prodItem]['ProdId'];
                 this.message.OperatorName = this.networkOperatorName;
-                this.message.InstallationAmount= this.networkOperators[parseInt(this.networkOperatorId)]?.NetworkOperatorNewInstallAmount;
-                this.message.ActivationAmount = this.networkOperators[parseInt(this.networkOperatorId)]?.NetworkOperatorExistingInstallAmount
+                this.message.InstallationAmount= this.networkOperators[parseInt(this.networkOperatorId)-1]?.NetworkOperatorNewInstallAmount;
+                this.message.ActivationAmount = this.networkOperators[parseInt(this.networkOperatorId)-1]?.NetworkOperatorExistingInstallAmount
                 this.message.ProductMessage = this.buildNetworkOperatorProductListMessage(this.networkOperatorProducts[prodList]['Products'][prodItem]['ProdName'],
                 
                 this.networkOperatorProducts[prodList]['Products'][prodItem]['Download'],
