@@ -1,13 +1,13 @@
 export const environment = {
   production: true,
   firebaseConfig:{
-    apiKey: "AIzaSyDdXR3LUKKRY2Cm_vm96W6WJXxS9IHz5tI",
-    authDomain: "refrme-fbbe8.firebaseapp.com",
-    databaseURL: "https://refrme-fbbe8.firebaseio.com",
-    projectId: "refrme-fbbe8",
-    storageBucket: "refrme-fbbe8.appspot.com",
-    messagingSenderId: "911716839396",
-    appId: "1:911716839396:web:33d511d0b9045e33a461f1",
-    measurementId: "G-DRN4PVH6YJ"
+    apiKey: "AIzaSyAdObLx_rfDb1c7hsE77krihajRq4ycU-U",
+    authDomain: "refrme-prod.firebaseapp.com",
+    databaseURL: "https://refrme-prod.firebaseio.com",
+    projectId: "refrme-prod",
+    storageBucket: "refrme-prod.appspot.com",
+    messagingSenderId: "652002857194",
+    appId: "1:652002857194:web:975635beee5f2de587c793",
+    measurementId: "G-JQNKDLB8BS"
   }
 };
