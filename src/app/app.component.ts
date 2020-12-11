@@ -26,6 +26,8 @@ export class AppComponent implements OnInit {
   servProvId: string = "1";
   servProvName: string = "RefrMe";
   
+  showPackages: boolean = true;
+
   @Input() AddressType: FormControl = new FormControl();
   @Input() DeliveryInstallOption: FormControl = new FormControl();
 
@@ -221,7 +223,18 @@ export class AppComponent implements OnInit {
     this.verificationDocuments = null;
     this.createFileElementTagName = null;
   } 
-
+  onfibreInstalledSelected(event)
+  {
+    let selecteValue = event.target.value;
+    if(selecteValue === "No. I need Fibre installed into my home.")
+    {
+      this.showPackages = false;
+    }
+    else
+    {
+      this.showPackages = true;
+    }
+  }
   onSelectedNetworkOperator(event){
     if(this.networkOperators)
     {
