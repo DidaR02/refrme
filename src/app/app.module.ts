@@ -12,10 +12,20 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 import { FireBaseCrudService } from './Service/fire-base-crud.service'
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterAccountComponent } from './components/register-account/register-account.component';
+import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LandingPageComponent,
+    LoginComponent,
+    RegisterAccountComponent,
+    VerifyEmailComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,

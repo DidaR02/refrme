@@ -23,6 +23,11 @@ nav,
     text-align: center;
 }
 
+.navigation-bar {
+    margin: 0 auto;
+    width: 500px;
+}
+
 .logo {
     width: 100%;
 }
