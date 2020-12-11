@@ -12,34 +12,45 @@
             </div>
 
             <div class="form-group">
-                <label for="selectNetworkOperator">Please select network operator</label>
-                <select class="form-control" formControlName="NetworkOperator" id="selectNetworkOperator" (change)='onSelectedNetworkOperator($event)'>
-                    <option *ngFor="let netOp of networkOperators" [value]="netOp.NetworkOperatorId">{{netOp.NetworkOperatorName}}</option>
-                  </select>
-            </div>
-
-            <div>
-                <h4>
-                    <!--SADV needs to change to selectNetworkOperator selected name-->
-                    {{networkOperatorName}} Package Options. *Installation of R {{message.InstallationAmount}} not applicable if you have a {{networkOperatorName}} CPE installed into your home already.
-                </h4>
-            </div>
-
-            <div class="form-group">
-                <select class="form-control" formControlName="IsCpeFirbreInstalled" id="isCpeFirbreInstalled">
-                  <option selected="selected">Do you have Fibre installed already?</option>
+                <label for="isCpeFirbreInstalled">Do you have Fibre installed already?</label>
+                <select class="form-control" formControlName="IsCpeFirbreInstalled" id="isCpeFirbreInstalled" (change)='onfibreInstalledSelected($event)'>
+                    <option></option>
                   <option>No. I need Fibre installed into my home.</option>
                   <option>Yes. I have Fibre installed but i have no Internet Service Provider.</option>
-                  <option>Yes. I have Fibre installed and would like to switch to BitCo. (Activation R499)</option>
+                  <option>Yes. I have Fibre installed and would like to switch to RefrMe. (Activation R499)</option>
                 </select>
             </div>
 
-            <div class="form-group">
-                <select class="form-control" formControlName="NetworkOperatorPackage" id="selectNetworkOperatorPackage">
+            <ng-template [ngIf]="showPackages">
+                <div class="form-group">
+                    <label for="selectNetworkOperator">Please select network operator</label>
+                    <select class="form-control" formControlName="NetworkOperator" id="selectNetworkOperator" (change)='onSelectedNetworkOperator($event)'>
+                    <option *ngFor="let netOp of networkOperators" [value]="netOp.NetworkOperatorId">{{netOp.NetworkOperatorName}}</option>
+                  </select>
+                </div>
+            </ng-template>
+
+
+            <ng-template [ngIf]="showPackages">
+
+                <div>
+                    <h4>
+                        <!--SADV needs to change to selectNetworkOperator selected name-->
+                        {{networkOperatorName}} Package Options. *Installation of R {{message.InstallationAmount}} not applicable if you have a {{networkOperatorName}} CPE installed into your home already.
+                    </h4>
+                </div>
+
+            </ng-template>
+
+            <ng-template [ngIf]="showPackages">
+                <div class="form-group">
+                    <select class="form-control" formControlName="NetworkOperatorPackage" id="selectNetworkOperatorPackage">
                 <option selected="selected">Please select your Internet speed package. *Installation of R {{message.InstallationAmount}} not applicable if you have a {{networkOperatorName}} CPE installed into your home already.</option>
                 <option *ngFor="let Products of productListMessage" [value]="Products.prodId">{{Products.ProductMessage}}</option>
               </select>
-            </div>
+                </div>
+
+            </ng-template>
 
             <div class="panel panel-primary">
                 <div class="panel-heading">Your Personal Details</div>
@@ -135,117 +146,128 @@
 
             </div>
 
-            <div class="panel panel-primary">
-                <div class="panel-heading">Router Delivery/ Installation Option</div>
-                <div class="panel-body">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>We supply very easy to use instructions on how to plug in your Router if you do not select the on-site technician option *</label>
-                            <ul class="deliveryInstallOption" id="deliveryInstallOption" style="list-style-type: none;">
-                                <li class="DeliveryInstallOption-list">
-                                    <label class="radio-inline"><input type="radio" class="form-control" formControlName="DeliveryInstallOption" name="DeliveryInstallOption" class="installation-option" value="Courier delivery for Free">Courier delivery for Free</label>
-                                </li>
-                                <li class="DeliveryInstallOption-list">
-                                    <label class="radio-inline"><input type="radio" class="form-control" formControlName="DeliveryInstallOption" name="DeliveryInstallOption" class="installation-option" value="Collection at our Head office in Bryanston, Johannesburg">Collection at our Head office in Bryanston, Johannesburg</label>
-                                </li>
-                                <li class="DeliveryInstallOption-list">
-                                    <label class="radio-inline"><input type="radio" class="form-control" formControlName="DeliveryInstallOption" name="DeliveryInstallOption" class="installation-option" value="On-site Technician (For 10Mbps - 50Mbps packages R599)">On-site Technician (For 10Mbps - 50Mbps packages R599)</label>
-                                </li>
-                                <li class="DeliveryInstallOption-list">
-                                    <label class="radio-inline"><input type="radio" class="form-control" formControlName="DeliveryInstallOption" name="DeliveryInstallOption" class="installation-option" value="On-site Technician (For 100Mbps+ packages Free)">On-site Technician (For 100Mbps+ packages Free)</label>
-                                </li>
-                            </ul>
+            <ng-template [ngIf]="showPackages">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Router Delivery/ Installation Option</div>
+                    <div class="panel-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>We supply very easy to use instructions on how to plug in your Router if you do not select the on-site technician option *</label>
+                                <ul class="deliveryInstallOption" id="deliveryInstallOption" style="list-style-type: none;">
+                                    <li class="DeliveryInstallOption-list">
+                                        <label class="radio-inline"><input type="radio" class="form-control" formControlName="DeliveryInstallOption" name="DeliveryInstallOption" class="installation-option" value="Courier delivery for Free">Courier delivery for Free</label>
+                                    </li>
+                                    <li class="DeliveryInstallOption-list">
+                                        <label class="radio-inline"><input type="radio" class="form-control" formControlName="DeliveryInstallOption" name="DeliveryInstallOption" class="installation-option" value="Collection at our Head office in Bryanston, Johannesburg">Collection at our Head office in Bryanston, Johannesburg</label>
+                                    </li>
+                                    <li class="DeliveryInstallOption-list">
+                                        <label class="radio-inline"><input type="radio" class="form-control" formControlName="DeliveryInstallOption" name="DeliveryInstallOption" class="installation-option" value="On-site Technician (For 10Mbps - 50Mbps packages R599)">On-site Technician (For 10Mbps - 50Mbps packages R599)</label>
+                                    </li>
+                                    <li class="DeliveryInstallOption-list">
+                                        <label class="radio-inline"><input type="radio" class="form-control" formControlName="DeliveryInstallOption" name="DeliveryInstallOption" class="installation-option" value="On-site Technician (For 100Mbps+ packages Free)">On-site Technician (For 100Mbps+ packages Free)</label>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
 
-            <div class="panel panel-primary">
-                <div class="panel-heading">Bitco Debit Order Information <small>*We will only start billing the day the service is activated. Please note that all services are billed pro-rata. 
+            </ng-template>
+
+            <ng-template [ngIf]="showPackages">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Bitco Debit Order Information <small>*We will only start billing the day the service is activated. Please note that all services are billed pro-rata. 
                       Billing takes place last business day of every month.</small></div>
-                <div class="panel-body">
-                    We will only start billing the day the service is activated. Please note that all services are billed pro-rata. Billing takes
+                    <div class="panel-body">
+                        We will only start billing the day the service is activated. Please note that all services are billed pro-rata. Billing takes
 
-                    <br>
-                    <div class="form-group" [formGroup]="billingBankDetails">
+                        <br>
+                        <div class="form-group" [formGroup]="billingBankDetails">
 
 
-                        <div class="form-row">
-                            <div class="form-group col-md-6" [formGroup]="billingBankDetails">
-                                <label for="accountName">Account Name *</label>
-                                <input type="text" class="form-control" formControlName="AccountName" id="accountName" name="accountName" placeholder="Account Name *" aria-required="true">
+                            <div class="form-row">
+                                <div class="form-group col-md-6" [formGroup]="billingBankDetails">
+                                    <label for="accountName">Account Name *</label>
+                                    <input type="text" class="form-control" formControlName="AccountName" id="accountName" name="accountName" placeholder="Account Name *" aria-required="true">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="bank">Bank *</label>
+                                    <input type="text" class="form-control" formControlName="BankName" id="bank" name="bank" placeholder="Bank *" aria-required="true">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="branch">Branch *</label>
+                                    <input type="text" class="form-control" formControlName="BranchName" id="branch" name="branch" placeholder="Branch *" aria-required="true">
+                                </div>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="bank">Bank *</label>
-                                <input type="text" class="form-control" formControlName="BankName" id="bank" name="bank" placeholder="Bank *" aria-required="true">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="branch">Branch *</label>
-                                <input type="text" class="form-control" formControlName="BranchName" id="branch" name="branch" placeholder="Branch *" aria-required="true">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="branchCode">Branch code *</label>
-                                <input type="text" class="form-control" formControlName="BranchCode" id="branchCode" name="branchCode" placeholder="Branch code *" aria-required="true">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="accountNumber">Account number *</label>
-                                <input type="text" class="form-control" formControlName="AccountNumber" id="accountNumber" name="accountNumber" placeholder="Account number *" aria-required="true">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="selectAccountType">Account type *</label>
-                                <select class="form-control" formControlName="AccountType" id="selectAccountType" aria-required="true">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="branchCode">Branch code *</label>
+                                    <input type="text" class="form-control" formControlName="BranchCode" id="branchCode" name="branchCode" placeholder="Branch code *" aria-required="true">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="accountNumber">Account number *</label>
+                                    <input type="text" class="form-control" formControlName="AccountNumber" id="accountNumber" name="accountNumber" placeholder="Account number *" aria-required="true">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="selectAccountType">Account type *</label>
+                                    <select class="form-control" formControlName="AccountType" id="selectAccountType" aria-required="true">
                                   <option value="" selected>Account type *</option>
                                   <option value="Current / Cheque Account">Current / Cheque Account</option>
                                   <option value="Savings Account">Savings Account</option>
                                   <option value="Transmission Account">Transmission Account</option>
                               </select>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
+            </ng-template>
 
-            <div class="panel panel-primary">
-                <div class="panel-heading">Documents. Don't stress if you do not have them with you. Submit your order and we will be in touch later.</div>
-                <div class="panel-body">
+            <ng-template [ngIf]="showPackages">
 
-                    <div class="form-group">
-                        <label for="uploadIDCopy">Please upload a copy of your ID</label>
-                        <input type="file" class="form-control-file" formControlName="ProofOfIdentityDoc" id="uploadIDCopy" (change)="getIdentityDocumentFile($event)">
-                    </div>
-                    <div class="form-group">
-                        <label for="uploadProofOfResidence">Please upload your most recent proof of residence</label>
-                        <input type="file" class="form-control-file" formControlName="ProofOfResidenceDoc" id="uploadProofOfResidence" (change)="getProofOfResidence($event)">
-                    </div>
-                    <div class="form-group">
-                        <label for="debitOrderMandateAccepted">I hereby authorize Bitco, to debit my account in advance with the total amount payable on my monthly account</label>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input form-control-file" id="debitOrderMandateAccepted" formControlName="DebitOrderMandateAccepted" value="Yes">
-                            <label class="form-check-label" for="debitOrderMandateAccepted">Yes, I Agree to the Electronic Mandate terms listed below. <a href="https://www.bitco.co.za/wp-content/uploads/BitCO-Home-Debit-Order-Mandate-Generic.pdf" target="_blank">Click here to read debit order mandate</a></label>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Documents. Don't stress if you do not have them with you. Submit your order and we will be in touch later.</div>
+                    <div class="panel-body">
+
+                        <div class="form-group">
+                            <label for="uploadIDCopy">Please upload a copy of your ID</label>
+                            <input type="file" class="form-control-file" formControlName="ProofOfIdentityDoc" id="uploadIDCopy" (change)="getIdentityDocumentFile($event)">
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="termsAndConditionsAccepted">I have read, understand and agree to the Terms listed below, and declare that the information given is true and correct:</label>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input form-control-file" id="termsAndConditionsAccepted" formControlName="TermsAndConditionsAccepted" value="Yes">
-                            <label class="form-check-label" for="termsAndConditionsAccepted">Yes, I agree to the General & Service Terms. <a href="https://www.bitco.co.za/wp-content/uploads/BitCo-Home-Terms-and-Conditions_20181113.pdf" target="_blank">Click Here To Read Terms and Conditions</a></label>
+                        <div class="form-group">
+                            <label for="uploadProofOfResidence">Please upload your most recent proof of residence</label>
+                            <input type="file" class="form-control-file" formControlName="ProofOfResidenceDoc" id="uploadProofOfResidence" (change)="getProofOfResidence($event)">
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label for="debitOrderMandateAccepted">I hereby authorize Bitco, to debit my account in advance with the total amount payable on my monthly account</label>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input form-control-file" id="debitOrderMandateAccepted" formControlName="DebitOrderMandateAccepted" value="Yes">
+                                <label class="form-check-label" for="debitOrderMandateAccepted">Yes, I Agree to the Electronic Mandate terms listed below. <a href="https://www.bitco.co.za/wp-content/uploads/BitCO-Home-Debit-Order-Mandate-Generic.pdf" target="_blank">Click here to read debit order mandate</a></label>
+                            </div>
+                        </div>
 
-                    <div class="form-group">
-                        <label>I hereby give BitCo authority to send service related and product related information via e-mail</label>
-                        <br>
-                        <label class="radio-inline"><input type="radio" class="form-control-file" formControlName="MarketingConsent" name="MarketingConsent" class="marketingConsent" value="Yes">Yes</label>
-                        <label class="radio-inline"><input type="radio" class="form-control-file" formControlName="MarketingConsent" name="MarketingConsent" class="marketingConsent" value="No">No</label>
-                    </div>
+                        <div class="form-group">
+                            <label for="termsAndConditionsAccepted">I have read, understand and agree to the Terms listed below, and declare that the information given is true and correct:</label>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input form-control-file" id="termsAndConditionsAccepted" formControlName="TermsAndConditionsAccepted" value="Yes">
+                                <label class="form-check-label" for="termsAndConditionsAccepted">Yes, I agree to the General & Service Terms. <a href="https://www.bitco.co.za/wp-content/uploads/BitCo-Home-Terms-and-Conditions_20181113.pdf" target="_blank">Click Here To Read Terms and Conditions</a></label>
+                            </div>
+                        </div>
 
+                        <div class="form-group">
+                            <label>I hereby give BitCo authority to send service related and product related information via e-mail</label>
+                            <br>
+                            <label class="radio-inline"><input type="radio" class="form-control-file" formControlName="MarketingConsent" name="MarketingConsent" class="marketingConsent" value="Yes">Yes</label>
+                            <label class="radio-inline"><input type="radio" class="form-control-file" formControlName="MarketingConsent" name="MarketingConsent" class="marketingConsent" value="No">No</label>
+                        </div>
+
+                    </div>
                 </div>
-            </div>
+            </ng-template>
+
+
+
 
 
             <div class="panel panel-primary">
