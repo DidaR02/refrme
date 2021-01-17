@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { environment } from '../environments/environment';
@@ -35,7 +35,8 @@ import { NavigationTopPanelComponent } from './components/navigation-top-panel/n
     NavigationPanelComponent,
     ContentPanelComponent,
     FooterPanelComponent,
-    NavigationTopPanelComponent
+    NavigationTopPanelComponent,
+    routingComponents
   ],
   imports: [
     BrowserModule,

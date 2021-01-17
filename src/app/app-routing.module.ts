@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: 'home', component: LandingPageComponent},
   { path: 'login', component: LoginComponent},
-  { path: 'join', component: RegisterAccountComponent}
+  { path: 'join', component: RegisterAccountComponent,}
 ];
 
 @NgModule({
@@ -17,3 +17,8 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+export const routingComponents = [
+  LandingPageComponent,
+  LoginComponent,
+  RegisterAccountComponent
+]
