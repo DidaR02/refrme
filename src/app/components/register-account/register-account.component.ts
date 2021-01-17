@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators,FormsModule, ReactiveFormsModule } from '@angular/forms'; // Reactive form services
-import { AuthenticationService } from '../../service/authentication.service';
+import { AuthenticationService } from '../../service/authentication/authentication.service';
 
 @Component({
   selector: 'app-register-account',
@@ -28,7 +28,7 @@ export class RegisterAccountComponent implements OnInit {
     let password = signUpDetails.Password;
     if(email && password)
     {
-      //this.authenticationService.SignUp(email, password);
+      this.authenticationService.SignUp(email, password);
     }
   }
 }
