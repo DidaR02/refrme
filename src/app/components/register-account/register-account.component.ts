@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators,FormsModule, ReactiveFormsModule } from '@angular/forms'; // Reactive form services
 import { AuthenticationService } from '../../service/authentication/authentication.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-register-account',
@@ -8,6 +9,8 @@ import { AuthenticationService } from '../../service/authentication/authenticati
   styleUrls: ['./register-account.component.css']
 })
 export class RegisterAccountComponent implements OnInit {
+
+  public router: Router
 
   constructor(public authenticationService: AuthenticationService) { }
 

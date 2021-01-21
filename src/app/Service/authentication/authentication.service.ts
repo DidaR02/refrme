@@ -1,6 +1,6 @@
 import { Injectable, NgZone} from '@angular/core';
 import { User } from "../user";
-//import { auth } from 'firebase';
+import { auth } from 'firebase';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
@@ -81,9 +81,9 @@ export class AuthenticationService {
     }
   
     // Sign in with Google
-    // GoogleAuth() {
-    //   return this.AuthLogin(new auth.auth.GoogleAuthProvider());
-    // }
+    GoogleAuth() {
+      return this.AuthLogin(new auth.GoogleAuthProvider());
+    }
   
     // Auth logic to run auth providers
     AuthLogin(provider) {
@@ -119,7 +119,7 @@ export class AuthenticationService {
     SignOut() {
       return this.afAuth.signOut().then(() => {
         localStorage.removeItem('user');
-        this.router.navigate(['sign-in']);
+        this.router.navigate(['home']);
       })
     }
   

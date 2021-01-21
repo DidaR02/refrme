@@ -10,7 +10,6 @@ import { AngularFirestoreModule} from '@angular/fire/firestore';
 import { AngularFireStorageModule} from '@angular/fire/storage';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 
-import { FireBaseCrudService } from './Service/fire-base-crud.service'
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { LoginComponent } from './components/login/login.component';
@@ -18,10 +17,11 @@ import { RegisterAccountComponent } from './components/register-account/register
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { NavigationPanelComponent } from './components/navigation-panel/navigation-panel.component';
+import { NavigationPanelModule } from './components/navigation-panel/navigation-panel.module';
 import { ContentPanelComponent } from './components/content-panel/content-panel.component';
 import { FooterPanelComponent } from './components/footer-panel/footer-panel.component';
 import { NavigationTopPanelComponent } from './components/navigation-top-panel/navigation-top-panel.component';
+import { DashboardModule } from './components/dashboard/dashboard.module'
 
 @NgModule({
   declarations: [
@@ -31,8 +31,6 @@ import { NavigationTopPanelComponent } from './components/navigation-top-panel/n
     RegisterAccountComponent,
     VerifyEmailComponent,
     ForgotPasswordComponent,
-    DashboardComponent,
-    NavigationPanelComponent,
     ContentPanelComponent,
     FooterPanelComponent,
     NavigationTopPanelComponent,
@@ -47,7 +45,9 @@ import { NavigationTopPanelComponent } from './components/navigation-top-panel/n
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireDatabaseModule,
-    CommonModule
+    CommonModule,
+    NavigationPanelModule,
+    DashboardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

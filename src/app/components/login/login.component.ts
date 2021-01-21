@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators,FormsModule, ReactiveFormsModule } from '@angular/forms'; // Reactive form services
 import { AuthenticationService } from '../../service/authentication/authentication.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -8,7 +9,7 @@ import { AuthenticationService } from '../../service/authentication/authenticati
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+  public router: Router
   constructor(public authenticationService: AuthenticationService, public formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
