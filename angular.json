@@ -32,6 +32,7 @@
                             "@firebase/app",
                             "@firebase/firestore",
                             "@firebase/database",
+                            "@firebase/component",
                             "firebase/app",
                             "@firebase/auth",
                             "firebase"
