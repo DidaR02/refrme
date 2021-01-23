@@ -17,11 +17,11 @@ import { RegisterAccountComponent } from './components/register-account/register
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { NavigationPanelModule } from './components/navigation-panel/navigation-panel.module';
+import { NavigationPanelComponent } from './components/navigation-panel/navigation-panel.component';
 import { ContentPanelComponent } from './components/content-panel/content-panel.component';
 import { FooterPanelComponent } from './components/footer-panel/footer-panel.component';
 import { NavigationTopPanelComponent } from './components/navigation-top-panel/navigation-top-panel.component';
-import { DashboardModule } from './components/dashboard/dashboard.module'
+//import { DashboardModule } from './components/dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,9 @@ import { DashboardModule } from './components/dashboard/dashboard.module'
     ContentPanelComponent,
     FooterPanelComponent,
     NavigationTopPanelComponent,
-    routingComponents
+    routingComponents,
+    DashboardComponent,
+    NavigationPanelComponent
   ],
   imports: [
     BrowserModule,
@@ -46,8 +48,7 @@ import { DashboardModule } from './components/dashboard/dashboard.module'
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     CommonModule,
-    NavigationPanelModule,
-    DashboardModule
+    //DashboardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
