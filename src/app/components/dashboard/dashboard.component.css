@@ -1,6 +1,12 @@
-body {
+.dashboard-container {
     margin: 0;
     font-family: "Lato", sans-serif;
+}
+
+.dashboard-landingPage {
+    margin: auto;
+    padding: auto;
+    width: auto;
 }
 
 .sidebar {
@@ -30,10 +36,17 @@ body {
     color: white;
 }
 
-div.content {
+.dashboard-content {
     margin-left: 200px;
     padding: 1px 16px;
-    height: 1000px;
+    padding: 15px;
+    height: 100%;
+    box-sizing: border-box;
+    /* background-color: brown; */
+}
+
+.dashboard-router {
+    /* background-color: #4CAF50; */
 }
 
 @media screen and (max-width: 700px) {
@@ -45,7 +58,7 @@ div.content {
     .sidebar a {
         float: left;
     }
-    div.content {
+    .dashboard-content {
         margin-left: 0;
     }
 }

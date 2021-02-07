@@ -1,29 +1,4 @@
-<!-- <div id="mySidenav" class="sidebar">
-    <a href="#">RefrMe Feed</a>
-    <a href="#">Account Management</a>
-    <a href="#">Sales Applications</a>
-    <a href="#">Projects & Task</a>
-    <a href="#">Analytics</a>
-    <a href="#">Chat</a>
-</div> -->
-
-<!-- <div class="content">
-    <h2>Sidebar And Dashboard Example</h2>
-    <p>Users will keep updates and track of each user's sales submission. Each sale will start with a "Pending" status until updated by the administrator to the following option:</p>
-
-    <ul>
-        <li>Pending</li>
-        <li>Not Interested</li>
-        <li>No Answer</li>
-        <li>Fraudullant Submission</li>
-        <li>Re-sale Of Sales</li>
-    </ul>
-
-    <p>We have also added a media query for screens that are 400px or less, which will vertically stack and center the navigation links.</p>
-    <h3>Resize the browser window to see the effect.</h3>
-</div> -->
-
-<div class="container">
+<div class="dashboard-container">
     <div class="row">
         <div class="col-sm">
             <div id="mySidenav" class="sidebar">
@@ -36,9 +11,9 @@
             </div>
         </div>
         <div class="col-sm">
-            <div class="landingPage center">
-                <div class="content" style="padding: 15px; height: 100%; box-sizing: border-box;">
-                    <div class="" style="height:auto">
+            <div class="dashboard-landingPage center">
+                <div class="dashboard-content">
+                    <div class="dashboard-router">
                         <router-outlet></router-outlet>
                     </div>
                 </div>
