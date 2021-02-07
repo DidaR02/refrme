@@ -5,8 +5,8 @@ import { DashboardComponent } from '../dashboard.component';
 import { SalesApplicationFormComponent } from '../../sales-application-form/sales-application-form.component';
 
 const routes: Routes = [
-  //{ path: '', redirectTo: '/dashboard', pathMatch: 'full'},
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
+  { path: 'dashboard', component: DashboardComponent, canActivateChild: [AuthGuard]},
   { path: 'newsales', component: SalesApplicationFormComponent}
 ]
 @NgModule({
