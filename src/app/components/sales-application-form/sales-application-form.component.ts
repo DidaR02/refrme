@@ -1,11 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UserPersonalDetails,AddresDetails } from '../../Models/UserModel';
-import { ServiceProvider, UserServiceProvider } from '../../Models/ServiceProviderModel';
+import { ServiceProvider } from '../../Models/ServiceProviderModel';
 import { FireBaseCrudService } from '../../Service/fire-base-crud.service';
-import { FormBuilder, FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms'; // Reactive form services
+import { FormBuilder, FormGroup, FormControl} from '@angular/forms'; // Reactive form services
 import { NetworkOperator, NetworkOperatorProducts, ProductMessage } from '../../Models/NetworkOperatorModel';
 // import { IfStmt } from '@angular/compiler';
-import { DeliveryInstallOption } from '../../Models/DeliveryInstallOption';
 import { SaleApplication } from '../../Models/SalesApplicationModel';
 import { Router } from "@angular/router";
 

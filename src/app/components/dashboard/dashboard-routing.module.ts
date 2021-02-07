@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/Service/guard/auth.guard';
-import { DashboardComponent } from '../dashboard.component';
-import { SalesApplicationFormComponent } from '../../sales-application-form/sales-application-form.component';
+import { DashboardComponent } from './dashboard.component';
+// import { SalesApplicationFormComponent } from '../../sales-application-form/sales-application-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
   { path: 'dashboard', component: DashboardComponent, canActivateChild: [AuthGuard]},
-  { path: 'newsales', component: SalesApplicationFormComponent}
+  //{ path: 'newsales', loadChildren: ()=> import('../../sales-application-form/sales-application-form.module').then(salesAppForm => salesAppForm.SalesApplicationFormModule), canActivate: [AuthGuard]}
 ]
 @NgModule({
   declarations: [],
@@ -17,6 +17,6 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class DashboardRoutingModule { }
-export const routingComponents = [
-  SalesApplicationFormComponent
-]
+// export const routingComponents = [
+//   SalesApplicationFormComponent
+// ]

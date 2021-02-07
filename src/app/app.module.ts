@@ -20,7 +20,9 @@ import { NavigationPanelComponent } from './components/navigation-panel/navigati
 import { ContentPanelComponent } from './components/content-panel/content-panel.component';
 import { FooterPanelComponent } from './components/footer-panel/footer-panel.component';
 import { NavigationTopPanelComponent } from './components/navigation-top-panel/navigation-top-panel.component';
-import { DashboardModule } from './components/dashboard/dashboard.module'
+//import { DashboardModule } from './components/dashboard/dashboard.module'
+//import { DashboardComponent } from './components/dashboard/dashboard.component';
+//import { SalesApplicationFormComponent } from './components/sales-application-form/sales-application-form.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,7 @@ import { DashboardModule } from './components/dashboard/dashboard.module'
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     CommonModule,
-    DashboardModule
+    //DashboardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
