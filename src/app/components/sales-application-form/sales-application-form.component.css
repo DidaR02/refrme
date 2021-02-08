@@ -1,3 +1,4 @@
-.sales-container {
-    background-color: orangered;
+.sales-container,
+.salesForm {
+    width: auto 0px;
 }

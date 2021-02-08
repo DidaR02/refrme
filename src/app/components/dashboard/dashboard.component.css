@@ -1,12 +1,17 @@
 .dashboard-container {
     margin: 0;
     font-family: "Lato", sans-serif;
+    padding: 30px;
 }
 
 .dashboard-landingPage {
-    margin: auto;
-    padding: auto;
+    margin: auto 0px;
+    padding: 0;
     width: auto;
+}
+
+.navigation-container {
+    margin: auto;
 }
 
 .sidebar {
@@ -19,6 +24,11 @@
     overflow: auto;
 }
 
+.sidebar li {
+    text-decoration: none;
+    list-style: none;
+}
+
 .sidebar a {
     display: block;
     color: black;
@@ -27,13 +37,14 @@
 }
 
 .sidebar a.active {
-    background-color: #4CAF50;
     color: white;
+    background-color: #555;
 }
 
 .sidebar a:hover:not(.active) {
     background-color: #555;
     color: white;
+    cursor: pointer;
 }
 
 .dashboard-content {
@@ -42,11 +53,6 @@
     padding: 15px;
     height: 100%;
     box-sizing: border-box;
-    /* background-color: brown; */
-}
-
-.dashboard-router {
-    /* background-color: #4CAF50; */
 }
 
 @media screen and (max-width: 700px) {
