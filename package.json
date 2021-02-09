@@ -17,6 +17,7 @@
     "@angular/core": "^11.1.0-rc.0",
     "@angular/fire": "^6.0.2",
     "@angular/forms": "^11.0.9",
+    "@angular/localize": "^9.1.13",
     "@angular/platform-browser": "~11.1.0-rc.0",
     "@angular/platform-browser-dynamic": "~11.1.0-rc.0",
     "@angular/router": "~11.1.0-rc.0",
