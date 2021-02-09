@@ -16,14 +16,9 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterAccountComponent } from './components/register-account/register-account.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { NavigationPanelComponent } from './components/navigation-panel/navigation-panel.component';
 import { ContentPanelComponent } from './components/content-panel/content-panel.component';
 import { FooterPanelComponent } from './components/footer-panel/footer-panel.component';
-import { NavigationTopPanelComponent } from './components/navigation-top-panel/navigation-top-panel.component';
-//import { ViewSalesApplicationComponent } from './components/view-sales-application/view-sales-application.component';
-//import { DashboardModule } from './components/dashboard/dashboard.module'
-//import { DashboardComponent } from './components/dashboard/dashboard.component';
-//import { SalesApplicationFormComponent } from './components/sales-application-form/sales-application-form.component';
+import { ViewSalesApplicationModule } from './components/view-sales-application/view-sales-application.module'
 
 @NgModule({
   declarations: [
@@ -35,10 +30,7 @@ import { NavigationTopPanelComponent } from './components/navigation-top-panel/n
     ForgotPasswordComponent,
     ContentPanelComponent,
     FooterPanelComponent,
-    NavigationTopPanelComponent,
     routingComponents,
-    NavigationPanelComponent,
-    //ViewSalesApplicationComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +42,7 @@ import { NavigationTopPanelComponent } from './components/navigation-top-panel/n
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     CommonModule,
-    //DashboardModule
+    ViewSalesApplicationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

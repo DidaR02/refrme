@@ -23,7 +23,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let country of countries$ | async">
+            <tr *ngFor="let country of countries | async">
                 <th scope="row">{{ country.id }}</th>
                 <td>
                     <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag" class="mr-2" style="width: 20px">
@@ -40,7 +40,7 @@
     </table>
 
     <div class="d-flex justify-content-between p-2">
-        <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+        <ngb-pagination [collectionSize]="(total | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
         </ngb-pagination>
 
         <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">

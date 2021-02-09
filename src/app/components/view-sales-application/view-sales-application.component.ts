@@ -2,8 +2,8 @@ import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {Country} from '../../Models/country';
-import {CountryService} from '../../Service/country.service';
-import {SortableHeaderDirective, SortEvent} from '../view-sales-application/sortable.directive';
+import {CountryService} from './country.service';
+import {SortableHeaderDirective, SortEvent} from './sortable.directive';
 
 @Component({
   selector: 'app-view-sales-application',
@@ -14,14 +14,14 @@ export class ViewSalesApplicationComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  countries$: Observable<Country[]>;
-  total$: Observable<number>;
+  countries: Observable<Country[]>;
+  total: Observable<number>;
 
   @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
 
   constructor(public service: CountryService) {
-    this.countries$ = service.countries$;
-    this.total$ = service.total$;
+    this.countries = service.countries$;
+    this.total = service.total$;
   }
 
   onSort({column, direction}: SortEvent) {

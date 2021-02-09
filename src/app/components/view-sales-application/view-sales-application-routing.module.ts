@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/Service/guard/auth.guard';
-import { DashboardComponent } from './dashboard.component';
+import { ViewSalesApplicationComponent } from './view-sales-application.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
-  { path: 'dashboard', component: DashboardComponent, canActivateChild: [AuthGuard]},
+  { path: '', redirectTo: '/viewsales', pathMatch: 'full'},
+  { path: 'viewsales', component: ViewSalesApplicationComponent},
 ]
 @NgModule({
   declarations: [],
@@ -14,4 +14,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule { }
+export class ViewSalesApplicationRoutingModule { }

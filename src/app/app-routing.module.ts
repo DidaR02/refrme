@@ -7,7 +7,6 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DashboardModule } from './components/dashboard/dashboard.module';
 import { AuthGuard } from "./service/guard/auth.guard";
 import { SalesApplicationFormComponent } from './components/sales-application-form/sales-application-form.component';
-import { ViewSalesApplicationModule } from './components/view-sales-application/view-sales-application.module'
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -24,9 +23,6 @@ const routes: Routes = [
         loadChildren: ()=> import('./components/view-sales-application/view-sales-application.module').then(viewSales => viewSales.ViewSalesApplicationModule)
       }]
   }
-  // { path: 'dashboard',
-  // loadChildren: ()=> import('./components/dashboard/dashboard.module').then(dBoard  => dBoard.DashboardModule), canActivate: [AuthGuard] },
-  //{ path: 'newsales', loadChildren: ()=> import('./components/sales-application-form/sales-application-form.module').then(salesAppForm => salesAppForm.SalesApplicationFormModule), canActivate: [AuthGuard]}
 ];
 
 @NgModule({
