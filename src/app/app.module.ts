@@ -18,7 +18,6 @@ import { VerifyEmailComponent } from './components/verify-email/verify-email.com
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ContentPanelComponent } from './components/content-panel/content-panel.component';
 import { FooterPanelComponent } from './components/footer-panel/footer-panel.component';
-import { ViewSalesApplicationModule } from './components/view-sales-application/view-sales-application.module'
 
 @NgModule({
   declarations: [
@@ -41,8 +40,7 @@ import { ViewSalesApplicationModule } from './components/view-sales-application/
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireDatabaseModule,
-    CommonModule,
-    ViewSalesApplicationModule
+    CommonModule
   ],
   providers: [DecimalPipe],
   bootstrap: [AppComponent]

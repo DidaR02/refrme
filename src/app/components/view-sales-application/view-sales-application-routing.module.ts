@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from 'src/app/Service/guard/auth.guard';
 import { ViewSalesApplicationComponent } from './view-sales-application.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/viewsales', pathMatch: 'full'},
-  { path: 'viewsales', component: ViewSalesApplicationComponent},
+  { path: '', component: ViewSalesApplicationComponent},
 ]
 @NgModule({
   declarations: [],
