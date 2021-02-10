@@ -9,6 +9,16 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { debounceTime, delay, switchMap, tap } from 'rxjs/operators';
 import { SortColumn, SortDirection } from './sortable.directive';
 
+import { UserPersonalDetails,AddresDetails } from '../../Models/UserModel';
+import { ServiceProvider } from '../../Models/ServiceProviderModel';
+import { FireBaseCrudService } from '../../Service/fire-base-crud.service';
+import { FormBuilder, FormGroup, FormControl} from '@angular/forms'; // Reactive form services
+import { NetworkOperator, NetworkOperatorProducts, ProductMessage } from '../../Models/NetworkOperatorModel';
+// import { IfStmt } from '@angular/compiler';
+import { SaleApplication } from '../../Models/SalesApplicationModel';
+import { Router } from "@angular/router";
+
+
 interface SearchResult {
   countries: Country[];
   total: number;
@@ -56,7 +66,7 @@ export class CountryService {
     sortDirection: ''
   };
 
-  constructor(private pipe: DecimalPipe) {
+  constructor(private pipe: DecimalPipe, public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder) {
     this._search$.pipe(
       tap(() => this._loading$.next(true)),
       debounceTime(200),
@@ -69,6 +79,8 @@ export class CountryService {
     });
 
     this._search$.next();
+
+    this._getSalesApplications();
   }
 
   get countries$() { return this._countries$.asObservable(); }
@@ -102,5 +114,9 @@ export class CountryService {
     // 3. paginate
     countries = countries.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
     return of({countries, total});
+  }
+
+  private _getSalesApplications(){
+    this.fsCrud.getSalesApplication();
   }
 }
