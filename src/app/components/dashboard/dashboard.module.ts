@@ -5,10 +5,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DashboardRoutingModule } from './dashboard-routing.module'
 import { DashboardComponent } from './dashboard.component';
 import { ViewSalesApplicationModule } from '../view-sales-application/view-sales-application.module';
+import { RightClickMenuComponent } from '../right-click-menu/right-click-menu.component';
 
 @NgModule({
   declarations: [
-    DashboardComponent
+    DashboardComponent,
+    //RightClickMenuComponent
   ],
   imports: [
     CommonModule,

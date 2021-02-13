@@ -18,6 +18,8 @@ import { VerifyEmailComponent } from './components/verify-email/verify-email.com
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ContentPanelComponent } from './components/content-panel/content-panel.component';
 import { FooterPanelComponent } from './components/footer-panel/footer-panel.component';
+import { RightClickMenuComponent } from './components/right-click-menu/right-click-menu.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { FooterPanelComponent } from './components/footer-panel/footer-panel.com
     ContentPanelComponent,
     FooterPanelComponent,
     routingComponents,
+    //RightClickMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,8 @@ import { FooterPanelComponent } from './components/footer-panel/footer-panel.com
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireDatabaseModule,
-    CommonModule
+    CommonModule,
+    BrowserAnimationsModule
   ],
   providers: [DecimalPipe],
   bootstrap: [AppComponent]

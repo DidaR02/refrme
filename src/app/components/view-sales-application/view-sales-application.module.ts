@@ -5,11 +5,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ViewSalesApplicationComponent } from './view-sales-application.component';
 import { SortableHeaderDirective } from './sortable.directive';
 import { ViewSalesApplicationRoutingModule } from './view-sales-application-routing.module';
+import { RightClickMenuComponent } from '../right-click-menu/right-click-menu.component';
 
 @NgModule({
   declarations: [
     ViewSalesApplicationComponent,
-    SortableHeaderDirective
+    SortableHeaderDirective,
+    RightClickMenuComponent
   ],
   imports: [
     CommonModule,
@@ -20,9 +22,10 @@ import { ViewSalesApplicationRoutingModule } from './view-sales-application-rout
   ],
   exports: [
     CommonModule,
-    ViewSalesApplicationComponent
+    ViewSalesApplicationComponent,
+    RightClickMenuComponent
   ],
   bootstrap: [
-    ViewSalesApplicationComponent]
+    ViewSalesApplicationComponent,RightClickMenuComponent]
 })
 export class ViewSalesApplicationModule { }

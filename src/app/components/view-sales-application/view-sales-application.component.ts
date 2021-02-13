@@ -19,6 +19,10 @@ export class ViewSalesApplicationComponent implements OnInit {
   salesApplications: Observable<SaleApplication[]>;
   total: Observable<number>;
 
+  public isHidden: Boolean = true;
+  xPosTabMenu: Number;
+  yPosTabMenu: Number;
+
   @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
 
   constructor(public service: SalesApplicationService) {
@@ -36,5 +40,17 @@ export class ViewSalesApplicationComponent implements OnInit {
 
     this.service.sortColumn = column;
     this.service.sortDirection = direction;
+  }
+
+  rightClick(event) {
+    event.stopPropagation();
+    this.xPosTabMenu = event.clientX;
+    this.yPosTabMenu = event.clientY;
+    this.isHidden = false;
+    return false;
+  }
+
+  closeRightClickMenu() {
+    this.isHidden = true;
   }
 }
