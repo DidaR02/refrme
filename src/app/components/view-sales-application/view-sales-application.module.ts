@@ -6,6 +6,8 @@ import { ViewSalesApplicationComponent } from './view-sales-application.componen
 import { SortableHeaderDirective } from './sortable.directive';
 import { ViewSalesApplicationRoutingModule } from './view-sales-application-routing.module';
 import { RightClickMenuComponent } from '../right-click-menu/right-click-menu.component';
+import {MatDialogModule } from '@angular/material/dialog';
+import { EditSalesApplicationComponent } from '../edit-sales-application/edit-sales-application.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { RightClickMenuComponent } from '../right-click-menu/right-click-menu.co
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    ViewSalesApplicationRoutingModule
+    ViewSalesApplicationRoutingModule,
+    MatDialogModule
   ],
   exports: [
     CommonModule,

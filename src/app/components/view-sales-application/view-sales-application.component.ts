@@ -5,6 +5,8 @@ import { SalesApplicationService } from './SalesApplicationService.service';
 import { SortableHeaderDirective, SortEvent } from './sortable.directive';
 
 import { SaleApplication } from '../../Models/SalesApplicationModel';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { EditSalesApplicationComponent } from '../edit-sales-application/edit-sales-application.component';
 
 @Component({
   selector: 'app-view-sales-application',
@@ -25,7 +27,7 @@ export class ViewSalesApplicationComponent implements OnInit {
 
   @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
 
-  constructor(public service: SalesApplicationService) {
+  constructor(public service: SalesApplicationService, public matDialog: MatDialog) {
     this.salesApplications = service.salesApplications$;
     this.total = service.total$;
   }
@@ -52,5 +54,21 @@ export class ViewSalesApplicationComponent implements OnInit {
 
   closeRightClickMenu() {
     this.isHidden = true;
+  }
+
+  openModal() {
+    const dialogConfig = new MatDialogConfig();
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.disableClose = true;
+    dialogConfig.id = "edit-sales-component";
+    dialogConfig.data = {
+      name: "Close",
+      title: "Are you sure you want to close?",
+      description: "Pretend this is a convincing argument on why you shouldn't close :)",
+      actionButtonText: "Close",
+      saleAppId: "saleAppId123"
+    }
+    
+    const modalDialog = this.matDialog.open(EditSalesApplicationComponent, dialogConfig);
   }
 }

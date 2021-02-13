@@ -31,8 +31,7 @@
                         <ngb-highlight [result]="saleApplication.UserPersonalDetails.Email" [term]="service.searchTerm"></ngb-highlight>
                     </td>
                     <td>
-                        <button type="submit" class="btn btn-primary" click="rightClick($event)">View/Edit</button>
-
+                        <button type="submit" class="btn btn-primary" mat-button (click)="openModal()">View/Edit</button>
                     </td>
                 </tr>
             </tbody>

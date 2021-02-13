@@ -20,6 +20,10 @@ import { ContentPanelComponent } from './components/content-panel/content-panel.
 import { FooterPanelComponent } from './components/footer-panel/footer-panel.component';
 import { RightClickMenuComponent } from './components/right-click-menu/right-click-menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EditSalesApplicationComponent } from './components/edit-sales-application/edit-sales-application.component';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -32,6 +36,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ContentPanelComponent,
     FooterPanelComponent,
     routingComponents,
+    EditSalesApplicationComponent,
     //RightClickMenuComponent,
   ],
   imports: [
@@ -44,7 +49,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     CommonModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatDialogModule
   ],
   providers: [DecimalPipe],
   bootstrap: [AppComponent]
