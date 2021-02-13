@@ -41,7 +41,7 @@ function sort(salesApplications: SaleApplication[], column: SortColumn, directio
 function matches(saleApplication: SaleApplication, term: string) {
   return saleApplication.UserPersonalDetails.FirstName.toLowerCase().includes(term.toLowerCase())
     || saleApplication.UserPersonalDetails.FirstName.toLowerCase().includes(term.toLowerCase())
-    || saleApplication.AddressDetails.City.toLowerCase().includes(term.toLowerCase());
+    || saleApplication.UserPersonalDetails.Email.toLowerCase().includes(term.toLowerCase());
 }
 
 @Injectable({providedIn: 'root'})
