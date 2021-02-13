@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'dashboard',
         loadChildren: ()=> import('./components/dashboard/dashboard.module').then(dashModule => dashModule.DashboardModule)
   }
-];
+];   
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
