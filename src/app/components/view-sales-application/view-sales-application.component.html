@@ -10,23 +10,27 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col" sortable="name" (sort)="onSort($event)">Country</th>
-                <th scope="col" sortable="area" (sort)="onSort($event)">Area</th>
-                <th scope="col" sortable="population" (sort)="onSort($event)">Population</th>
+                <th scope="col" sortable="FirstName" (sort)="onSort($event)">FirstName</th>
+                <th scope="col" sortable="LastName" (sort)="onSort($event)">LastName</th>
+                <th scope="col" sortable="City" (sort)="onSort($event)">City</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let country of countries | async">
-                <th scope="row">{{ country.id }}</th>
+            <tr *ngFor="let saleApplication of salesApplications | async">
+                <th scope="row">{{saleApplication.$key}}</th>
                 <td>
-                    <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag" class="mr-2" style="width: 20px">
-                    <ngb-highlight [result]="country.name" [term]="service.searchTerm"></ngb-highlight>
+                    <!-- <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag" class="mr-2" style="width: 20px"> -->
+                    <ngb-highlight [result]="saleApplication.UserPersonalDetails.FirstName" [term]="service.searchTerm"></ngb-highlight>
                 </td>
                 <td>
-                    <ngb-highlight [result]="country.area | number" [term]="service.searchTerm"></ngb-highlight>
+                    <ngb-highlight [result]="saleApplication.UserPersonalDetails.LastName" [term]="service.searchTerm"></ngb-highlight>
                 </td>
                 <td>
-                    <ngb-highlight [result]="country.population | number" [term]="service.searchTerm"></ngb-highlight>
+                    <ngb-highlight [result]="saleApplication.AddressDetails.City" [term]="service.searchTerm"></ngb-highlight>
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-success btn-primary">View/Edit</button>
                 </td>
             </tr>
         </tbody>

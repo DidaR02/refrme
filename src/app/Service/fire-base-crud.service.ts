@@ -5,7 +5,7 @@ import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 
 import {UserPersonalDetails,AddresDetails} from '../Models/UserModel'
 import { SaleApplication } from '../Models/SalesApplicationModel'
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -19,7 +19,6 @@ export class FireBaseCrudService {
   public ServiceProviderList: AngularFireList<any>;
   public UserPersonalDetailsList: AngularFireList<any>;
   public SalesApplicationList: AngularFireList<any>;
-  public SalesApplicationListz: any[] = [];
   public NetworkOperatorProductList: AngularFireList<any>;
 
   private filePath: string = "RefrMe/storage/VerificationDocuments/";
@@ -127,18 +126,11 @@ export class FireBaseCrudService {
     }
   }
 
-  getSalesApplication(){
-
-      var saleApplications = this.fireDb.database.ref().child('SaleApplication').on('value', function(snapshot) {
-          snapshot.forEach(function(childSnapshot) {
-            var childData = childSnapshot.val();
-            console.log(childData);
-          });
-      });
-
-      console.log(this.SalesApplicationListz);
-    
+   getSalesApplicationList() {
+    this.SalesApplicationList =  this.fireDb.list('SaleApplication');
+    return this.SalesApplicationList;
   }
+
   getNetworkOperator(){
       this.NetworkOperatorList = this.fireDb.list('NetworkOperator');
       return this.NetworkOperatorList;

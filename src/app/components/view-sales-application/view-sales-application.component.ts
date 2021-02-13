@@ -5,6 +5,8 @@ import {Country} from '../../Models/country';
 import {CountryService} from './country.service';
 import {SortableHeaderDirective, SortEvent} from './sortable.directive';
 
+import { SaleApplication } from '../../Models/SalesApplicationModel';
+
 @Component({
   selector: 'app-view-sales-application',
   templateUrl: './view-sales-application.component.html',
@@ -13,14 +15,15 @@ import {SortableHeaderDirective, SortEvent} from './sortable.directive';
 export class ViewSalesApplicationComponent implements OnInit {
 
   ngOnInit(): void {
+    
   }
-  countries: Observable<Country[]>;
+  salesApplications: Observable<SaleApplication[]>;
   total: Observable<number>;
 
   @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
 
   constructor(public service: CountryService) {
-    this.countries = service.countries$;
+    this.salesApplications = service.salesApplications$;
     this.total = service.total$;
   }
 
