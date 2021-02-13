@@ -3,17 +3,11 @@ import { Injectable, PipeTransform } from '@angular/core';
 
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 
-import { Country } from '../../Models/country';
-import { COUNTRIES } from '../../Models/Countries';
-import { CommonModule, DecimalPipe } from '@angular/common';
 import { debounceTime, delay, switchMap, tap } from 'rxjs/operators';
 import { SortColumn, SortDirection } from './sortable.directive';
 
-import { UserPersonalDetails,AddresDetails } from '../../Models/UserModel';
-import { ServiceProvider } from '../../Models/ServiceProviderModel';
 import { FireBaseCrudService } from '../../Service/fire-base-crud.service';
-import { FormBuilder, FormGroup, FormControl} from '@angular/forms'; // Reactive form services
-import { NetworkOperator, NetworkOperatorProducts, ProductMessage } from '../../Models/NetworkOperatorModel';
+import { FormBuilder} from '@angular/forms'; // Reactive form services
 // import { IfStmt } from '@angular/compiler';
 import { SaleApplication } from '../../Models/SalesApplicationModel';
 import { Router } from "@angular/router";
@@ -38,7 +32,7 @@ function sort(salesApplications: SaleApplication[], column: SortColumn, directio
     return salesApplications;
   } else {
     return [...salesApplications].sort((a, b) => {
-      const res = compare(a[column], b[column]);
+      const res = compare(a.UserPersonalDetails[column], b.UserPersonalDetails[column]);
       return direction === 'asc' ? res : -res;
     });
   }
@@ -51,7 +45,7 @@ function matches(saleApplication: SaleApplication, term: string) {
 }
 
 @Injectable({providedIn: 'root'})
-export class CountryService {
+export class SalesApplicationService {
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
   private _salesApplications$ = new BehaviorSubject<SaleApplication[]>([]);
@@ -69,20 +63,6 @@ export class CountryService {
 
   constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder) {
     this._getSalesApplicationsList();
-    
-    // this._search$.pipe(
-    //   tap(() => this._loading$.next(true)),
-    //   debounceTime(200),
-    //   switchMap(() => this._search()),
-    //   delay(200),
-    //   tap(() => this._loading$.next(false))
-    // ).subscribe(result => {
-    //   this._salesApplications$.next(result.salesApplications);
-    //   this._total$.next(result.total);
-    // });
-
-    // this._search$.next();
-
   }
 
   get salesApplications$() { return this._salesApplications$.asObservable(); }

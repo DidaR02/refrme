@@ -1,9 +1,8 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import {Country} from '../../Models/country';
-import {CountryService} from './country.service';
-import {SortableHeaderDirective, SortEvent} from './sortable.directive';
+import { SalesApplicationService } from './SalesApplicationService.service';
+import { SortableHeaderDirective, SortEvent } from './sortable.directive';
 
 import { SaleApplication } from '../../Models/SalesApplicationModel';
 
@@ -22,7 +21,7 @@ export class ViewSalesApplicationComponent implements OnInit {
 
   @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
 
-  constructor(public service: CountryService) {
+  constructor(public service: SalesApplicationService) {
     this.salesApplications = service.salesApplications$;
     this.total = service.total$;
   }
