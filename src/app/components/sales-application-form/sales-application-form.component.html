@@ -2,7 +2,10 @@
 
     <div class="salesForm">
         <!-- ng if newSale or edit -->
-        <h1 style="text-align: center;">Online Order Form</h1>
+        <div>
+            <h1 *ngIf="showHeader" style="text-align: center;">Online Order Form</h1>
+        </div>
+
         <br>
 
         <form [formGroup]="salesApplication" id="application-form" action="#" (ngSubmit)="submitUserDetails()">

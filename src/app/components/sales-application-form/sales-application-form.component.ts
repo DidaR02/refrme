@@ -36,11 +36,40 @@ export class SalesApplicationFormComponent implements OnInit {
   createFileElementTagName  = new Map<string, File>();
   message = new ProductMessage();
 
+  salesApplicationsList: SaleApplication[];
+  @Input() applicationFormState: string;
+  showHeader: boolean = true;
+
   constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder){}
 
   ngOnInit(){
     this.getNetworkOperator();
     this.getServiceProviders();
+    this.setHeader();
+  }
+
+  setHeader(){
+    if(this.applicationFormState?.length > 0)
+    {
+      switch(this.applicationFormState){
+        case "newSales": {
+          this.showHeader = true;
+          break;
+        }
+        case "editSales": {
+          this.showHeader = false;
+          break;
+        }
+      }
+    }
+  }
+
+  populateSalesForm(){
+    if(this.applicationFormState?.length > 0 && this.applicationFormState === "editSales")
+    {
+      this.getSalesApplicationsList();
+      
+    }
   }
 
   getNetworkOperator(){
@@ -296,5 +325,20 @@ export class SalesApplicationFormComponent implements OnInit {
     }
 
     this.ResetForm(); 
+  }
+
+  private async getSalesApplicationsList(){
+
+    let salesList =  await this.fsCrud.getSalesApplicationList();
+     await salesList.snapshotChanges().subscribe(
+      dataList => {
+        this.salesApplicationsList = [];
+        dataList.forEach(saleApplication => {
+          let a = saleApplication.payload.toJSON();
+          a['$key'] = saleApplication.key;
+          this.salesApplicationsList.push(a as SaleApplication);
+        });
+      }
+    );
   }
 }

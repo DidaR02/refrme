@@ -8,6 +8,8 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialo
 })
 export class EditSalesApplicationComponent implements OnInit {
 
+  applicationFormState: string ="editSales";
+
   constructor(
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<EditSalesApplicationComponent>,
