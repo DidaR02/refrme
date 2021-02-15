@@ -41,6 +41,8 @@ export class SalesApplicationFormComponent implements OnInit {
   @Input() applicationFormState: string;
   showHeader: boolean = true;
   @Input() saleApplicationId?: any;
+  @Input() userId : string;
+  disableDetailsEdit: boolean = true;
 
   constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder){}
 
@@ -200,7 +202,7 @@ export class SalesApplicationFormComponent implements OnInit {
     AddressLine2: new FormControl(),
     City: new FormControl('',Validators.required),
     Province: new FormControl(),
-    ZipCode: new FormControl(),
+    PostalCode: new FormControl('', Validators.required),
     Suburb: new FormControl(),
     AddressType: new FormControl(this.AddressType.value) //FreeS
   });
@@ -312,8 +314,12 @@ export class SalesApplicationFormComponent implements OnInit {
 
     if(userPersonalDetails || saleApplication)
     {
-      this.fsCrud.saveUserDetails(userPersonalDetails);
-      this.fsCrud.saveSaleApplication(formDetails);
+       //if(this.applicationFormState === "newSales") {
+         //Check if user exist before storing new user details.
+          this.fsCrud.saveUserDetails(userPersonalDetails, this.userId);
+       //}
+
+      this.fsCrud.saveSaleApplication(formDetails, this.saleApplicationId);
       if(this.createFileElementTagName != null || this.createFileElementTagName != undefined){
         //Iterate over map keys  
         for (let fileElementTag of this.createFileElementTagName.entries()) {  
@@ -365,7 +371,7 @@ export class SalesApplicationFormComponent implements OnInit {
               IdNumber: entries.UserPersonalDetails.IdNumber?.toString(),
               Email: entries.UserPersonalDetails.Email?.toString(),
               MobileNumber: entries.UserPersonalDetails.MobileNumber?.toString(),
-              //AddressDetails: entries.UserPersonalDetails.AddressDetails,
+              AddressDetails: entries.UserPersonalDetails.AddressDetails,
               SpecialComments: entries.UserPersonalDetails.SpecialComments?.toString()
             },
             AddressDetails: {
@@ -373,19 +379,19 @@ export class SalesApplicationFormComponent implements OnInit {
               AddressLine2: entries.AddressDetails.AddressLine2?.toString(),
               City:  entries.AddressDetails.City?.toString(),
               Province:  entries.AddressDetails.Province?.toString(),
-              ZipCode:  entries.AddressDetails.ZipCode?.toString(),
+              ZipCode:  entries.AddressDetails?.PostalCode?.toString(),
               Suburb:  entries.AddressDetails.Suburb?.toString(),
               AddressType:  entries.AddressDetails.AddressType?.toString() //FreeS
             },
             ApplicationFeedback: entries.ApplicationFeedback?.toString(),
             DeliveryInstallOption: entries.DeliveryInstallOption?.toString(),
             BillingBankDetails: {
-              AccountName: entries.BillingBankDetails.AccountName?.toString(),
-              BankName: entries.BillingBankDetails.BankName?.toString(),
-              BranchName: entries.BillingBankDetails.BranchName?.toString(),
-              BranchCode: entries.BillingBankDetails.BranchCode?.toString(),
-              AccountNumber: entries.BillingBankDetails.AccountNumber?.toString(),
-              AccountType: entries.BillingBankDetails.AccountType?.toString()
+              AccountName: entries.BillingBankDetails?.AccountName?.toString(),
+              BankName: entries.BillingBankDetails?.BankName?.toString(),
+              BranchName: entries.BillingBankDetails?.BranchName?.toString(),
+              BranchCode: entries.BillingBankDetails?.BranchCode?.toString(),
+              AccountNumber: entries.BillingBankDetails?.AccountNumber?.toString(),
+              AccountType: entries.BillingBankDetails?.AccountType?.toString()
             },
             //ProofOfIdentityDoc: new FormControl(),
             //ProofOfResidenceDoc: new FormControl(),
@@ -395,6 +401,8 @@ export class SalesApplicationFormComponent implements OnInit {
           });
         }
       });
+
+      this.disableDetailsEdit = true;
     }
   }
 }

@@ -15,7 +15,7 @@ export class AddresDetails{
     public Suburb: string;
     public City: string;
     public Province: string = "Limpopo";
-    public ZipCode: string;
+    public PostalCode: string;
     public Country: string = "South Africa";
     public AddressType: string; //FreeStanding, Complex, Estate
 }

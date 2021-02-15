@@ -2,3 +2,7 @@
 .salesForm {
     width: auto 0px;
 }
+
+textarea {
+    resize: vertical;
+}
