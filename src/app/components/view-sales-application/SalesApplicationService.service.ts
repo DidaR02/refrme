@@ -110,7 +110,7 @@ export class SalesApplicationService {
         this.SaleApplication = [];
         dataList.forEach(saleApplication => {
           let a = saleApplication.payload.toJSON();
-          a['$key'] = saleApplication.key;
+          a['saleApplicationId'] = saleApplication.key;
           this.SaleApplication.push(a as SaleApplication);
         });
        this._search$.next();

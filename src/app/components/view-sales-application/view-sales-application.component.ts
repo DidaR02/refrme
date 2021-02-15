@@ -56,7 +56,7 @@ export class ViewSalesApplicationComponent implements OnInit {
     this.isHidden = true;
   }
 
-  openModal() {
+  openModal(saleApplicationId: any) {
     const dialogConfig = new MatDialogConfig();
     // The user can't close the dialog by clicking outside its body
     dialogConfig.disableClose = true;
@@ -66,7 +66,7 @@ export class ViewSalesApplicationComponent implements OnInit {
       title: "Are you sure you want to close?",
       description: "Pretend this is a convincing argument on why you shouldn't close :)",
       actionButtonText: "Close",
-      saleAppId: "saleAppId123"
+      saleAppId: saleApplicationId
     }
     
     const modalDialog = this.matDialog.open(EditSalesApplicationComponent, dialogConfig);

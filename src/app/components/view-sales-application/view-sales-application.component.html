@@ -19,7 +19,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let saleApplication of salesApplications | async">
-                    <th scope="row">{{saleApplication.$key}}</th>
+                    <th scope="row">{{saleApplication.saleApplicationId}}</th>
                     <td>
                         <!-- <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag" class="mr-2" style="width: 20px"> -->
                         <ngb-highlight [result]="saleApplication.UserPersonalDetails.FirstName" [term]="service.searchTerm"></ngb-highlight>
@@ -31,7 +31,7 @@
                         <ngb-highlight [result]="saleApplication.UserPersonalDetails.Email" [term]="service.searchTerm"></ngb-highlight>
                     </td>
                     <td>
-                        <button type="submit" class="btn btn-primary" mat-button (click)="openModal()">View/Edit</button>
+                        <button type="submit" class="btn btn-primary" mat-button (click)="openModal(saleApplication.saleApplicationId)">View/Edit</button>
                     </td>
                 </tr>
             </tbody>

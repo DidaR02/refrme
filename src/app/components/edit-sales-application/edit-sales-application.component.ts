@@ -9,13 +9,14 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialo
 export class EditSalesApplicationComponent implements OnInit {
 
   applicationFormState: string ="editSales";
+  saleApplicationId: string;
 
   constructor(
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<EditSalesApplicationComponent>,
     @Inject(MAT_DIALOG_DATA) private modalData: any,
     ) {
-      //console.log(this.modalData);
+      this.saleApplicationId = this.modalData.saleAppId;
     }
 
   ngOnInit(): void {

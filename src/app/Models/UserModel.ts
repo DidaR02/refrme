@@ -2,6 +2,7 @@ export class UserPersonalDetails{
     public UserID: number;
     public FirstName: string;
     public LastName: string;
+    public IdNumber: string;
     public Email: string;
     public MobileNumber: string;
     public AddressDetails: AddresDetails;

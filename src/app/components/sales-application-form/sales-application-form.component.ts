@@ -2,11 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { UserPersonalDetails,AddresDetails } from '../../Models/UserModel';
 import { ServiceProvider } from '../../Models/ServiceProviderModel';
 import { FireBaseCrudService } from '../../Service/fire-base-crud.service';
-import { FormBuilder, FormGroup, FormControl} from '@angular/forms'; // Reactive form services
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'; // Reactive form services
 import { NetworkOperator, NetworkOperatorProducts, ProductMessage } from '../../Models/NetworkOperatorModel';
 // import { IfStmt } from '@angular/compiler';
 import { SaleApplication } from '../../Models/SalesApplicationModel';
 import { Router } from "@angular/router";
+import { Key } from 'protractor';
 
 @Component({
   selector: 'app-sales-application-form',
@@ -39,6 +40,7 @@ export class SalesApplicationFormComponent implements OnInit {
   salesApplicationsList: SaleApplication[];
   @Input() applicationFormState: string;
   showHeader: boolean = true;
+  @Input() saleApplicationId?: any;
 
   constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder){}
 
@@ -46,6 +48,7 @@ export class SalesApplicationFormComponent implements OnInit {
     this.getNetworkOperator();
     this.getServiceProviders();
     this.setHeader();
+    this.getSalesApplications();    
   }
 
   setHeader(){
@@ -64,11 +67,10 @@ export class SalesApplicationFormComponent implements OnInit {
     }
   }
 
-  populateSalesForm(){
+   async getSalesApplications(){
     if(this.applicationFormState?.length > 0 && this.applicationFormState === "editSales")
     {
-      this.getSalesApplicationsList();
-      
+       await this.getSalesApplicationsList();
     }
   }
 
@@ -194,9 +196,9 @@ export class SalesApplicationFormComponent implements OnInit {
     }
   }
   public addressDetails= new FormGroup({
-    AddressLine1: new FormControl(),
+    AddressLine1: new FormControl('',Validators.required),
     AddressLine2: new FormControl(),
-    City: new FormControl(),
+    City: new FormControl('',Validators.required),
     Province: new FormControl(),
     ZipCode: new FormControl(),
     Suburb: new FormControl(),
@@ -204,27 +206,27 @@ export class SalesApplicationFormComponent implements OnInit {
   });
 
   public userPersonalDetails = new FormGroup({
-    FirstName: new FormControl(),
-    LastName: new FormControl(),
-    IdNumber: new FormControl(),
-    Email: new FormControl(),
-    MobileNumber: new FormControl(),
+    FirstName: new FormControl('',Validators.required),
+    LastName: new FormControl('',Validators.required),
+    IdNumber: new FormControl('',Validators.required),
+    Email: new FormControl('',Validators.required),
+    MobileNumber: new FormControl('',Validators.required),
     AddressDetails: new FormGroup(this.addressDetails.controls),
     SpecialComments: new FormControl()
   });
 
   public deliveryInstallOption = new FormGroup({
-    DeliveryInstallOption: new FormControl(this.DeliveryInstallOption.value)
+    DeliveryInstallOption: new FormControl(this.DeliveryInstallOption.value, Validators.required)
   });
 
   //private serviceProviderB: ServiceProvider = this.serviceProvider[this.serviceProvider.findIndex(x => x.ServiceProviderId === this.servProvId)]; 
   public billingBankDetails = new FormGroup({
-    AccountName: new FormControl(),
-    BankName: new FormControl(),
-    BranchName: new FormControl(),
-    BranchCode: new FormControl(),
-    AccountNumber: new FormControl(),
-    AccountType: new FormControl()
+    AccountName: new FormControl('',Validators.required),
+    BankName: new FormControl('',Validators.required),
+    BranchName: new FormControl('',Validators.required),
+    BranchCode: new FormControl('',Validators.required),
+    AccountNumber: new FormControl('',Validators.required),
+    AccountType: new FormControl('',Validators.required)
   });
 
   public salesApplication = new FormGroup({
@@ -329,16 +331,70 @@ export class SalesApplicationFormComponent implements OnInit {
 
   private async getSalesApplicationsList(){
 
-    let salesList =  await this.fsCrud.getSalesApplicationList();
-     await salesList.snapshotChanges().subscribe(
+    let salesList = await this.fsCrud.getSalesApplicationList();
+      await salesList.snapshotChanges().subscribe(
       dataList => {
         this.salesApplicationsList = [];
         dataList.forEach(saleApplication => {
           let a = saleApplication.payload.toJSON();
-          a['$key'] = saleApplication.key;
+          a['SaleApplicationId'] = saleApplication.key;
           this.salesApplicationsList.push(a as SaleApplication);
         });
+
+        this.prePopulateSalesFormData(this.saleApplicationId);
       }
     );
+  }
+
+  private async prePopulateSalesFormData(saleAppId?: any){
+  
+    if((this.applicationFormState === "editSales") && (this.salesApplicationsList && this.salesApplicationsList.length > 0))
+    {
+      this.salesApplicationsList.forEach( entries => {
+
+         if (entries.SaleApplicationId === saleAppId?.toString() )
+        {
+          this.salesApplication.patchValue({
+            AgentPromoCode: entries.AgentPromoCode?.toString(),
+            NetworkOperator: entries.NetworkOperator?.toString(),
+            IsCpeFirbreInstalled: entries.IsCpeFirbreInstalled?.toString(),
+            NetworkOperatorPackage: entries.NetworkOperatorPackage?.toString(),
+            UserPersonalDetails: {
+              FirstName: entries.UserPersonalDetails.FirstName?.toString(),
+              LastName: entries.UserPersonalDetails.FirstName?.toString(),
+              IdNumber: entries.UserPersonalDetails.IdNumber?.toString(),
+              Email: entries.UserPersonalDetails.Email?.toString(),
+              MobileNumber: entries.UserPersonalDetails.MobileNumber?.toString(),
+              //AddressDetails: entries.UserPersonalDetails.AddressDetails,
+              SpecialComments: entries.UserPersonalDetails.SpecialComments?.toString()
+            },
+            AddressDetails: {
+              AddressLine1: entries.AddressDetails.AddressLine1?.toString(),
+              AddressLine2: entries.AddressDetails.AddressLine2?.toString(),
+              City:  entries.AddressDetails.City?.toString(),
+              Province:  entries.AddressDetails.Province?.toString(),
+              ZipCode:  entries.AddressDetails.ZipCode?.toString(),
+              Suburb:  entries.AddressDetails.Suburb?.toString(),
+              AddressType:  entries.AddressDetails.AddressType?.toString() //FreeS
+            },
+            ApplicationFeedback: entries.ApplicationFeedback?.toString(),
+            DeliveryInstallOption: entries.DeliveryInstallOption?.toString(),
+            BillingBankDetails: {
+              AccountName: entries.BillingBankDetails.AccountName?.toString(),
+              BankName: entries.BillingBankDetails.BankName?.toString(),
+              BranchName: entries.BillingBankDetails.BranchName?.toString(),
+              BranchCode: entries.BillingBankDetails.BranchCode?.toString(),
+              AccountNumber: entries.BillingBankDetails.AccountNumber?.toString(),
+              AccountType: entries.BillingBankDetails.AccountType?.toString()
+            },
+            //ProofOfIdentityDoc: new FormControl(),
+            //ProofOfResidenceDoc: new FormControl(),
+            DebitOrderMandateAccepted: entries.DebitOrderMandateAccepted,
+            TermsAndConditionsAccepted: entries.TermsAndConditionsAccepted,
+            MarketingConsent: entries.MarketingConsent,
+          });
+        }
+      });
+    }
   }
 }

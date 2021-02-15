@@ -127,7 +127,7 @@ export class FireBaseCrudService {
   }
 
    getSalesApplicationList() {
-    this.SalesApplicationList =  this.fireDb.list('SaleApplication');
+    this.SalesApplicationList = this.fireDb.list('SaleApplication');
     return this.SalesApplicationList;
   }
 
