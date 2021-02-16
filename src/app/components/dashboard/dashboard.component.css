@@ -1,7 +1,7 @@
 .dashboard-container {
-    margin: 0;
+    margin: auto 0;
     font-family: "Lato", sans-serif;
-    padding: 30px;
+    padding: 0px;
 }
 
 .dashboard-landingPage {

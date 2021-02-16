@@ -8,30 +8,22 @@ body {
     height: 100%;
     font-family: Roboto, Arial, sans-serif;
     margin: 0;
-    padding: 30px;
-}
-
-body {
+    width: 100%;
     background-color: whitesmoke;
 }
 
-nav,
-.navbar,
-.navbar-inverse {
-    background-color: #f9f9f9;
-    border: none;
-    text-align: center;
+body {
+    padding: 15px;
 }
 
+.navbar,
+.navbar-inverse,
 .navigation-bar,
 .navbar-header,
 .logo-link {
+    background-color: #f9f9f9;
+    border: none;
     text-align: center;
-}
-
-.navigation-bar {
-    margin: 0 auto;
-    width: 500px;
 }
 
 .logo {
