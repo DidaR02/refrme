@@ -13,6 +13,7 @@ import { FormBuilder } from '@angular/forms'; // Reactive form services
 export class AppComponent implements OnInit {
 
   title = 'RefrMe';
+  applicationFormState: string ="editSales";
   
   constructor(private router: Router,
     private route: ActivatedRoute,

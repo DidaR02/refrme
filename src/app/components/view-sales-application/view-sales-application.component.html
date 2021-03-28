@@ -10,7 +10,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <!-- <th scope="col">#</th> -->
                     <th scope="col" sortable="FirstName" (sort)="onSort($event)">FirstName</th>
                     <th scope="col" sortable="LastName" (sort)="onSort($event)">LastName</th>
                     <th scope="col">Email</th>
@@ -19,7 +19,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let saleApplication of salesApplications | async">
-                    <th scope="row">{{saleApplication.saleApplicationId}}</th>
+                    <!-- <th scope="row">{{saleApplication.saleApplicationId}}</th> -->
                     <td>
                         <!-- <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag" class="mr-2" style="width: 20px"> -->
                         <ngb-highlight [result]="saleApplication.UserPersonalDetails.FirstName" [term]="service.searchTerm"></ngb-highlight>

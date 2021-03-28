@@ -4,6 +4,7 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { LoginComponent } from './components/login/login.component';
 import { RegisterAccountComponent } from './components/register-account/register-account.component';
 import { SalesApplicationFormComponent } from './components/sales-application-form/sales-application-form.component';
+import { StandaloneSalesApplicationFormComponent } from './components/standalone-sales-application-form/standalone-sales-application-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -12,7 +13,9 @@ const routes: Routes = [
   { path: 'join', component: RegisterAccountComponent},
   { path: 'dashboard',
         loadChildren: ()=> import('./components/dashboard/dashboard.module').then(dashModule => dashModule.DashboardModule)
-  }
+  },
+  { path: 'new-application', component: StandaloneSalesApplicationFormComponent 
+  },
 ];   
 
 @NgModule({
@@ -24,5 +27,6 @@ export const routingComponents = [
   LandingPageComponent,
   LoginComponent,
   RegisterAccountComponent,
-  SalesApplicationFormComponent
+  SalesApplicationFormComponent,
+  StandaloneSalesApplicationFormComponent
 ]

@@ -21,9 +21,9 @@ import { FooterPanelComponent } from './components/footer-panel/footer-panel.com
 import { RightClickMenuComponent } from './components/right-click-menu/right-click-menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditSalesApplicationComponent } from './components/edit-sales-application/edit-sales-application.component';
-
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { StandaloneSalesApplicationFormComponent } from './components/standalone-sales-application-form/standalone-sales-application-form.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     FooterPanelComponent,
     routingComponents,
     EditSalesApplicationComponent,
-    //RightClickMenuComponent,
+    StandaloneSalesApplicationFormComponent
   ],
   imports: [
     BrowserModule,

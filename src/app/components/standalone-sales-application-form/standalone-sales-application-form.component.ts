@@ -10,11 +10,11 @@ import { Router } from "@angular/router";
 import { Key } from 'protractor';
 
 @Component({
-  selector: 'app-sales-application-form',
-  templateUrl: './sales-application-form.component.html',
-  styleUrls: ['./sales-application-form.component.css']
+  selector: 'quick-application-form',
+  templateUrl: './standalone-sales-application-form.component.html',
+  styleUrls: ['./standalone-sales-application-form.component.css']
 })
-export class SalesApplicationFormComponent implements OnInit {
+export class StandaloneSalesApplicationFormComponent implements OnInit {
   title = 'RefrMe';
   networkOperators: NetworkOperator[];
   serviceProviders: ServiceProvider[] = [];
