@@ -12,3 +12,16 @@
     width: 280px;
     height: 80px
 }
+
+button {
+    background-color: cadetblue;
+}
+
+.btn:hover,
+.btn::before,
+.btn::after,
+.btn:active,
+.btn:focus,
+.btn:visited {
+    background-color: cadetblue;
+}
