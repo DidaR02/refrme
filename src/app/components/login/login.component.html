@@ -2,36 +2,73 @@
 
     <div class="row align-items-center" style="height: 100%; margin:auto">
         <div class="col">
-            <div class="container">
+            <div class="container signin-user">
+                <h1 style="text-align: center;">Already have sign in credentials!</h1>
+                <br>
 
-                <div class="signin-user">
-                    <h1 style="text-align: center;">Already have sign in credentials!</h1>
-                    <br>
+                <form [formGroup]="signInFormGroup" id="signIn-form" action="#" (ngSubmit)="submitSignInDetails()">
 
-                    <form [formGroup]="signInFormGroup" id="signIn-form" action="#" (ngSubmit)="submitSignInDetails()">
+                    <div class="panel panel-primary">
 
-                        <div class="panel panel-primary">
-
-                            <div class="panel-body">
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="email">Email</label>
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email *" aria-required="true" formControlName="Email">
-                                    </div>
+                        <div class="panel-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email *" aria-required="true" formControlName="Email">
                                 </div>
+                            </div>
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="password">Password</label>
-                                        <input type="password" id="password" name="password" placeholder="Password *" aria-required="true" formControlName="Password" class="form-control form-control ng-valid ng-dirty ng-touched" ng-reflect-name="Password">
-                                    </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <input type="password" id="password" name="password" placeholder="Password *" aria-required="true" formControlName="Password" class="form-control form-control ng-valid ng-dirty ng-touched" ng-reflect-name="Password">
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div *ngIf="!isUserSignInAllowed">
+                        <div class="alert alert-danger alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close" (click)="resetErrorMsg()">&times;</a>
+                            <strong>Sign in error!</strong>
+                            <p>
+                                Please check your details and retry sign in.
+                            </p>
+                            <p>
+                                If your account is new, please check your email for verification and activate your account.
+                            </p>
+                        </div>
+                    </div>
 
+                    <div class="col-md-6">
                         <button type="submit" class="btn btn-success btn-primary">Log In</button>
-                    </form>
-                </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="forgot-password" style="padding-top: 15px;">
+                            <p>
+                                Forgot password?
+                                <span>
+                                <li class="resetpassword-item" style="list-style-type: none;">
+                                    <a class="resetpassword-link" (click)="resetPassword()">
+                                        <i class="fas fa-sign-in-alt"></i>Reset password
+                                    </a>
+                                </li>
+                            </span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="signup-div" style="padding-top: 15px;">
+                        <p>
+                            I do not have an account.
+                            <span>
+                                <li class="signup-item" style="list-style-type: none;">
+                                    <a class="sign-link" (click)="redirectToRegister()">
+                                        <i class="fas fa-sign-in-alt"></i>Sign Up New Account
+                                    </a>
+                                </li>
+                            </span>
+                        </p>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

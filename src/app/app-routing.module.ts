@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterAccountComponent } from './components/register-account/register-account.component';
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'home', component: LandingPageComponent},
   { path: 'login', component: LoginComponent},
   { path: 'join', component: RegisterAccountComponent},
+  { path: 'forgotPassword', component: ForgotPasswordComponent},
   { path: 'dashboard',
         loadChildren: ()=> import('./components/dashboard/dashboard.module').then(dashModule => dashModule.DashboardModule)
   },
@@ -26,6 +28,7 @@ export class AppRoutingModule { }
 export const routingComponents = [
   LandingPageComponent,
   LoginComponent,
+  ForgotPasswordComponent,
   RegisterAccountComponent,
   SalesApplicationFormComponent,
   StandaloneSalesApplicationFormComponent

@@ -19,3 +19,13 @@ export class AddresDetails{
     public Country: string = "South Africa";
     public AddressType: string; //FreeStanding, Complex, Estate
 }
+
+export interface User {
+    uid: string;
+    email: string;
+    displayName: string;
+    photoURL: string;
+    emailVerified: boolean;
+    firstName: string;
+    lastName: string;
+ }

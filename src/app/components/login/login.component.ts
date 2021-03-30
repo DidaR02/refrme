@@ -9,8 +9,9 @@ import { Router } from "@angular/router";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  public router: Router
-  constructor(public authenticationService: AuthenticationService, public formBuilder: FormBuilder) { }
+  isUserSignInAllowed : boolean = true;
+
+  constructor(public authenticationService: AuthenticationService, public formBuilder: FormBuilder, public router: Router) { }
 
   ngOnInit(): void {
   }
@@ -22,12 +23,33 @@ export class LoginComponent implements OnInit {
 
   submitSignInDetails()
   {
+    this.isUserSignInAllowed = true;
+
     var signInDetails = this.signInFormGroup?.value;
     let email = signInDetails?.Email;
     let password = signInDetails?.Password;
+
     if(email && password)
     {
       this.authenticationService.SignIn(email, password);
     }
+    else
+    {
+      this.isUserSignInAllowed = false;
+    }
+  }
+
+  redirectToRegister()
+  {
+    this.router.navigate(['join']);
+  }
+
+  resetPassword(){
+    this.router.navigate(['forgotPassword']);
+  }
+
+  resetErrorMsg()
+  {
+    this.isUserSignInAllowed = true;
   }
 }
