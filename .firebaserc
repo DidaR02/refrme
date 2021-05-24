@@ -1,7 +1,7 @@
 {
   "projects": {
     "default": "refrme-prod",
-    "ReferMe_Staging": "refrme-prod",
-    "production": "refrme-prod"
+    "production": "refrme-prod",
+    "refrme-prod": "refrme-prod"
   }
 }

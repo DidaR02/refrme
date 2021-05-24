@@ -2,6 +2,7 @@ export class UserPersonalDetails{
     public UserID: number;
     public FirstName: string;
     public LastName: string;
+    public IdNumber: string;
     public Email: string;
     public MobileNumber: string;
     public AddressDetails: AddresDetails;
@@ -14,7 +15,17 @@ export class AddresDetails{
     public Suburb: string;
     public City: string;
     public Province: string = "Limpopo";
-    public ZipCode: string;
+    public PostalCode: string;
     public Country: string = "South Africa";
     public AddressType: string; //FreeStanding, Complex, Estate
 }
+
+export interface User {
+    uid: string;
+    email: string;
+    displayName: string;
+    photoURL: string;
+    emailVerified: boolean;
+    firstName: string;
+    lastName: string;
+ }

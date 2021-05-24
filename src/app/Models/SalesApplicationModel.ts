@@ -6,6 +6,7 @@ import { BankDetails} from './BankDetails';
 import {FileElement} from './FileElement';
 
 export class SaleApplication{
+    public SaleApplicationId: string;
     public AgentPromoCode: string;
     public serviceProvider: ServiceProvider;
     public NetworkOperator: NetworkOperator;

@@ -1,0 +1,27 @@
+.center {
+    display: block;
+    margin: 0 auto;
+    width: 280px;
+}
+
+.row {
+    padding: 15px;
+}
+
+.btn {
+    width: 280px;
+    height: 80px
+}
+
+button {
+    background-color: cadetblue;
+}
+
+.btn:hover,
+.btn::before,
+.btn::after,
+.btn:active,
+.btn:focus,
+.btn:visited {
+    background-color: cadetblue;
+}
