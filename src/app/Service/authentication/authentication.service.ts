@@ -1,6 +1,6 @@
 import { Injectable, NgZone} from '@angular/core';
 import { User } from "../user";
-import { auth } from 'firebase';
+import firebase from 'firebase/app';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
@@ -29,7 +29,7 @@ export class AuthenticationService {
         }
       })
     }
-  
+
     // Sign in with email/password
     SignIn(email, password) {
       return this.afAuth.signInWithEmailAndPassword(email, password)
@@ -42,7 +42,7 @@ export class AuthenticationService {
           window.alert(error.message)
         })
     }
-  
+
     // Sign up with email/password
     SignUp(email, password) {
       return this.afAuth.createUserWithEmailAndPassword(email, password)
@@ -55,7 +55,7 @@ export class AuthenticationService {
           window.alert(error.message)
         })
     }
-  
+
     // Send email verfificaiton when new user sign up
     SendVerificationMail() {
       return this.afAuth.currentUser.then(verify => verify.sendEmailVerification())
@@ -63,7 +63,7 @@ export class AuthenticationService {
         this.router.navigate(['verify-email-address']);
       })
     }
-  
+
     // Reset Forggot password
     ForgotPassword(passwordResetEmail) {
       return this.afAuth.sendPasswordResetEmail(passwordResetEmail)
@@ -73,18 +73,18 @@ export class AuthenticationService {
         window.alert(error)
       })
     }
-  
+
     // Returns true when user is looged in and email is verified
     get isLoggedIn(): boolean {
       const user = JSON.parse(localStorage.getItem('user'));
       return (user !== null && user.emailVerified !== false) ? true : false;
     }
-  
+
     // Sign in with Google
     GoogleAuth() {
-      return this.AuthLogin(new auth.GoogleAuthProvider());
+      return this.AuthLogin(new firebase.auth.GoogleAuthProvider());
     }
-  
+
     // Auth logic to run auth providers
     AuthLogin(provider) {
       return this.afAuth.signInWithPopup(provider)
@@ -97,7 +97,7 @@ export class AuthenticationService {
         window.alert(error)
       })
     }
-  
+
     /* Setting up user data when sign in with username/password,
     sign up with username/password and sign in with social auth
     provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
@@ -114,7 +114,7 @@ export class AuthenticationService {
         merge: true
       })
     }
-  
+
     // Sign out
     SignOut() {
       return this.afAuth.signOut().then(() => {
@@ -122,5 +122,5 @@ export class AuthenticationService {
         this.router.navigate(['home']);
       })
     }
-  
+
   }
