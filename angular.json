@@ -1,5 +1,8 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "cli": {
+      "analytics": "90486848-9fe2-4e8d-9767-64ad265c024f"
+    },
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
@@ -24,6 +27,7 @@
                             "src/assets"
                         ],
                         "styles": [
+                            "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
                             "src/styles.css"
                         ],
                         "scripts": [],
@@ -32,7 +36,10 @@
                             "@firebase/app",
                             "@firebase/firestore",
                             "@firebase/database",
-                            "firebase/app"
+                            "@firebase/component",
+                            "firebase/app",
+                            "@firebase/auth",
+                            "firebase"
                         ]
                     },
                     "configurations": {
@@ -92,6 +99,7 @@
                             "src/assets"
                         ],
                         "styles": [
+                            "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
                             "src/styles.css"
                         ],
                         "scripts": []

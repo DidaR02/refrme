@@ -5,7 +5,7 @@ import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 
 import {UserPersonalDetails,AddresDetails} from '../Models/UserModel'
 import { SaleApplication } from '../Models/SalesApplicationModel'
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -92,10 +92,10 @@ export class FireBaseCrudService {
     }
   }
 
-  saveUserDetails(userDetails: UserPersonalDetails){
+  saveUserDetails(userDetails: UserPersonalDetails, userId?: string){
     if(userDetails)
     {
-      var userId = this.fireDb.database.ref().child('ApplicantDetails').push().key;
+      var userId = userId ? userId : this.fireDb.database.ref().child('ApplicantDetails').push().key;
       this.fireDb.database.ref('ApplicantDetails/' + userId).set(userDetails, function(error) {
         if (error) {
           alert("Data saved failed! \n" + error);
@@ -109,10 +109,10 @@ export class FireBaseCrudService {
     }
   }
 
-  saveSaleApplication(saleApplication: SaleApplication){
+  saveSaleApplication(saleApplication: SaleApplication, saleApplicationId?: string){
     if(saleApplication)
     {
-      var saleApplicationId = this.fireDb.database.ref().child('SaleApplication').push().key;
+      saleApplicationId =  saleApplicationId ? saleApplicationId : this.fireDb.database.ref().child('SaleApplication').push().key;
       this.fireDb.database.ref('SaleApplication/' + saleApplicationId).set(saleApplication, function(error) {
         if (error) {
           alert("Save SaleApplication failed! \n" + error);
@@ -124,6 +124,17 @@ export class FireBaseCrudService {
     else{
       alert("Please enter SaleApplication details!");
     }
+  }
+
+  getUserDetailsList(userId: string) {
+    let userDetails = this.fireDb.database.ref('ApplicantDetails/' + userId).toJSON();
+    console.log("userDetails", userDetails);
+    return userDetails;
+  }
+
+   getSalesApplicationList() {
+    this.SalesApplicationList = this.fireDb.list('SaleApplication');
+    return this.SalesApplicationList;
   }
 
   getNetworkOperator(){
