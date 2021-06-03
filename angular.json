@@ -22,6 +22,7 @@
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.app.json",
                         "aot": true,
+                        "inlineStyleLanguage": "scss",
                         "assets": [
                             "src/favicon.ico",
                             "src/assets"
@@ -67,8 +68,23 @@
                                     "maximumError": "10kb"
                                 }
                             ]
+                        },
+                         "development": {
+                            "fileReplacements": [{
+                              "replace": "src/environments/environment.prod.ts",
+                              "with": "src/environments/environment.ts"
+                            }],
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": true,
+                            "extractCss": false,
+                            "namedChunks": false,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true
                         }
-                    }
+                    },
+                    "defaultConfiguration": "production"
                 },
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
@@ -78,8 +94,12 @@
                     "configurations": {
                         "production": {
                             "browserTarget": "RefrMe:build:production"
+                        },
+                        "development": {
+                          "browserTarget": "RefrMe:build:development"
                         }
-                    }
+                    },
+                    "defaultConfiguration": "development"
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -103,31 +123,6 @@
                             "src/styles.css"
                         ],
                         "scripts": []
-                    }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": [
-                            "tsconfig.app.json",
-                            "tsconfig.spec.json",
-                            "e2e/tsconfig.json"
-                        ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
-                    }
-                },
-                "e2e": {
-                    "builder": "@angular-devkit/build-angular:protractor",
-                    "options": {
-                        "protractorConfig": "e2e/protractor.conf.js",
-                        "devServerTarget": "RefrMe:serve"
-                    },
-                    "configurations": {
-                        "production": {
-                            "devServerTarget": "RefrMe:serve:production"
-                        }
                     }
                 }
             }
