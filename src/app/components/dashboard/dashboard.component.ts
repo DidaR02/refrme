@@ -27,6 +27,10 @@ export class DashboardComponent implements OnInit {
           this.router.navigate(['dashboard/viewsales']);
           break;
         }
+        case "manageAccounts": {
+          this.router.navigate(['dashboard/manageAccounts']);
+          break;
+        }
       }
     }
   }

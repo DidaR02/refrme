@@ -7,7 +7,7 @@ import { NetworkOperator, NetworkOperatorProducts, ProductMessage } from '../../
 // import { IfStmt } from '@angular/compiler';
 import { SaleApplication } from '../../Models/SalesApplicationModel';
 import { Router } from "@angular/router";
-import { Key } from 'protractor';
+//import { Key } from 'protractor';
 
 @Component({
   selector: 'quick-application-form',
@@ -16,32 +16,32 @@ import { Key } from 'protractor';
 })
 export class StandaloneSalesApplicationFormComponent implements OnInit {
   title = 'RefrMe';
-  networkOperators: NetworkOperator[];
+  networkOperators: NetworkOperator[] | any;
   serviceProviders: ServiceProvider[] = [];
-  serviceProvider: ServiceProvider = null;
-  networkOperatorProducts: NetworkOperatorProducts[];
+  serviceProvider: ServiceProvider | any= null;
+  networkOperatorProducts: NetworkOperatorProducts[] | any;
   productListMessage: ProductMessage[] = [];
   networkOperatorId: string = "";
   networkOperatorName: string = "";
 
   servProvId: string = "1";
   servProvName: string = "RefrMe";
-  
+
   showPackages: boolean = true;
 
   @Input() AddressType: FormControl = new FormControl();
   @Input() DeliveryInstallOption: FormControl = new FormControl();
 
   verificationDocuments: File[] = [];
-  
+
   createFileElementTagName  = new Map<string, File>();
   message = new ProductMessage();
 
-  salesApplicationsList: SaleApplication[];
+  salesApplicationsList: SaleApplication[] | any;
   @Input() applicationFormState: string ="newSales";
   showHeader: boolean = true;
   @Input() saleApplicationId?: any;
-  @Input() userId : string;
+  @Input() userId : string ='';
   disableDetailsEdit: boolean = true;
 
   constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder){}
@@ -50,7 +50,7 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
     this.getNetworkOperator();
     this.getServiceProviders();
     this.setHeader();
-    this.getSalesApplications();    
+    this.getSalesApplications();
   }
 
   setHeader(){
@@ -82,7 +82,7 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
       data =>{
         this.networkOperators = [];
         data.forEach( item =>{
-          let operator = item.payload.toJSON();
+          let operator: any = item.payload.toJSON();
           operator['NetworkOperatorId'] = item.key
            if(operator)
           {
@@ -119,7 +119,7 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
           this.productListMessage = [];
 
           for(var prodList = 0 ; prodList < this.networkOperatorProducts.length; prodList++){
-            
+
             if(this.networkOperatorProducts[prodList]['Products']){
               for(var prodItem in this.networkOperatorProducts[prodList]['Products']){
 
@@ -130,14 +130,14 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
                 this.message.InstallationAmount= this.networkOperators[parseInt(this.networkOperatorId)-1]?.NetworkOperatorNewInstallAmount;
                 this.message.ActivationAmount = this.networkOperators[parseInt(this.networkOperatorId)-1]?.NetworkOperatorExistingInstallAmount
                 this.message.ProductMessage = this.buildNetworkOperatorProductListMessage(this.networkOperatorProducts[prodList]['Products'][prodItem]['ProdName'],
-                
+
                 this.networkOperatorProducts[prodList]['Products'][prodItem]['Download'],
                 this.networkOperatorProducts[prodList]['Products'][prodItem]['Upload'],
                 this.networkOperatorProducts[prodList]['Products'][prodItem]['ProdPrice'],
                 this.networkOperatorProducts[prodList]['Products'][prodItem]['PaymentTerms'],
                 this.message.InstallationAmount,
                 this.message.ActivationAmount);
-                
+
                 this.productListMessage.push(this.message as ProductMessage);
               }
             }
@@ -151,10 +151,10 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
       }
     );
 
-    
+
   }
 
-  buildNetworkOperatorProductListMessage( productName: string, download: string, upload: string, amount: string, payTerms: string, installAmount: string, existInstallAmount: string)
+  buildNetworkOperatorProductListMessage( productName: string, download: string, upload: string, amount: string, payTerms: string, installAmount: string = '', existInstallAmount: string ='')
   {
     enum payMentTerms{
       "Monthly" = "Per Month"
@@ -180,12 +180,12 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
       }
     );
 
-    
+
   };
 
   getServiceProvider()
   {
-    
+
     if(this.serviceProviders)
     {
       for(var sp = 0 ; sp <= this.serviceProviders.length; sp++)
@@ -221,7 +221,7 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
     DeliveryInstallOption: new FormControl(this.DeliveryInstallOption.value, Validators.required)
   });
 
-  //private serviceProviderB: ServiceProvider = this.serviceProvider[this.serviceProvider.findIndex(x => x.ServiceProviderId === this.servProvId)]; 
+  //private serviceProviderB: ServiceProvider = this.serviceProvider[this.serviceProvider.findIndex(x => x.ServiceProviderId === this.servProvId)];
   public billingBankDetails = new FormGroup({
     AccountName: new FormControl('',Validators.required),
     BankName: new FormControl('',Validators.required),
@@ -251,10 +251,10 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
   ResetForm() {
     this.salesApplication.reset();
     this.userPersonalDetails.reset();
-    this.verificationDocuments = null;
-    this.createFileElementTagName = null;
-  } 
-  onfibreInstalledSelected(event)
+    this.verificationDocuments = [];
+    this.createFileElementTagName = new Map<string, File>();
+  }
+  onfibreInstalledSelected(event: any)
   {
     let selecteValue = event.target.value;
     if(selecteValue === "No. I need Fibre installed into my home.")
@@ -266,11 +266,11 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
       this.showPackages = true;
     }
   }
-  onSelectedNetworkOperator(event){
+  onSelectedNetworkOperator(event: any){
     if(this.networkOperators)
     {
       const selectedNetOpId = event.target.value;
-      const getOpItem = this.networkOperators.map(opId => opId.NetworkOperatorId).indexOf(selectedNetOpId);
+      const getOpItem = this.networkOperators.map((opId: { NetworkOperatorId: any; }) => opId.NetworkOperatorId).indexOf(selectedNetOpId);
       if(getOpItem)
       {
         this.networkOperatorId = this.networkOperators[getOpItem]?.NetworkOperatorId;
@@ -283,16 +283,16 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
           this.getNetworkOperatorProducts(this.networkOperatorId);
     }
   }
-  
-  changeAddressType(event){
+
+  changeAddressType(event: any){
     //console.log(event.target.value);
   }
-  
-  getIdentityDocumentFile(event) {
+
+  getIdentityDocumentFile(event: any) {
     this.createFileElementTagName.set("IdentityDocument",event.target.files[0]);
   }
 
-  getProofOfResidence(event) {
+  getProofOfResidence(event: any) {
     this.createFileElementTagName.set("ProofOfResidence",event.target.files[0]);
   }
 
@@ -321,10 +321,10 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
 
       this.fsCrud.saveSaleApplication(formDetails, this.saleApplicationId);
       if(this.createFileElementTagName != null || this.createFileElementTagName != undefined){
-        //Iterate over map keys  
-        for (let fileElementTag of this.createFileElementTagName.entries()) {  
+        //Iterate over map keys
+        for (let fileElementTag of this.createFileElementTagName.entries()) {
             this.saveFile(fileElementTag[1], fileElementTag[0]);
-        }  
+        }
       }
     }
     else{
@@ -332,7 +332,7 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
       return;
     }
 
-    this.ResetForm(); 
+    this.ResetForm();
   }
 
   private async getSalesApplicationsList(){
@@ -342,7 +342,7 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
       dataList => {
         this.salesApplicationsList = [];
         dataList.forEach(saleApplication => {
-          let a = saleApplication.payload.toJSON();
+          let a: any = saleApplication.payload.toJSON();
           a['SaleApplicationId'] = saleApplication.key;
           this.salesApplicationsList.push(a as SaleApplication);
         });
@@ -353,10 +353,10 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
   }
 
   private async prePopulateSalesFormData(saleAppId?: any){
-  
+
     if((this.applicationFormState === "editSales") && (this.salesApplicationsList && this.salesApplicationsList.length > 0))
     {
-      this.salesApplicationsList.forEach( entries => {
+      this.salesApplicationsList.forEach( (entries: { SaleApplicationId: any; AgentPromoCode: { toString: () => any; }; NetworkOperator: { toString: () => any; }; IsCpeFirbreInstalled: { toString: () => any; }; NetworkOperatorPackage: { toString: () => any; }; UserPersonalDetails: { FirstName: { toString: () => any; }; IdNumber: { toString: () => any; }; Email: { toString: () => any; }; MobileNumber: { toString: () => any; }; AddressDetails: any; SpecialComments: { toString: () => any; }; }; AddressDetails: { AddressLine1: { toString: () => any; }; AddressLine2: { toString: () => any; }; City: { toString: () => any; }; Province: { toString: () => any; }; PostalCode: { toString: () => any; }; Suburb: { toString: () => any; }; AddressType: { toString: () => any; }; }; ApplicationFeedback: { toString: () => any; }; DeliveryInstallOption: { toString: () => any; }; BillingBankDetails: { AccountName: { toString: () => any; }; BankName: { toString: () => any; }; BranchName: { toString: () => any; }; BranchCode: { toString: () => any; }; AccountNumber: { toString: () => any; }; AccountType: { toString: () => any; }; }; DebitOrderMandateAccepted: any; TermsAndConditionsAccepted: any; MarketingConsent: any; }) => {
 
          if (entries.SaleApplicationId === saleAppId?.toString() )
         {

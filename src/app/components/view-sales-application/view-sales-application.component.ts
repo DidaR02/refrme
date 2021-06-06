@@ -16,23 +16,24 @@ import { EditSalesApplicationComponent } from '../edit-sales-application/edit-sa
 export class ViewSalesApplicationComponent implements OnInit {
 
   ngOnInit(): void {
-    
+
   }
   salesApplications: Observable<SaleApplication[]>;
   total: Observable<number>;
 
-  public isHidden: Boolean = true;
-  xPosTabMenu: Number;
-  yPosTabMenu: Number;
+  public isHidden: boolean = true;
+  xPosTabMenu!: number;
+  yPosTabMenu!: number;
 
-  @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
+  @ViewChildren(SortableHeaderDirective)
+  headers!: QueryList<SortableHeaderDirective>;
 
   constructor(public service: SalesApplicationService, public matDialog: MatDialog) {
     this.salesApplications = service.salesApplications$;
     this.total = service.total$;
   }
 
-  onSort({column, direction}: SortEvent) {
+  onSort({column, direction}: any) {
     // resetting other headers
     this.headers.forEach(header => {
       if (header.sortable !== column) {
@@ -44,7 +45,7 @@ export class ViewSalesApplicationComponent implements OnInit {
     this.service.sortDirection = direction;
   }
 
-  rightClick(event) {
+  rightClick(event: any) {
     event.stopPropagation();
     this.xPosTabMenu = event.clientX;
     this.yPosTabMenu = event.clientY;
@@ -68,7 +69,7 @@ export class ViewSalesApplicationComponent implements OnInit {
       actionButtonText: "Close",
       saleAppId: saleApplicationId
     }
-    
+
     const modalDialog = this.matDialog.open(EditSalesApplicationComponent, dialogConfig);
   }
 }

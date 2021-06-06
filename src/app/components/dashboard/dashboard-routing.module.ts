@@ -13,6 +13,10 @@ const routes: Routes = [
     {
       path: 'viewsales',
       loadChildren: ()=> import('../view-sales-application/view-sales-application.module').then(viewSales => viewSales.ViewSalesApplicationModule)
+    },
+    {
+      path: 'manageAccounts',
+      loadChildren: ()=> import('../user-profile/user-profile.module').then(userProfile => userProfile.UserProfileModule)
     }],
     canActivateChild: [AuthGuard]}
 ]

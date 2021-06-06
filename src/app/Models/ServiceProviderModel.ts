@@ -1,12 +1,12 @@
 import {NetworkOperator} from './NetworkOperatorModel'
 
 export class ServiceProvider{
-    ServiceProviderId: string;
-    ServiceProviderName: string;
-    IsActive: boolean;
+    ServiceProviderId: string = '';
+    ServiceProviderName: string = '';
+    IsActive: boolean = false;
 }
 
 export class UserServiceProvider{
-    ServiceProvider: ServiceProvider;
-    NetworkOperator: NetworkOperator;
+    ServiceProvider: ServiceProvider = new ServiceProvider;
+    NetworkOperator: NetworkOperator = new NetworkOperator;
 }
