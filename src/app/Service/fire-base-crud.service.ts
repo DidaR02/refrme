@@ -15,45 +15,42 @@ export class FireBaseCrudService {
 
   constructor(private fireStore: AngularFirestore, private fireStorage: AngularFireStorage, private fireDb: AngularFireDatabase) { }
 
-  public NetworkOperatorList: AngularFireList<any>;
-  public ServiceProviderList: AngularFireList<any>;
-  public UserPersonalDetailsList: AngularFireList<any>;
-  public SalesApplicationList: AngularFireList<any>;
-  public NetworkOperatorProductList: AngularFireList<any>;
+  public NetworkOperatorList!: AngularFireList<any>;
+  public ServiceProviderList!: AngularFireList<any>;
+  public UserPersonalDetailsList!: AngularFireList<any>;
+  public SalesApplicationList!: AngularFireList<any>;
+  public NetworkOperatorProductList!: AngularFireList<any>;
 
   private filePath: string = "RefrMe/storage/VerificationDocuments/";
-  private task: AngularFireUploadTask;
-  private percentage: Observable<number>;
-  public snapshot: Observable<any>;
-  public downloadURL: Observable<string>;
+  private task!: AngularFireUploadTask;
+  public snapshot!: Observable<any>;
+  public downloadURL!: Observable<string>;
   public metaData: any;
-  
+
   saveFile(file: File, path?: string, documentInfo?: any, applicationId?: string){
     if(file != null || file != undefined){
-      
+
       const storagepath = path ? this.filePath + path +"/"+ file.name : this.filePath + file.name;
-      
+
       const ref = this.fireStorage.ref(storagepath);
 
       this.task = this.fireStorage.upload(storagepath, file);//ref.put(file);
-
-      this.percentage = this.task.percentageChanges();
 
       var newCustomMetaData: any = null;
 
       this.task.snapshotChanges().pipe(
         finalize(
-          
+
           async () =>  {
-          
+
           this.downloadURL = await this.fireStorage.ref(storagepath).getDownloadURL().toPromise();
 
           this.metaData = await this.fireStorage.ref(storagepath).getMetadata().toPromise();
-          
+
           var findParentFromPath = this.metaData.fullPath.split('/');
           var getDocumentName = findParentFromPath[findParentFromPath.length -2];
-          
-        
+
+
           var metadata = {
             customMetadata: {
               'filePath': this.filePath,
@@ -62,7 +59,7 @@ export class FireBaseCrudService {
               'applicationId': applicationId? applicationId: ""
             }
           }
-          
+
           await this.fireStorage.ref(storagepath).updateMetadata(metadata).toPromise().then(
              function(returnMetaData){
                newCustomMetaData = returnMetaData;
@@ -92,10 +89,10 @@ export class FireBaseCrudService {
     }
   }
 
-  saveUserDetails(userDetails: UserPersonalDetails, userId?: string){
+  saveUserDetails(userDetails: UserPersonalDetails, userId: string){
     if(userDetails)
     {
-      var userId = userId ? userId : this.fireDb.database.ref().child('ApplicantDetails').push().key;
+      userId = userId ?? this.fireDb.database.ref().child('ApplicantDetails').push().key;
       this.fireDb.database.ref('ApplicantDetails/' + userId).set(userDetails, function(error) {
         if (error) {
           alert("Data saved failed! \n" + error);
@@ -109,10 +106,10 @@ export class FireBaseCrudService {
     }
   }
 
-  saveSaleApplication(saleApplication: SaleApplication, saleApplicationId?: string){
+  saveSaleApplication(saleApplication: SaleApplication, saleApplicationId: string){
     if(saleApplication)
     {
-      saleApplicationId =  saleApplicationId ? saleApplicationId : this.fireDb.database.ref().child('SaleApplication').push().key;
+      saleApplicationId =  saleApplicationId ?? this.fireDb.database.ref().child('SaleApplication').push().key;
       this.fireDb.database.ref('SaleApplication/' + saleApplicationId).set(saleApplication, function(error) {
         if (error) {
           alert("Save SaleApplication failed! \n" + error);

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { CommonModule, DecimalPipe } from '@angular/common'; 
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -18,7 +18,6 @@ import { VerifyEmailComponent } from './components/verify-email/verify-email.com
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ContentPanelComponent } from './components/content-panel/content-panel.component';
 import { FooterPanelComponent } from './components/footer-panel/footer-panel.component';
-import { RightClickMenuComponent } from './components/right-click-menu/right-click-menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditSalesApplicationComponent } from './components/edit-sales-application/edit-sales-application.component';
 import { MatButtonModule } from '@angular/material/button';

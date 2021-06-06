@@ -9,7 +9,11 @@
   "projects": {
     "RefrMe": {
       "projectType": "application",
-      "schematics": {},
+       "schematics": {
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -23,16 +27,21 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "inlineStyleLanguage": "scss",
+            "inlineStyleLanguage": "css",
             "assets": [
               "src/favicon.ico",
               "src/assets"
+
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/assets/bootstrap-5.0.1-dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": [
+               "src/assets/bootstrap-5.0.1-dist/js/bootstrap.min.js"
+            ],
             "allowedCommonJsDependencies": [
               "lodash",
               "lodash/dropRight",
@@ -42,7 +51,8 @@
               "@firebase/component",
               "firebase/app",
               "@firebase/auth",
-              "firebase"
+              "firebase",
+              "@firebase/app-check"
             ]
           },
           "configurations": {
@@ -74,12 +84,6 @@
               ]
             },
             "development": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.prod.ts",
-                  "with": "src/environments/environment.ts"
-                }
-              ],
               "optimization": true,
               "sourceMap": true,
               "namedChunks": false,
@@ -136,9 +140,13 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/assets/bootstrap-5.0.1-dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/bootstrap-5.0.1-dist/js/bootstrap.min.js"
+            ]
           }
         },
         "lint": {

@@ -1,3 +1,3 @@
 export class DeliveryInstallOption{
-    DeliveryInstallOption: string;
+    DeliveryInstallOption!: string;
 }

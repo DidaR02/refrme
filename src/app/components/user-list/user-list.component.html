@@ -1,0 +1,102 @@
+<div class="listUsers">
+    <ul class="users">
+        <li *ngFor="let user of userList" [class.selected]="user === selectedUser" (click)="onSelect(user,userAccess)">
+            <span class="badge">{{user.firstName}}</span>{{user.lastName}}
+        </li>
+    </ul>
+</div>
+
+<div *ngIf="selectedUser" class="selectedUser">
+    <form [formGroup]="manageUserGroups" id="editUser-form" action="#">
+        <h2>{{selectedUser.firstName | uppercase}} {{selectedUser.lastName | uppercase}} Details</h2>
+        <div><span>id: </span>{{selectedUser.uid}}</div>
+        <div class="form-group">
+            <label for="first-name">First Name: </label>
+            <input type="text" id="first-name" formControlName="firstName" placeholder="firstName">
+        </div>
+        <div class="form-group">
+            <label for="user-name">Last Name: </label>
+            <input type="text" id="user-name" formControlName="lastName" placeholder="lastName">
+        </div>
+
+        <div class="form-group">
+            <label>Is Admin *</label>
+            <br>
+            <label class="radio-inline"><input type="radio" formControlName="isAdmin" name="isAdmin" value="yes">Yes</label>
+            <label class="radio-inline"><input type="radio" formControlName="isAdmin" name="isAdmin"value="no">No</label>
+        </div>
+
+        <div class="form-group">
+            <label>Can Share Feed *</label>
+            <br>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canShareFeed" name="canShareFeed" class="access-buttons" value="yes">Yes</label>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canShareFeed" name="canShareFeed" class="access-buttons" value="no">No</label>
+        </div>
+
+        <div class="form-group">
+            <label>Can Connect Peers *</label>
+            <br>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canConnectPeers" name="canConnectPeers" class="access-buttons" value="yes">Yes</label>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canLocanConnectPeersgin" name="canConnectPeers" class="access-buttons" value="no">No</label>
+        </div>
+
+        <div class="form-group">
+            <label>Can Chat and collaborate *</label>
+            <br>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canChat" name="canChat" class="access-buttons" value="yes">Yes</label>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canChat" name="canChat" class="access-buttons" value="no">No</label>
+        </div>
+
+        <div class="form-group">
+            <label>Can Submit Applications *</label>
+            <br>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canSubmitApplications" name="canSubmitApplications" class="access-buttons" value="yes">Yes</label>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canSubmitApplications" name="canSubmitApplications" class="access-buttons" value="no">No</label>
+        </div>
+
+        <div class="form-group">
+            <label>Can Submit or Refer Other Users *</label>
+            <br>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canReferUsers" name="canReferUsers" class="access-buttons" value="yes">Yes</label>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canReferUsers" name="canReferUsers" class="access-buttons" value="no">No</label>
+        </div>
+
+        <div class="form-group">
+            <label>Tally On Sales *</label>
+            <br>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="salesTally" name="salesTally" class="access-buttons" value="yes">Yes</label>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="salesTally" name="salesTally" class="access-buttons" value="no">No</label>
+        </div>
+
+        <div class="form-group">
+            <label>Can View User Details And POPI Compliant *</label>
+            <br>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canViewUserDetailsPOPI" name="canViewUserDetailsPOPI" class="access-buttons" value="yes">Yes</label>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canViewUserDetailsPOPI" name="canViewUserDetailsPOPI" class="access-buttons" value="no">No</label>
+        </div>
+
+        <div class="form-group">
+            <label>Collections Target *</label>
+            <br>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="collectionsTarget" name="collectionsTarget" class="access-buttons" value="yes">Yes</label>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="collectionsTarget" name="collectionsTarget" class="access-buttons" value="no">No</label>
+        </div>
+
+        <div class="form-group">
+            <label>Brand Affiliate Choice *</label>
+            <br>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="brandAffiliateChoice" name="brandAffiliateChoice" class="access-buttons" value="yes">Yes</label>
+            <label class="radio-inline"><input type="radio" class="form-control" formControlName="brandAffiliateChoice" name="brandAffiliateChoice" class="access-buttons" value="no">No</label>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-primary" (click)="submitUserDetails()">Save</button>
+
+        <div *ngIf="saveComplete">
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" (click)="resetMsg()">&times;</a>
+                <strong>Saved!</strong> User account information has been saved.
+            </div>
+        </div>
+
+    </form>
+</div>

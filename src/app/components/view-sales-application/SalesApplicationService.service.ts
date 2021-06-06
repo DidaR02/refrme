@@ -31,7 +31,7 @@ function sort(salesApplications: SaleApplication[], column: SortColumn, directio
   if (direction === '' || column === '') {
     return salesApplications;
   } else {
-    return [...salesApplications].sort((a, b) => {
+    return [...salesApplications].sort((a: any, b: any) => {
       const res = compare(a.UserPersonalDetails[column], b.UserPersonalDetails[column]);
       return direction === 'asc' ? res : -res;
     });
@@ -51,7 +51,7 @@ export class SalesApplicationService {
   private _salesApplications$ = new BehaviorSubject<SaleApplication[]>([]);
   private _total$ = new BehaviorSubject<number>(0);
 
-  SaleApplication: SaleApplication[];
+  SaleApplication: SaleApplication[] = [];
 
   private _state: State = {
     page: 1,
@@ -88,7 +88,7 @@ export class SalesApplicationService {
 
     // 1. sort
     let salesApplications = sort(this.SaleApplication, sortColumn, sortDirection);
-    let total: number;
+    let total: number = 0;
     // 2. filter
     if(salesApplications){
       salesApplications = salesApplications.filter(saleApplication => matches(saleApplication, searchTerm));
@@ -98,7 +98,7 @@ export class SalesApplicationService {
     salesApplications = salesApplications.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
     }
 
-    
+
     return of({salesApplications, total});
   }
 
@@ -109,7 +109,7 @@ export class SalesApplicationService {
       dataList => {
         this.SaleApplication = [];
         dataList.forEach(saleApplication => {
-          let a = saleApplication.payload.toJSON();
+          let a: any = saleApplication.payload.toJSON();
           a['saleApplicationId'] = saleApplication.key;
           this.SaleApplication.push(a as SaleApplication);
         });
