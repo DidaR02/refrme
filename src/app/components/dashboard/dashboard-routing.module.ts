@@ -18,7 +18,8 @@ const routes: Routes = [
       path: 'manageAccounts',
       loadChildren: ()=> import('../user-profile/user-profile.module').then(userProfile => userProfile.UserProfileModule)
     }],
-    canActivateChild: [AuthGuard]}
+    canActivateChild: [AuthGuard]
+  }
 ]
 @NgModule({
   declarations: [],
