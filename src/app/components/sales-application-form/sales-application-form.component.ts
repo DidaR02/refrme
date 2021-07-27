@@ -1,16 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UserPersonalDetails,AddresDetails } from '../../Models/UserModel';
-import { ServiceProvider } from '../../Models/ServiceProviderModel';
-import { FireBaseCrudService } from '../../Service/fire-base-crud.service';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'; // Reactive form services
-import { NetworkOperator, NetworkOperatorProducts, ProductMessage } from '../../Models/NetworkOperatorModel';
-// import { IfStmt } from '@angular/compiler';
-import { SaleApplication } from '../../Models/SalesApplicationModel';
+import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NetworkOperator, NetworkOperatorProducts, ProductMessage } from 'src/app/models/salesApplicationModels/NetworkOperatorModel';
+import { SaleApplication } from 'src/app/models/salesApplicationModels/SalesApplicationModel';
+import { ServiceProvider } from 'src/app/models/salesApplicationModels/ServiceProviderModel';
+import { UserPersonalDetails, AddresDetails } from 'src/app/models/salesApplicationModels/UserModel';
+import { SignedInUser } from 'src/app/models/userDetails/ISignedInUser';
+import { User } from 'src/app/models/userDetails/IUser';
+import { UserAccess } from 'src/app/models/userDetails/IUserAccess';
+import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
+import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
+import { UserManagerService } from 'src/app/service/authentication/userManager.service';
 
 @Component({
   selector: 'app-sales-application-form',
   templateUrl: './sales-application-form.component.html',
-  styleUrls: ['./sales-application-form.component.css']
+  styleUrls: ['./sales-application-form.component.scss']
 })
 export class SalesApplicationFormComponent implements OnInit {
   title = 'RefrMe';
@@ -41,14 +45,143 @@ export class SalesApplicationFormComponent implements OnInit {
   @Input() saleApplicationId?: any;
   @Input() userId : string = '';
   disableDetailsEdit: boolean = true;
+  user: User;
+  userAccess: UserAccess;
 
-  constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder){}
+  signedInUser: SignedInUser
 
-  ngOnInit(){
+  displaySalesApplications = true;
+  submitOwnApplications = false;
+
+  constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder,
+    public userManagerService: UserManagerService,public authService: AuthenticationService){}
+
+  ngOnInit() {
+    this.getUserInfo();
+    this.displaySalesAppType();
     this.getNetworkOperator();
     this.getServiceProviders();
     this.setHeader();
     this.getSalesApplications();
+  }
+
+  async getUserInfo()
+  {
+    this.userManagerService.createSignInUser();
+
+    if(this.authService?.isLoggedIn)
+    {
+      if(!this.userAccess)
+      {
+        //this.authService.getLocalUserData();
+        this.userManagerService.createSignInUser();
+      }
+
+      if(this.authService?.userAccess)
+      {
+        this.userAccess = this.authService?.userAccess;
+      }
+
+      if(this.userAccess)
+      {
+        //if user cant view dashboard, redirect user to no access page.
+        if(this.userAccess?.disableView)
+        {
+          let disabledPages: string[] = this.userAccess?.disableView;
+          for( var entries in disabledPages) {
+            if (entries == "salesApplications")
+            {
+              this.displaySalesApplications = false
+              return;
+            }
+          };
+        }
+      }
+
+      if(this.userManagerService.user){
+        this.user = {
+          uid: this.userManagerService.user?.uid,
+          displayName: this.userManagerService.user?.displayName,
+          email: this.userManagerService.user?.email,
+          emailVerified: this.userManagerService.user?.emailVerified,
+          photoURL: this.userManagerService.user?.photoURL,
+          firstName: this.userManagerService.user?.firstName,
+          lastName: this.userManagerService.user?.lastName,
+          promocode: this.userManagerService.user?.promocode
+        };
+
+        this.signedInUser = {
+          Uid: this.userManagerService.user?.uid,
+          User: this.user,
+          UserAccess: this.userAccess
+        };
+
+        localStorage.setItem('signedInUser', JSON.stringify(this.signedInUser));
+        }
+        else
+        {
+          if(!this.signedInUser || !this.signedInUser.Uid || !this.signedInUser.User || !this.signedInUser.User.uid || !this.signedInUser.UserAccess)
+          {
+            this.userManagerService.createSignInUser();
+          }
+        }
+    }
+  }
+
+  async displaySalesAppType()
+  {
+    this.userManagerService.createSignInUser();
+
+    if(this.authService?.isLoggedIn)
+    {
+      if(!this.userAccess)
+      {
+        //this.authService.getLocalUserData();
+        this.userManagerService.createSignInUser();
+      }
+
+      if(this.authService?.userAccess)
+      {
+        this.userAccess = this.authService?.userAccess;
+      }
+
+      if(this.userAccess)
+      {
+        //if user cant view dashboard, redirect user to no access page.
+        if(this.userAccess?.canSubmitAllApplications)
+        {
+          this.submitOwnApplications = true;
+        }
+      }
+
+      if(this.userManagerService.user){
+        this.user = {
+          uid: this.userManagerService.user?.uid,
+          displayName: this.userManagerService.user?.displayName,
+          email: this.userManagerService.user?.email,
+          emailVerified: this.userManagerService.user?.emailVerified,
+          photoURL: this.userManagerService.user?.photoURL,
+          firstName: this.userManagerService.user?.firstName,
+          lastName: this.userManagerService.user?.lastName,
+          promocode: this.userManagerService.user?.promocode
+        };
+
+        this.signedInUser = {
+          Uid: this.userManagerService.user?.uid,
+          User: this.user,
+          UserAccess: this.userAccess
+        };
+
+        localStorage.setItem('signedInUser', JSON.stringify(this.signedInUser));
+        }
+        else
+        {
+          if(!this.signedInUser || !this.signedInUser.Uid || !this.signedInUser.User || !this.signedInUser.User.uid || !this.signedInUser.UserAccess)
+          {
+            this.userManagerService.createSignInUser();
+          }
+        }
+    }
   }
 
   setHeader(){
@@ -195,6 +328,7 @@ export class SalesApplicationFormComponent implements OnInit {
       }
     }
   }
+
   public addressDetails= new FormGroup({
     AddressLine1: new FormControl('',Validators.required),
     AddressLine2: new FormControl(),
@@ -310,6 +444,14 @@ export class SalesApplicationFormComponent implements OnInit {
 
     var saleApplication: SaleApplication = formDetails;
 
+
+    let promoCode = formDetails?.AgentPromoCode;
+    if (this.submitOwnApplications && (promoCode != this.user.promocode))
+    {
+      window.alert("Submitting other applications is not allowed.");
+      return;
+    }
+
     if(userPersonalDetails || saleApplication)
     {
        //if(this.applicationFormState === "newSales") {
@@ -335,8 +477,8 @@ export class SalesApplicationFormComponent implements OnInit {
 
   private async getSalesApplicationsList(){
 
-    let salesList = await this.fsCrud.getSalesApplicationList();
-      await salesList.snapshotChanges().subscribe(
+    let salesList = this.fsCrud.getSalesApplicationList();
+      salesList.snapshotChanges().subscribe(
       dataList => {
         this.salesApplicationsList = [];
         dataList.forEach(saleApplication => {

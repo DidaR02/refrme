@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from 'src/app/Service/guard/auth.guard';
+import { AuthGuard } from 'src/app/service/guard/auth.guard';
 import { DashboardComponent } from './dashboard.component';
 import { SalesApplicationFormComponent } from '../sales-application-form/sales-application-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Reactive form services
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent,
-    children: [{
+  {
+    path: '', component: DashboardComponent,
+    children: [
+      {
       path: 'newsales',
       component: SalesApplicationFormComponent
     },
@@ -14,9 +17,9 @@ const routes: Routes = [
       path: 'viewsales',
       loadChildren: ()=> import('../view-sales-application/view-sales-application.module').then(viewSales => viewSales.ViewSalesApplicationModule)
     },
-    {
-      path: 'manageAccounts',
-      loadChildren: ()=> import('../user-profile/user-profile.module').then(userProfile => userProfile.UserProfileModule)
+   {
+      path: 'userProfile',
+      loadChildren: ()=> import('../user-profile/user-profile.module').then(viewSales => viewSales.UserProfileModule)
     }],
     canActivateChild: [AuthGuard]
   }
@@ -24,7 +27,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [],
   imports: [
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ],
   exports: [RouterModule]
 })

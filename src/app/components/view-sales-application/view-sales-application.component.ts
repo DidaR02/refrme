@@ -1,75 +1,63 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList,ViewChild, ViewChildren, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs';
-
-import { SalesApplicationService } from './SalesApplicationService.service';
-import { SortableHeaderDirective, SortEvent } from './sortable.directive';
-
-import { SaleApplication } from '../../Models/SalesApplicationModel';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { EditSalesApplicationComponent } from '../edit-sales-application/edit-sales-application.component';
+import { SaleApplication } from '../../models/salesApplicationModels/SalesApplicationModel';
+
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
 
 @Component({
   selector: 'app-view-sales-application',
   templateUrl: './view-sales-application.component.html',
-  styleUrls: ['./view-sales-application.component.css']
+  styleUrls: ['./view-sales-application.component.scss']
 })
-export class ViewSalesApplicationComponent implements OnInit {
+export class ViewSalesApplicationComponent implements AfterViewInit {
 
-  ngOnInit(): void {
+  displayedColumns: string[] = ['name', 'surname', 'email'];
+  dataSource!: MatTableDataSource<SaleApplication>;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  salesApplications: SaleApplication[] = [];
+
+  constructor(public fsCrud: FireBaseCrudService) {
 
   }
-  salesApplications: Observable<SaleApplication[]>;
-  total: Observable<number>;
 
-  public isHidden: boolean = true;
-  xPosTabMenu!: number;
-  yPosTabMenu!: number;
-
-  @ViewChildren(SortableHeaderDirective)
-  headers!: QueryList<SortableHeaderDirective>;
-
-  constructor(public service: SalesApplicationService, public matDialog: MatDialog) {
-    this.salesApplications = service.salesApplications$;
-    this.total = service.total$;
+  ngAfterViewInit() {
+    this.getSalesApplicationList();
   }
 
-  onSort({column, direction}: any) {
-    // resetting other headers
-    this.headers.forEach(header => {
-      if (header.sortable !== column) {
-        header.direction = '';
-      }
-    });
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
-    this.service.sortColumn = column;
-    this.service.sortDirection = direction;
-  }
-
-  rightClick(event: any) {
-    event.stopPropagation();
-    this.xPosTabMenu = event.clientX;
-    this.yPosTabMenu = event.clientY;
-    this.isHidden = false;
-    return false;
-  }
-
-  closeRightClickMenu() {
-    this.isHidden = true;
-  }
-
-  openModal(saleApplicationId: any) {
-    const dialogConfig = new MatDialogConfig();
-    // The user can't close the dialog by clicking outside its body
-    dialogConfig.disableClose = true;
-    dialogConfig.id = "edit-sales-component";
-    dialogConfig.data = {
-      name: "Close",
-      title: "Are you sure you want to close?",
-      description: "Pretend this is a convincing argument on why you shouldn't close :)",
-      actionButtonText: "Close",
-      saleAppId: saleApplicationId
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
+  }
 
-    const modalDialog = this.matDialog.open(EditSalesApplicationComponent, dialogConfig);
+  async getSalesApplicationList() {
+    let salesList = this.fsCrud.getSalesApplicationList();
+
+    salesList.snapshotChanges().subscribe(
+      dataList => {
+        this.salesApplications = [];
+        dataList.forEach(saleApplication => {
+          let a: any = saleApplication.payload.toJSON();
+          a['saleApplicationId'] = saleApplication.key;
+          this.salesApplications.push(a as SaleApplication);
+
+          this.dataSource = new MatTableDataSource(this.salesApplications);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        });
+      },
+      (error) => {
+        throw error
+      }
+    );
   }
 }

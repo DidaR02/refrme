@@ -1,102 +1,212 @@
 <div class="listUsers">
-    <ul class="users">
-        <li *ngFor="let user of userList" [class.selected]="user === selectedUser" (click)="onSelect(user,userAccess)">
-            <span class="badge">{{user.firstName}}</span>{{user.lastName}}
-        </li>
-    </ul>
+  <ul class="users">
+    <li *ngFor="let user of userList" [class.selected]="user === selectedUser" (click)="onSelect(user,userAccess)">
+      <span class="badge">{{user.firstName}}</span>{{user.lastName}}
+    </li>
+  </ul>
 </div>
 
 <div *ngIf="selectedUser" class="selectedUser">
-    <form [formGroup]="manageUserGroups" id="editUser-form" action="#">
-        <h2>{{selectedUser.firstName | uppercase}} {{selectedUser.lastName | uppercase}} Details</h2>
-        <div><span>id: </span>{{selectedUser.uid}}</div>
-        <div class="form-group">
-            <label for="first-name">First Name: </label>
-            <input type="text" id="first-name" formControlName="firstName" placeholder="firstName">
-        </div>
-        <div class="form-group">
-            <label for="user-name">Last Name: </label>
-            <input type="text" id="user-name" formControlName="lastName" placeholder="lastName">
-        </div>
+  <form [formGroup]="manageUserGroups" id="editUser-form" action="#">
+    <h2>{{selectedUser.firstName | uppercase}} {{selectedUser.lastName | uppercase}} Details</h2>
+    <div><span>id: </span>{{selectedUser.uid}}</div>
+    <div class="form-group">
+      <label for="first-name">First Name: </label>
+      <input type="text" id="first-name" formControlName="firstName" placeholder="firstName">
+    </div>
+    <div class="form-group">
+      <label for="user-name">Last Name: </label>
+      <input type="text" id="user-name" formControlName="lastName" placeholder="lastName">
+    </div>
 
-        <div class="form-group">
-            <label>Is Admin *</label>
-            <br>
-            <label class="radio-inline"><input type="radio" formControlName="isAdmin" name="isAdmin" value="yes">Yes</label>
-            <label class="radio-inline"><input type="radio" formControlName="isAdmin" name="isAdmin"value="no">No</label>
-        </div>
+    <div class="form-group">
+      <label>Can Share Feed ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canShareFeed"
+          name="canShareFeed" class="access-buttons" value="yes">Yes</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canShareFeed"
+          name="canShareFeed" class="access-buttons" value="no">No</label>
+    </div>
 
-        <div class="form-group">
-            <label>Can Share Feed *</label>
-            <br>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canShareFeed" name="canShareFeed" class="access-buttons" value="yes">Yes</label>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canShareFeed" name="canShareFeed" class="access-buttons" value="no">No</label>
-        </div>
+    <div class="form-group">
+      <label>Can Connect Peers ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canConnectPeers"
+          name="canConnectPeers" class="access-buttons" value="yes">Yes</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canConnectPeers"
+          name="canConnectPeers" class="access-buttons" value="no">No</label>
+    </div>
 
-        <div class="form-group">
-            <label>Can Connect Peers *</label>
-            <br>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canConnectPeers" name="canConnectPeers" class="access-buttons" value="yes">Yes</label>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canLocanConnectPeersgin" name="canConnectPeers" class="access-buttons" value="no">No</label>
-        </div>
+    <div class="form-group">
+      <label>Can Chat ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canChat" name="canChat"
+          class="access-buttons" value="yes">Yes</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canChat" name="canChat"
+          class="access-buttons" value="no">No</label>
+    </div>
 
-        <div class="form-group">
-            <label>Can Chat and collaborate *</label>
-            <br>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canChat" name="canChat" class="access-buttons" value="yes">Yes</label>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canChat" name="canChat" class="access-buttons" value="no">No</label>
-        </div>
+    <div class="form-group">
+      <label>Display Sales Applications ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="displaySalesApplications"
+          name="displaySalesApplications" class="access-buttons" value="yes">Yes</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="displaySalesApplications"
+          name="displaySalesApplications" class="access-buttons" value="no">No</label>
+    </div>
 
-        <div class="form-group">
-            <label>Can Submit Applications *</label>
-            <br>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canSubmitApplications" name="canSubmitApplications" class="access-buttons" value="yes">Yes</label>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canSubmitApplications" name="canSubmitApplications" class="access-buttons" value="no">No</label>
-        </div>
+    <div class="form-group">
+      <label>Can Submit All Applications ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canSubmitAllApplications"
+          name="canSubmitAllApplications" class="access-buttons" value="yes">Submit other applications</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canSubmitAllApplications"
+          name="canSubmitAllApplications" class="access-buttons" value="no">Submit own Applications</label>
+    </div>
 
-        <div class="form-group">
-            <label>Can Submit or Refer Other Users *</label>
-            <br>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canReferUsers" name="canReferUsers" class="access-buttons" value="yes">Yes</label>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canReferUsers" name="canReferUsers" class="access-buttons" value="no">No</label>
-        </div>
+    <div class="form-group">
+      <label>Can Refer Users ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canReferUsers"
+          name="canReferUsers" class="access-buttons" value="yes">Yes</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canReferUsers"
+          name="canReferUsers" class="access-buttons" value="no">No</label>
+    </div>
 
-        <div class="form-group">
-            <label>Tally On Sales *</label>
-            <br>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="salesTally" name="salesTally" class="access-buttons" value="yes">Yes</label>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="salesTally" name="salesTally" class="access-buttons" value="no">No</label>
-        </div>
+    <div class="form-group">
+      <label>Can View User Details POPI ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canViewUserDetailsPOPI"
+          name="canViewUserDetailsPOPI" class="access-buttons" value="yes">Yes</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canViewUserDetailsPOPI"
+          name="canViewUserDetailsPOPI" class="access-buttons" value="no">No</label>
+    </div>
 
-        <div class="form-group">
-            <label>Can View User Details And POPI Compliant *</label>
-            <br>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canViewUserDetailsPOPI" name="canViewUserDetailsPOPI" class="access-buttons" value="yes">Yes</label>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="canViewUserDetailsPOPI" name="canViewUserDetailsPOPI" class="access-buttons" value="no">No</label>
-        </div>
+    <div class="form-group">
+      <label>Sales Tally ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="salesTally"
+          name="salesTally" class="access-buttons" value="salesTally1">salesTally1</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="salesTally"
+          name="salesTally" class="access-buttons" value="salesTally2">salesTally2</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="salesTally"
+          name="salesTally" class="access-buttons" value="salesTally3">salesTally3</label>
+    </div>
 
-        <div class="form-group">
-            <label>Collections Target *</label>
-            <br>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="collectionsTarget" name="collectionsTarget" class="access-buttons" value="yes">Yes</label>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="collectionsTarget" name="collectionsTarget" class="access-buttons" value="no">No</label>
-        </div>
+    <div class="form-group">
+      <label>Collections Target ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="collectionsTarget"
+          name="collectionsTarget" class="access-buttons" value="collectionsTarget1">collectionsTarget1</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="collectionsTarget"
+          name="collectionsTarget" class="access-buttons" value="collectionsTarget2">collectionsTarget2</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="collectionsTarget"
+          name="collectionsTarget" class="access-buttons" value="collectionsTarget3">collectionsTarget3</label>
+    </div>
 
-        <div class="form-group">
-            <label>Brand Affiliate Choice *</label>
-            <br>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="brandAffiliateChoice" name="brandAffiliateChoice" class="access-buttons" value="yes">Yes</label>
-            <label class="radio-inline"><input type="radio" class="form-control" formControlName="brandAffiliateChoice" name="brandAffiliateChoice" class="access-buttons" value="no">No</label>
-        </div>
+    <div class="form-group">
+      <label>Partial Access ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="partialAccess"
+          name="partialAccess" class="access-buttons" value="partialAccess1">partialAccess1</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="partialAccess"
+          name="partialAccess" class="access-buttons" value="partialAccess2">partialAccess2</label>
+    </div>
 
-        <button type="submit" class="btn btn-success btn-primary" (click)="submitUserDetails()">Save</button>
 
-        <div *ngIf="saveComplete">
-            <div class="alert alert-success alert-dismissible">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close" (click)="resetMsg()">&times;</a>
-                <strong>Saved!</strong> User account information has been saved.
-            </div>
-        </div>
+    <div class="form-group">
+      <label>Can Download ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" formControlName="canDownload" name="canDownload"
+          value="yes">Yes</label>
+      <label class="radio-inline"><input type="radio" formControlName="canDownload" name="canDownload"
+          value="no">No</label>
+    </div>
 
-    </form>
+    <div class="form-group">
+      <label>Can Share ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canShare" name="canShare"
+          class="access-buttons" value="yes">Yes</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canShare" name="canShare"
+          class="access-buttons" value="no">No</label>
+    </div>
+
+    <div class="form-group">
+      <label>Can Login ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canLogin" name="canLogin"
+          class="access-buttons" value="yes">Yes</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canLogin" name="canLogin"
+          class="access-buttons" value="no">No</label>
+    </div>
+
+    <div class="form-group">
+      <label>Can Delete ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canDelete" name="canDelete"
+          class="access-buttons" value="yes">Yes</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canDelete" name="canDelete"
+          class="access-buttons" value="no">No</label>
+    </div>
+
+    <div class="form-group">
+      <label>Can Add Files ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canAddFile"
+          name="canAddFile" class="access-buttons" value="yes">Yes</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canAddFile"
+          name="canAddFile" class="access-buttons" value="no">No</label>
+    </div>
+
+    <div class="form-group">
+      <label>Can Create Folder ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canCreateFolder"
+          name="canCreateFolder" class="access-buttons" value="yes">Yes</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="canCreateFolder"
+          name="canCreateFolder" class="access-buttons" value="no">No</label>
+    </div>
+
+    <div class="form-group">
+      <label>Is Admin ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="isAdmin" name="isAdmin"
+          class="access-buttons" value="yes">Yes</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="isAdmin" name="isAdmin"
+          class="access-buttons" value="no">No</label>
+    </div>
+
+    <div class="form-group">
+      <label>Admin Access Level ? *</label>
+      <br>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="adminAccessLevel"
+          name="adminAccessLevel" class="access-buttons" value="fullAccess">Full Access</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="adminAccessLevel"
+          name="adminAccessLevel" class="access-buttons" value="partialAccess">Partial Custom Access</label>
+      <label class="radio-inline"><input type="radio" class="form-control" formControlName="adminAccessLevel"
+          name="adminAccessLevel" class="access-buttons" value="noAccess">No Access</label>
+    </div>
+
+    <div class="form-group">
+      <label>Disable View</label>
+      <br>
+      <div *ngFor="let data of Data; let i=index">
+        <label>
+          <input type="checkbox" [value]="data.value" (change)="onCheckboxChange($event)" />
+          {{data.name}}
+        </label>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-primary" (click)="submitUserDetails()">Save</button>
+
+    <div *ngIf="saveComplete">
+      <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close" (click)="resetMsg()">&times;</a>
+        <strong>Saved!</strong> User account information has been saved.
+      </div>
+    </div>
+
+  </form>
 </div>

@@ -1,13 +1,16 @@
-import { Observable } from 'rxjs'
+import { Observable } from "rxjs";
 
 export class FileElement {
-    id?: string
-    isFolder!: boolean
-    name!: string
-    parent?: string
-    size?: any
-    downloadURL?: string
-    metaData?: any
-    uploadProgress?: Observable<number>
+  Id?: string;
+  FileType?: string;
+  Name!: string;
+  Size?: number;
+  DownloadURL?: string;
+  MetaData?: any;
+  ApplicationId?: string;
+  VerificationDocumentName?: string;
+  isFolder!: boolean;
+  parent?: string;
+  metaData?: any;
+  uploadProgress?: Observable<number>;
 }
-
