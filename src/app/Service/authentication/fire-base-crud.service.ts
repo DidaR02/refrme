@@ -153,25 +153,28 @@ export class FireBaseCrudService {
       return this.NetworkOperatorProductList;
   }
 
-  async getDisaplayPages()
+  getDisaplayPages()
     {
-    this.DisplayPagesList = this.fireDb.list('tb_displayPages');
+      this.DisplayPagesList = this.fireDb.list('tb_displayPages');
       this.DisplayPagesList.snapshotChanges().subscribe(
-            (displayPageList) => {
-              this.displayPages = [];
-              displayPageList.forEach(pages => {
-                let dp = pages.payload.toJSON();
-                if (dp) {
-                  let currentPage = dp as PageDisplayList;
-                  if (currentPage.IsEnabled) {
-                    this.displayPages.push(dp as PageDisplayList);
-                  }
-                }
-              });
+        (displayPageList) => {
+
+          this.displayPages = [];
+
+          displayPageList.forEach(pages => {
+            let dp = pages.payload.toJSON();
+            if (dp) {
+              let currentPage = dp as PageDisplayList;
+              if (currentPage.IsEnabled) {
+                this.displayPages.push(dp as PageDisplayList);
+              }
             }
-          );
+          });
+
           //set on local storage
           if (this.displayPages.length > 0)
-            localStorage.setItem("displayPages", JSON.stringify(this.displayPages));
+              localStorage.setItem("displayPages", JSON.stringify(this.displayPages));
+
+        });
     }
 }

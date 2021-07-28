@@ -307,7 +307,7 @@ export class AuthenticationService {
             canDownload: "false",
             canShare: "false",
             canLogin: "true",
-            disableView: [],
+            disableView: ['userProfile'],
             canDelete: "false",
             adminAccessLevel: "partialAccess",
             partialAccess: []

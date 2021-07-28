@@ -1,8 +1,10 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { PageDisplayList } from 'src/app/models/Settings/IPageDisplaySettings';
 import { User } from 'src/app/models/userDetails/IUser';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
+import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
 import { DataTypeConversionService } from 'src/app/service/shared/dataType-conversion.service';
 
 @Component({
@@ -13,16 +15,22 @@ import { DataTypeConversionService } from 'src/app/service/shared/dataType-conve
 export class LoginComponent implements OnInit {
 isUserSignInAllowed : boolean = true;
 
+  private pageName: string = "login";
 
   constructor(
     public authService: AuthenticationService,
     public formBuilder: FormBuilder,
     public router: Router,
     public ngZone: NgZone,
-    public convertDataType: DataTypeConversionService,) {
+    public convertDataType: DataTypeConversionService,
+    public fsCrud: FireBaseCrudService) {
    }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    let displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
+    if (!displayPageList || displayPageList.length < 1) {
+      this.fsCrud.getDisaplayPages();
+    }
   }
 
   public signInFormGroup = this.formBuilder.group({

@@ -2,10 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { User } from 'src/app/models/userDetails/IUser';
 import { PartialAccess, UserAccess } from 'src/app/models/userDetails/IUserAccess';
-import { DataTypeConversionService} from '../../service/shared/dataType-conversion.service'
+import { DataTypeConversionService } from '../../service/shared/dataType-conversion.service'
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { UserManagerService } from 'src/app/service/authentication/userManager.service';
 import { Event } from '@angular/router';
+import { DisableView, PageDisplayList } from 'src/app/models/Settings/IPageDisplaySettings';
+import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
+import { SignedInUser } from 'src/app/models/userDetails/ISignedInUser';
 
 @Component({
   selector: 'user-list',
@@ -23,7 +26,7 @@ export class UserListComponent implements OnInit {
   canLogin: string;
   canAddFile: string;
   canCreateFolder: string;
-  disableView: string[];
+  disableView: any[];
   canDelete: string;
   isAdmin: string;
   adminAccessLevel: string;
@@ -42,6 +45,13 @@ export class UserListComponent implements OnInit {
   brandAffiliateChoice: string[];
   partialAccess: PartialAccess[];
   form: FormGroup;
+
+  public showOverlay = false;
+  user: User;
+  viewPage: boolean = true;
+  displayPages: PageDisplayList[] = [];
+  private signedInUser: SignedInUser;
+  private pageName: string = "userList";
   Data: Array<any> = [
     { name: 'Sales Applications', value: 'salesAplications' },
     { name: 'View Sales Applications', value: 'viewSalesApplications' },
@@ -49,12 +59,16 @@ export class UserListComponent implements OnInit {
     { name: 'userProfile', value: 'userProfile' },
     { name: 'Projects', value: 'projects' }
   ];
+
   constructor(
-    public dataTypeConv: DataTypeConversionService,
+    public convertDataType: DataTypeConversionService,
     public authService: AuthenticationService,
     public userManagerService: UserManagerService,
-    private fb: FormBuilder
-  ) { }
+    private fb: FormBuilder,
+    public fsCrud: FireBaseCrudService) {
+
+    this.getUserInfo();
+  }
 
   ngOnInit(): void {
     this.saveComplete = false;
@@ -135,26 +149,26 @@ export class UserListComponent implements OnInit {
       {
         firstName: this.selectedUser?.firstName?.toString(),
         lastName: this.selectedUser?.lastName?.toString(),
-        canAddFile: this.dataTypeConv.getStringBoolean(this.canAddFile?.toString()),
-        canCreateFolder: this.dataTypeConv.getStringBoolean(this.canCreateFolder?.toString()),
-        canDownload: this.dataTypeConv.getStringBoolean(this.canDownload?.toString()),
-        canShare: this.dataTypeConv.getStringBoolean(this.canShare?.toString()),
-        canLogin: this.dataTypeConv.getStringBoolean(this.canLogin?.toString()),
-        canDelete: this.dataTypeConv.getStringBoolean(this.canDelete?.toString()),
-        isAdmin: this.dataTypeConv.getStringBoolean(this.isAdmin?.toString()),
-        adminAccessLevel: this.dataTypeConv.getAdminAccess(this.adminAccessLevel?.toString()),
-        canShareFeed: this.dataTypeConv.getStringBoolean(this.canShareFeed?.toString()),
-        canConnectPeers: this.dataTypeConv.getStringBoolean(this.canConnectPeers?.toString()),
-        canChat: this.dataTypeConv.getStringBoolean(this.canChat?.toString()),
-        canViewUserDetailsPOPI: this.dataTypeConv.getStringBoolean(this.canViewUserDetailsPOPI?.toString()),
-        canSubmitAllApplications: this.dataTypeConv.getStringBoolean(this.canSubmitAllApplications?.toString()),
-        displaySalesApplications: this.dataTypeConv.getStringBoolean(this.displaySalesApplications?.toString()),
-        canReferUsers: this.dataTypeConv.getStringBoolean(this.canReferUsers?.toString()),
+        canAddFile: this.convertDataType.getStringBoolean(this.canAddFile?.toString()),
+        canCreateFolder: this.convertDataType.getStringBoolean(this.canCreateFolder?.toString()),
+        canDownload: this.convertDataType.getStringBoolean(this.canDownload?.toString()),
+        canShare: this.convertDataType.getStringBoolean(this.canShare?.toString()),
+        canLogin: this.convertDataType.getStringBoolean(this.canLogin?.toString()),
+        canDelete: this.convertDataType.getStringBoolean(this.canDelete?.toString()),
+        isAdmin: this.convertDataType.getStringBoolean(this.isAdmin?.toString()),
+        adminAccessLevel: this.convertDataType.getAdminAccess(this.adminAccessLevel?.toString()),
+        canShareFeed: this.convertDataType.getStringBoolean(this.canShareFeed?.toString()),
+        canConnectPeers: this.convertDataType.getStringBoolean(this.canConnectPeers?.toString()),
+        canChat: this.convertDataType.getStringBoolean(this.canChat?.toString()),
+        canViewUserDetailsPOPI: this.convertDataType.getStringBoolean(this.canViewUserDetailsPOPI?.toString()),
+        canSubmitAllApplications: this.convertDataType.getStringBoolean(this.canSubmitAllApplications?.toString()),
+        displaySalesApplications: this.convertDataType.getStringBoolean(this.displaySalesApplications?.toString()),
+        canReferUsers: this.convertDataType.getStringBoolean(this.canReferUsers?.toString()),
         // please create new methods
-        salesTally: this.dataTypeConv.getAdminAccess(this.salesTally?.toString()),
-        collectionsTarget: this.dataTypeConv.getAdminAccess(this.collectionsTarget?.toString()),
-        brandAffiliateChoice: this.dataTypeConv.getAdminAccess(this.brandAffiliateChoice?.toString()),
-        partialAccess:  this.dataTypeConv.getAdminAccess(this.partialAccess?.toString())
+        salesTally: this.convertDataType.getAdminAccess(this.salesTally?.toString()),
+        collectionsTarget: this.convertDataType.getAdminAccess(this.collectionsTarget?.toString()),
+        brandAffiliateChoice: this.convertDataType.getAdminAccess(this.brandAffiliateChoice?.toString()),
+        partialAccess:  this.convertDataType.getAdminAccess(this.partialAccess?.toString())
 
       }
     );
@@ -200,5 +214,95 @@ export class UserListComponent implements OnInit {
   resetMsg()
   {
     this.saveComplete = false;
+  }
+
+  async getUserInfo()
+  {
+    let displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
+    if (!displayPageList || displayPageList.length < 1)
+    {
+      this.fsCrud.getDisaplayPages();
+    }
+    else
+    {
+      this.displayPages = displayPageList;
+    }
+
+    await this.userManagerService.createSignInUser();
+
+    if(this.authService.isLoggedIn)
+    {
+      if(!this.userAccess)
+      {
+        await this.authService.getLocalUserData();
+        await this.userManagerService.createSignInUser();
+      }
+
+      if(this.authService.userAccess)
+      {
+        this.userAccess = this.authService.userAccess;
+      }
+
+      if(this.userAccess)
+      {
+        if(!this.convertDataType.getBoolean(this.userAccess.canLogin?.toString()))
+        {
+          this.viewPage = false
+          return;
+        }
+        //if user cant view dashboard, redirect user to no access page.
+        if(this.userAccess?.disableView)
+        {
+          let dashBoardAccess: DisableView[] = this.userAccess?.disableView;
+
+          if (this.displayPages.length < 1)
+          {
+            this.fsCrud.getDisaplayPages();
+          }
+
+          if (this.displayPages.length > 1)
+          {
+            let getAllowedPage = this.displayPages.find(x => x.PageName === this.pageName)
+
+            for (var i = 0; i < dashBoardAccess.length; i++)
+            {
+              if (getAllowedPage?.PageId === dashBoardAccess[i]?.PageId)
+              {
+                this.viewPage = false;
+                break;
+              }
+            }
+          }
+        }
+      }
+
+      if(this.userManagerService.user){
+        this.user = {
+          uid: this.userManagerService.user?.uid,
+          displayName: this.userManagerService.user?.displayName,
+          email: this.userManagerService.user?.email,
+          emailVerified: this.userManagerService.user?.emailVerified,
+          photoURL: this.userManagerService.user?.photoURL,
+          firstName: this.userManagerService.user?.firstName,
+          lastName: this.userManagerService.user?.lastName,
+          promocode: this.userManagerService.user?.promocode
+        };
+
+        this.signedInUser = {
+          Uid: this.userManagerService.user?.uid,
+          User: this.user,
+          UserAccess: this.userAccess
+        };
+
+        localStorage.setItem('signedInUser', JSON.stringify(this.signedInUser));
+        }
+        else
+        {
+          if(!this.signedInUser || !this.signedInUser.Uid || !this.signedInUser.User || !this.signedInUser.User.uid || !this.signedInUser.UserAccess)
+          {
+            this.userManagerService.createSignInUser();
+          }
+        }
+    }
   }
 }

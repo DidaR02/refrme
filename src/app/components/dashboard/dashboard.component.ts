@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent } from '@angular/router';
-import { PageDisplayList } from 'src/app/models/Settings/IPageDisplaySettings';
+import { DisableView, PageDisplayList } from 'src/app/models/Settings/IPageDisplaySettings';
 import { SignedInUser } from 'src/app/models/userDetails/ISignedInUser';
 import { User } from 'src/app/models/userDetails/IUser';
 import { UserAccess } from 'src/app/models/userDetails/IUserAccess';
@@ -22,9 +22,10 @@ export class DashboardComponent implements OnInit {
   user: User;
   private userData: any;
   private userAccess: UserAccess;
-  viewDashboard: boolean = true;
-  displayPages: PageDisplayList[] = []
+  viewPage: boolean = true;
+  displayPages: PageDisplayList[] = [];
   private signedInUser: SignedInUser;
+  private pageName: string = "dashboard";
 
   constructor(private router: Router,
     public authService: AuthenticationService,
@@ -32,15 +33,6 @@ export class DashboardComponent implements OnInit {
     public userManagerService: UserManagerService,
     public fsCrud: FireBaseCrudService) {
 
-    let displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
-    if (!displayPageList || displayPageList.length < 1)
-    {
-      this.getDisaplayPages();
-    }
-    else
-    {
-      this.displayPages = displayPageList;
-    }
     this.getUserInfo();
   }
 
@@ -91,13 +83,18 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-async getDisaplayPages()
-  {
-  await this.fsCrud.getDisaplayPages();
-  }
-
   async getUserInfo()
   {
+    let displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
+    if (!displayPageList || displayPageList.length < 1)
+    {
+      this.fsCrud.getDisaplayPages();
+    }
+    else
+    {
+      this.displayPages = displayPageList;
+    }
+
     await this.userManagerService.createSignInUser();
 
     if(this.authService.isLoggedIn)
@@ -117,33 +114,32 @@ async getDisaplayPages()
       {
         if(!this.convertDataType.getBoolean(this.userAccess.canLogin?.toString()))
         {
-          this.viewDashboard = false
+          this.viewPage = false
           return;
         }
         //if user cant view dashboard, redirect user to no access page.
         if(this.userAccess?.disableView)
         {
-          let dashBoardAccess: any[] = this.userAccess?.disableView;
+          let dashBoardAccess: DisableView[] = this.userAccess?.disableView;
 
           if (this.displayPages.length < 1)
           {
-            await this.getDisaplayPages();
-          }
-          if (this.displayPages.length > 0)
-          {
-            for (var i = 0; i <= this.displayPages.length; i++)
-            {
-              console.log(this.displayPages[i]);
-            }
+            this.fsCrud.getDisaplayPages();
           }
 
-          for (var entries in dashBoardAccess) {
-            console.log(entries);
-            if (entries === "dashboard")
+          if (this.displayPages.length > 1)
+          {
+            let getAllowedPage = this.displayPages.find(x => x.PageName === this.pageName)
+
+            for (var i = 0; i < dashBoardAccess.length; i++)
             {
-              this.viewDashboard = false
+              if (getAllowedPage?.PageId === dashBoardAccess[i]?.PageId)
+              {
+                this.viewPage = false;
+                break;
+              }
             }
-          };
+          }
         }
       }
 

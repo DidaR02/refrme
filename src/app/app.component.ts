@@ -16,6 +16,7 @@ export class AppComponent implements OnInit  {
 
   displayPages: PageDisplayList[] = []
 
+  private pageName : string = "appRoot"
   constructor(private router: Router, public fsCrud: FireBaseCrudService){}
   ngOnInit() {
 

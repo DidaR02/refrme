@@ -16,7 +16,7 @@ export interface UserAccess {
     canDownload: string;
     canShare: string;
     canLogin: string;
-    disableView: string[];
+    disableView: any[];
     canDelete: string;
     adminAccessLevel: string;
     partialAccess: PartialAccess[];

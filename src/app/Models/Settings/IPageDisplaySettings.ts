@@ -5,3 +5,8 @@ export interface PageDisplayList
   Description: string;
   IsEnabled: boolean;
 }
+
+export interface DisableView
+{
+  PageId: number;
+}

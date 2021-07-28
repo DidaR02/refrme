@@ -4,6 +4,7 @@ import { NetworkOperator, NetworkOperatorProducts, ProductMessage } from 'src/ap
 import { SaleApplication } from 'src/app/models/salesApplicationModels/SalesApplicationModel';
 import { ServiceProvider } from 'src/app/models/salesApplicationModels/ServiceProviderModel';
 import { UserPersonalDetails, AddresDetails } from 'src/app/models/salesApplicationModels/UserModel';
+import { DisableView, PageDisplayList } from 'src/app/models/Settings/IPageDisplaySettings';
 import { SignedInUser } from 'src/app/models/userDetails/ISignedInUser';
 import { User } from 'src/app/models/userDetails/IUser';
 import { UserAccess } from 'src/app/models/userDetails/IUserAccess';
@@ -50,11 +51,24 @@ export class SalesApplicationFormComponent implements OnInit {
 
   signedInUser: SignedInUser
 
-  displaySalesApplications = true;
+  viewPage = true;
   submitOwnApplications = false;
 
-  constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder,
-    public userManagerService: UserManagerService,public authService: AuthenticationService){}
+  displayPages: PageDisplayList[] = [];
+  private pageName: string = 'salesApplications';
+
+  constructor(
+    public fsCrud: FireBaseCrudService,
+    public formBuilder: FormBuilder,
+    public userManagerService: UserManagerService,
+    public authService: AuthenticationService) {
+
+    let displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
+    if (!displayPageList || displayPageList.length < 1)
+    {
+      this.fsCrud.getDisaplayPages();
+    }
+  }
 
   ngOnInit() {
     this.getUserInfo();
@@ -67,6 +81,16 @@ export class SalesApplicationFormComponent implements OnInit {
 
   async getUserInfo()
   {
+    let displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
+    if (!displayPageList || displayPageList.length < 1)
+    {
+      this.fsCrud.getDisaplayPages();
+    }
+    else
+    {
+      this.displayPages = displayPageList;
+    }
+
     this.userManagerService.createSignInUser();
 
     if(this.authService?.isLoggedIn)
@@ -85,16 +109,28 @@ export class SalesApplicationFormComponent implements OnInit {
       if(this.userAccess)
       {
         //if user cant view dashboard, redirect user to no access page.
-        if(this.userAccess?.disableView)
+     if(this.userAccess?.disableView)
         {
-          let disabledPages: string[] = this.userAccess?.disableView;
-          for( var entries in disabledPages) {
-            if (entries == "salesApplications")
+          let dashBoardAccess: DisableView[] = this.userAccess?.disableView;
+
+          if (this.displayPages.length < 1)
+          {
+            this.fsCrud.getDisaplayPages();
+          }
+
+          if (this.displayPages.length > 1)
+          {
+            let getAllowedPage = this.displayPages.find(x => x.PageName === this.pageName)
+
+            for (var i = 0; i < dashBoardAccess.length; i++)
             {
-              this.displaySalesApplications = false
-              return;
+              if (getAllowedPage?.PageId === dashBoardAccess[i]?.PageId)
+              {
+                this.viewPage = false;
+                break;
+              }
             }
-          };
+          }
         }
       }
 
