@@ -12,7 +12,7 @@ import { DataTypeConversionService } from 'src/app/service/shared/dataType-conve
 @Component({
   selector: 'app-edit-sales-application',
   templateUrl: './edit-sales-application.component.html',
-  styleUrls: ['./edit-sales-application.component.css']
+  styleUrls: ['./edit-sales-application.component.scss']
 })
 export class EditSalesApplicationComponent implements OnInit {
 

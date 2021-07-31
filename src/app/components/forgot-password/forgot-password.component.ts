@@ -6,11 +6,11 @@ import { AuthenticationService } from 'src/app/service/authentication/authentica
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.css']
+  styleUrls: ['./forgot-password.component.scss']
 })
 
 export class ForgotPasswordComponent implements OnInit {
-  
+
   isEmailValid = true;
   isEmailSent = false;
 

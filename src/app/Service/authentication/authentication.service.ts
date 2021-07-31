@@ -40,20 +40,19 @@ export class AuthenticationService {
 
     // Sign up with email/password
     async SignUp(user: User, password: string) {
-      return this.afAuth.createUserWithEmailAndPassword(user.email, password)
-        .then(async(result) => {
-          /* Call the SendVerificaitonMail() function when new user sign
-          up and returns promise */
-          if (result.user)
-          {
-            await this.SetFsUserData(user, result.user);
-            await this.SetDbUserData(user, result);
-            await this.SetUserAccess(result.user.uid);
-            this.SendVerificationMail();
-          }
-        }).catch((error) => {
-          window.alert(error.message)
-        })
+      try {
+        const result = await this.afAuth.createUserWithEmailAndPassword(user.email, password);
+        /* Call the SendVerificaitonMail() function when new user sign
+        up and returns promise */
+        if (result.user) {
+          await this.SetFsUserData(user, result.user);
+          await this.SetDbUserData(user, result);
+          await this.SetUserAccess(result.user.uid);
+          this.SendVerificationMail();
+        }
+      } catch (error) {
+        window.alert(error.message);
+      }
     }
 
     // Sign out

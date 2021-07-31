@@ -7,7 +7,7 @@ import { User } from '../../models/userDetails/IUser'
 @Component({
   selector: 'app-signup-user',
   templateUrl: './signup-user.component.html',
-  styleUrls: ['./signup-user.component.css']
+  styleUrls: ['./signup-user.component.scss']
 })
 export class SignUpUserComponent implements OnInit {
 
@@ -24,6 +24,7 @@ export class SignUpUserComponent implements OnInit {
   }
 
   public signUpFormGroup= this.formBuilder.group({
+
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
@@ -32,32 +33,32 @@ export class SignUpUserComponent implements OnInit {
     confirmPassword: ['', Validators.required]
   });
 
-  submitSigUpDetails()
+  async submitSigUpDetails()
   {
     this.showOverlay = true;
 
     const signUpDetails = this.signUpFormGroup.value;
-    if(signUpDetails.ConfirmPassword != signUpDetails.Password)
+    if(signUpDetails.confirmPassword != signUpDetails.password)
     {
       this.isPasswordValid = false;
     }
     else
     {
-      if(signUpDetails.Email && signUpDetails.Password && signUpDetails.LastName && signUpDetails.LastName)
+      if(signUpDetails.email && signUpDetails.password && signUpDetails.firstName && signUpDetails.lastName)
       {
-        let fName: string = signUpDetails.LastName;
+        let fName: string = signUpDetails.lastName;
         const newUser: User = {
           uid : '',
-          firstName : signUpDetails.FirstName,
-          lastName : signUpDetails.LastName,
-          displayName : fName.substring(0,1).toUpperCase() + ", " +signUpDetails.LastName,
-          email : signUpDetails.Email,
+          firstName : signUpDetails.firstName,
+          lastName : signUpDetails.lastName,
+          displayName : fName.substring(0,1).toUpperCase() + ", " +signUpDetails.lastName,
+          email : signUpDetails.email,
           emailVerified : false,
           photoURL: '',
           promocode: "FirstName3letters. 3 letter surname, 3 numbers(date of registrations mmddyyxx)"
         };
 
-        this.authenticationService.SignUp(newUser, signUpDetails.Password);
+        await this.authenticationService.SignUp(newUser, signUpDetails.password);
       }
     }
   }
