@@ -1,27 +1,21 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'; // Reactive form
 import { NetworkOperator, NetworkOperatorProducts, ProductMessage } from 'src/app/models/salesApplicationModels/NetworkOperatorModel';
 import { SaleApplication } from 'src/app/models/salesApplicationModels/SalesApplicationModel';
 import { ServiceProvider } from 'src/app/models/salesApplicationModels/ServiceProviderModel';
 import { UserPersonalDetails, AddresDetails } from 'src/app/models/salesApplicationModels/UserModel';
-import { DisableView, PageDisplayList } from 'src/app/models/Settings/IPageDisplaySettings';
-import { SignedInUser } from 'src/app/models/userDetails/ISignedInUser';
-import { User } from 'src/app/models/userDetails/IUser';
-import { UserAccess } from 'src/app/models/userDetails/IUserAccess';
-import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
-import { UserManagerService } from 'src/app/service/authentication/userManager.service';
 
 @Component({
-  selector: 'app-sales-application-form',
-  templateUrl: './sales-application-form.component.html',
-  styleUrls: ['./sales-application-form.component.scss']
+  selector: 'quick-application-form',
+  templateUrl: './standalone-sales-application-form.component.html',
+  styleUrls: ['./standalone-sales-application-form.component.scss']
 })
-export class SalesApplicationFormComponent implements OnInit {
+export class StandaloneSalesApplicationFormComponent implements OnInit {
   title = 'RefrMe';
-  networkOperators: NetworkOperator[] = [];
+  networkOperators: NetworkOperator[] | any;
   serviceProviders: ServiceProvider[] = [];
-  serviceProvider: ServiceProvider = new ServiceProvider();
+  serviceProvider: ServiceProvider | any= null;
   networkOperatorProducts: NetworkOperatorProducts[] | any;
   productListMessage: ProductMessage[] = [];
   networkOperatorId: string = "";
@@ -40,184 +34,20 @@ export class SalesApplicationFormComponent implements OnInit {
   createFileElementTagName  = new Map<string, File>();
   message = new ProductMessage();
 
-  salesApplicationsList: SaleApplication[] = [];
+  salesApplicationsList: SaleApplication[] | any;
   @Input() applicationFormState: string ="newSales";
   showHeader: boolean = true;
   @Input() saleApplicationId?: any;
-  @Input() userId : string = '';
+  @Input() userId : string ='';
   disableDetailsEdit: boolean = true;
-  user: User;
-  userAccess: UserAccess;
 
-  signedInUser: SignedInUser
+  constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder){}
 
-  viewPage = true;
-  submitOwnApplications = false;
-
-  displayPages: PageDisplayList[] = [];
-  private pageName: string = 'salesApplications';
-
-  constructor(
-    public fsCrud: FireBaseCrudService,
-    public formBuilder: FormBuilder,
-    public userManagerService: UserManagerService,
-    public authService: AuthenticationService) {
-
-    let displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
-    if (!displayPageList || displayPageList.length < 1)
-    {
-      this.fsCrud.getDisaplayPages();
-    }
-  }
-
-  ngOnInit() {
-    this.getUserInfo();
-    this.displaySalesAppType();
+  ngOnInit(){
     this.getNetworkOperator();
     this.getServiceProviders();
     this.setHeader();
     this.getSalesApplications();
-  }
-
-  async getUserInfo()
-  {
-    let displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
-    if (!displayPageList || displayPageList.length < 1)
-    {
-      this.fsCrud.getDisaplayPages();
-    }
-    else
-    {
-      this.displayPages = displayPageList;
-    }
-
-    this.userManagerService.createSignInUser();
-
-    if(this.authService?.isLoggedIn)
-    {
-      if(!this.userAccess)
-      {
-        //this.authService.getLocalUserData();
-        this.userManagerService.createSignInUser();
-      }
-
-      if(this.authService?.userAccess)
-      {
-        this.userAccess = this.authService?.userAccess;
-      }
-
-      if(this.userAccess)
-      {
-        //if user cant view dashboard, redirect user to no access page.
-     if(this.userAccess?.disableView)
-        {
-          let dashBoardAccess: DisableView[] = this.userAccess?.disableView;
-
-          if (this.displayPages.length < 1)
-          {
-            this.fsCrud.getDisaplayPages();
-          }
-
-          if (this.displayPages.length > 1)
-          {
-            let getAllowedPage = this.displayPages.find(x => x.PageName === this.pageName)
-
-            for (var i = 0; i < dashBoardAccess.length; i++)
-            {
-              if (getAllowedPage?.PageId.toString() === dashBoardAccess[i]?.PageId)
-              {
-                this.viewPage = false;
-                break;
-              }
-            }
-          }
-        }
-      }
-
-      if(this.userManagerService.user){
-        this.user = {
-          uid: this.userManagerService.user?.uid,
-          displayName: this.userManagerService.user?.displayName,
-          email: this.userManagerService.user?.email,
-          emailVerified: this.userManagerService.user?.emailVerified,
-          photoURL: this.userManagerService.user?.photoURL,
-          firstName: this.userManagerService.user?.firstName,
-          lastName: this.userManagerService.user?.lastName,
-          promocode: this.userManagerService.user?.promocode
-        };
-
-        this.signedInUser = {
-          Uid: this.userManagerService.user?.uid,
-          User: this.user,
-          UserAccess: this.userAccess
-        };
-
-        localStorage.setItem('signedInUser', JSON.stringify(this.signedInUser));
-        }
-        else
-        {
-          if(!this.signedInUser || !this.signedInUser.Uid || !this.signedInUser.User || !this.signedInUser.User.uid || !this.signedInUser.UserAccess)
-          {
-            this.userManagerService.createSignInUser();
-          }
-        }
-    }
-  }
-
-  async displaySalesAppType()
-  {
-    this.userManagerService.createSignInUser();
-
-    if(this.authService?.isLoggedIn)
-    {
-      if(!this.userAccess)
-      {
-        //this.authService.getLocalUserData();
-        this.userManagerService.createSignInUser();
-      }
-
-      if(this.authService?.userAccess)
-      {
-        this.userAccess = this.authService?.userAccess;
-      }
-
-      if(this.userAccess)
-      {
-        //if user cant view dashboard, redirect user to no access page.
-        if(this.userAccess?.canSubmitAllApplications)
-        {
-          this.submitOwnApplications = true;
-        }
-      }
-
-      if(this.userManagerService.user){
-        this.user = {
-          uid: this.userManagerService.user?.uid,
-          displayName: this.userManagerService.user?.displayName,
-          email: this.userManagerService.user?.email,
-          emailVerified: this.userManagerService.user?.emailVerified,
-          photoURL: this.userManagerService.user?.photoURL,
-          firstName: this.userManagerService.user?.firstName,
-          lastName: this.userManagerService.user?.lastName,
-          promocode: this.userManagerService.user?.promocode
-        };
-
-        this.signedInUser = {
-          Uid: this.userManagerService.user?.uid,
-          User: this.user,
-          UserAccess: this.userAccess
-        };
-
-        localStorage.setItem('signedInUser', JSON.stringify(this.signedInUser));
-        }
-        else
-        {
-          if(!this.signedInUser || !this.signedInUser.Uid || !this.signedInUser.User || !this.signedInUser.User.uid || !this.signedInUser.UserAccess)
-          {
-            this.userManagerService.createSignInUser();
-          }
-        }
-    }
   }
 
   setHeader(){
@@ -251,7 +81,7 @@ export class SalesApplicationFormComponent implements OnInit {
         data.forEach( item =>{
           let operator: any = item.payload.toJSON();
           operator['NetworkOperatorId'] = item.key
-          if(operator)
+           if(operator)
           {
             this.networkOperators.push(operator as NetworkOperator);
           }
@@ -321,7 +151,7 @@ export class SalesApplicationFormComponent implements OnInit {
 
   }
 
-  buildNetworkOperatorProductListMessage( productName: string, download: string, upload: string, amount: string, payTerms: string, installAmount: string, existInstallAmount: string)
+  buildNetworkOperatorProductListMessage( productName: string, download: string, upload: string, amount: string, payTerms: string, installAmount: string = '', existInstallAmount: string ='')
   {
     enum payMentTerms{
       "Monthly" = "Per Month"
@@ -364,7 +194,6 @@ export class SalesApplicationFormComponent implements OnInit {
       }
     }
   }
-
   public addressDetails= new FormGroup({
     AddressLine1: new FormControl('',Validators.required),
     AddressLine2: new FormControl(),
@@ -438,7 +267,7 @@ export class SalesApplicationFormComponent implements OnInit {
     if(this.networkOperators)
     {
       const selectedNetOpId = event.target.value;
-      const getOpItem = this.networkOperators.map(opId => opId.NetworkOperatorId).indexOf(selectedNetOpId);
+      const getOpItem = this.networkOperators.map((opId: { NetworkOperatorId: any; }) => opId.NetworkOperatorId).indexOf(selectedNetOpId);
       if(getOpItem)
       {
         this.networkOperatorId = this.networkOperators[getOpItem]?.NetworkOperatorId;
@@ -480,14 +309,6 @@ export class SalesApplicationFormComponent implements OnInit {
 
     var saleApplication: SaleApplication = formDetails;
 
-
-    let promoCode = formDetails?.AgentPromoCode;
-    if (this.submitOwnApplications && (promoCode != this.user.promocode))
-    {
-      window.alert("Submitting other applications is not allowed.");
-      return;
-    }
-
     if(userPersonalDetails || saleApplication)
     {
        //if(this.applicationFormState === "newSales") {
@@ -513,8 +334,8 @@ export class SalesApplicationFormComponent implements OnInit {
 
   private async getSalesApplicationsList(){
 
-    let salesList = this.fsCrud.getSalesApplicationList();
-      salesList.snapshotChanges().subscribe(
+    let salesList = await this.fsCrud.getSalesApplicationList();
+      await salesList.snapshotChanges().subscribe(
       dataList => {
         this.salesApplicationsList = [];
         dataList.forEach(saleApplication => {
@@ -532,7 +353,7 @@ export class SalesApplicationFormComponent implements OnInit {
 
     if((this.applicationFormState === "editSales") && (this.salesApplicationsList && this.salesApplicationsList.length > 0))
     {
-      this.salesApplicationsList.forEach( entries => {
+      this.salesApplicationsList.forEach( (entries: { SaleApplicationId: any; AgentPromoCode: { toString: () => any; }; NetworkOperator: { toString: () => any; }; IsCpeFirbreInstalled: { toString: () => any; }; NetworkOperatorPackage: { toString: () => any; }; UserPersonalDetails: { FirstName: { toString: () => any; }; IdNumber: { toString: () => any; }; Email: { toString: () => any; }; MobileNumber: { toString: () => any; }; AddressDetails: any; SpecialComments: { toString: () => any; }; }; AddressDetails: { AddressLine1: { toString: () => any; }; AddressLine2: { toString: () => any; }; City: { toString: () => any; }; Province: { toString: () => any; }; PostalCode: { toString: () => any; }; Suburb: { toString: () => any; }; AddressType: { toString: () => any; }; }; ApplicationFeedback: { toString: () => any; }; DeliveryInstallOption: { toString: () => any; }; BillingBankDetails: { AccountName: { toString: () => any; }; BankName: { toString: () => any; }; BranchName: { toString: () => any; }; BranchCode: { toString: () => any; }; AccountNumber: { toString: () => any; }; AccountType: { toString: () => any; }; }; DebitOrderMandateAccepted: any; TermsAndConditionsAccepted: any; MarketingConsent: any; }) => {
 
          if (entries.SaleApplicationId === saleAppId?.toString() )
         {

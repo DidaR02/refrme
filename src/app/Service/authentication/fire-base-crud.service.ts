@@ -174,7 +174,6 @@ export class FireBaseCrudService {
           //set on local storage
           if (this.displayPages.length > 0)
               localStorage.setItem("displayPages", JSON.stringify(this.displayPages));
-
         });
     }
 }

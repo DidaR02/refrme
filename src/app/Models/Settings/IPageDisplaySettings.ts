@@ -6,7 +6,14 @@ export interface PageDisplayList
   IsEnabled: boolean;
 }
 
-export interface DisableView
+export interface PageDisplayListChecked
 {
   PageId: number;
+  PageName: string;
+  IsChecked: boolean;
+}
+
+export interface DisableView
+{
+  PageId: string;
 }

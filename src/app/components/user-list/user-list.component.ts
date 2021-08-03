@@ -6,7 +6,7 @@ import { DataTypeConversionService } from '../../service/shared/dataType-convers
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { UserManagerService } from 'src/app/service/authentication/userManager.service';
 import { Event } from '@angular/router';
-import { DisableView, PageDisplayList } from 'src/app/models/Settings/IPageDisplaySettings';
+import { DisableView, PageDisplayList, PageDisplayListChecked } from 'src/app/models/Settings/IPageDisplaySettings';
 import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
 import { SignedInUser } from 'src/app/models/userDetails/ISignedInUser';
 
@@ -26,7 +26,7 @@ export class UserListComponent implements OnInit {
   canLogin: string;
   canAddFile: string;
   canCreateFolder: string;
-  disableView: any[];
+  disableView: any[] = [];
   canDelete: string;
   isAdmin: string;
   adminAccessLevel: string;
@@ -49,16 +49,11 @@ export class UserListComponent implements OnInit {
   public showOverlay = false;
   user: User;
   viewPage: boolean = true;
+
   displayPages: PageDisplayList[] = [];
+  displayPagesChecked: PageDisplayListChecked[] = [];
   private signedInUser: SignedInUser;
   private pageName: string = "userList";
-  Data: Array<any> = [
-    { name: 'Sales Applications', value: 'salesAplications' },
-    { name: 'View Sales Applications', value: 'viewSalesApplications' },
-    { name: 'DashBoard', value: 'dashboard' },
-    { name: 'userProfile', value: 'userProfile' },
-    { name: 'Projects', value: 'projects' }
-  ];
 
   constructor(
     public convertDataType: DataTypeConversionService,
@@ -67,6 +62,7 @@ export class UserListComponent implements OnInit {
     private fb: FormBuilder,
     public fsCrud: FireBaseCrudService) {
 
+    this.getDisplayPageList();
     this.getUserInfo();
   }
 
@@ -99,21 +95,50 @@ export class UserListComponent implements OnInit {
     partialAccess: new FormControl()
   });
 
+  checkArray: FormArray = this.manageUserGroups.get('disableView') as FormArray;
+
   onCheckboxChange(e: any) {
-  const checkArray: FormArray = this.form.get('checkArray') as FormArray;
+  //this.checkArray = this.manageUserGroups.get('disableView') as FormArray;
 
   if (e.target.checked) {
-    checkArray.push(new FormControl(e.target.value));
+    this.checkArray.push(new FormControl(e.target.value));
   } else {
     let i: number = 0;
-    checkArray.controls.forEach((item: any) => {
+    this.checkArray.controls.forEach((item: any) => {
       if (item.value == e.target.value) {
-        checkArray.removeAt(i);
+        this.checkArray.removeAt(i);
         return;
       }
       i++;
     });
+    }
   }
+
+  getDisplayPageList(){
+    let displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
+    if (!displayPageList || displayPageList.length < 1)
+    {
+      this.fsCrud.getDisaplayPages();
+      displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
+    }
+    else
+    {
+      this.displayPages = displayPageList;
+    }
+
+    if (this.displayPages.length > 1)
+    {
+      this.displayPages.forEach(pageItem => {
+
+        var page: PageDisplayListChecked = {
+          PageId: pageItem.PageId,
+          PageName: pageItem.PageName,
+          IsChecked: false
+        }
+
+        this.displayPagesChecked.push(page)
+      })
+    }
   }
 
   onSelect(user: User, userAccess: UserAccess): void {
@@ -141,7 +166,25 @@ export class UserListComponent implements OnInit {
     this.brandAffiliateChoice = userAccess.brandAffiliateChoice;
     this.partialAccess = userAccess.partialAccess;
 
+    this.setCheckBoxes(this.disableView);
     this.setupControlModel();
+  }
+
+  setCheckBoxes(disableViewList: any[]) {
+    if (disableViewList.length > 0) {
+
+      for (var item = 0; item <= disableViewList.length - 1; item++)
+      {
+        let pages2Check = this.displayPagesChecked.find(x => x.PageId.toString() === disableViewList[item]);
+        this.displayPagesChecked.forEach(page => {
+          if (page.PageId === pages2Check?.PageId) {
+            page.IsChecked = true;
+
+            this.checkArray.push(new FormControl(page.PageId.toString()));
+          }
+        });
+      }
+    }
   }
 
   setupControlModel(){
@@ -168,8 +211,8 @@ export class UserListComponent implements OnInit {
         salesTally: this.convertDataType.getAdminAccess(this.salesTally?.toString()),
         collectionsTarget: this.convertDataType.getAdminAccess(this.collectionsTarget?.toString()),
         brandAffiliateChoice: this.convertDataType.getAdminAccess(this.brandAffiliateChoice?.toString()),
-        partialAccess:  this.convertDataType.getAdminAccess(this.partialAccess?.toString())
-
+        partialAccess: this.convertDataType.getAdminAccess(this.partialAccess?.toString()),
+        disableView: this.displayPagesChecked
       }
     );
   }
@@ -200,7 +243,6 @@ export class UserListComponent implements OnInit {
       this.userAccess.canViewUserDetailsPOPI = userDetails.canViewUserDetailsPOPI;
       this.userAccess.brandAffiliateChoice = userDetails.brandAffiliateChoice;
       this.userAccess.partialAccess = userDetails.partialAccess;
-      this.userAccess.disableView = userDetails.disableView;
 
       await this.authService.SetFsUserData(this.selectedUser);
       await this.authService.SetDbUserData(this.selectedUser);
@@ -218,16 +260,6 @@ export class UserListComponent implements OnInit {
 
   async getUserInfo()
   {
-    let displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
-    if (!displayPageList || displayPageList.length < 1)
-    {
-      this.fsCrud.getDisaplayPages();
-    }
-    else
-    {
-      this.displayPages = displayPageList;
-    }
-
     await this.userManagerService.createSignInUser();
 
     if(this.authService.isLoggedIn)
@@ -253,7 +285,7 @@ export class UserListComponent implements OnInit {
         //if user cant view dashboard, redirect user to no access page.
         if(this.userAccess?.disableView)
         {
-          let dashBoardAccess: DisableView[] = this.userAccess?.disableView;
+          let userList: DisableView[] = this.userAccess?.disableView;
 
           if (this.displayPages.length < 1)
           {
@@ -264,9 +296,9 @@ export class UserListComponent implements OnInit {
           {
             let getAllowedPage = this.displayPages.find(x => x.PageName === this.pageName)
 
-            for (var i = 0; i < dashBoardAccess.length; i++)
+            for (var i = 0; i < userList.length; i++)
             {
-              if (getAllowedPage?.PageId === dashBoardAccess[i]?.PageId)
+              if (getAllowedPage?.PageId.toString() === userList[i]?.PageId)
               {
                 this.viewPage = false;
                 break;

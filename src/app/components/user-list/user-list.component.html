@@ -192,10 +192,11 @@
       <div class="form-group">
         <label>Disable View</label>
         <br>
-        <div *ngFor="let data of Data; let i=index">
+        <div *ngFor="let page of displayPagesChecked; let i=index">
           <label>
-            <input type="checkbox" [value]="data.value" (change)="onCheckboxChange($event)" />
-            {{data.name}}
+            <input type="checkbox" [value]="page.PageId" [checked]="page.IsChecked"
+              (change)="onCheckboxChange($event)" />
+            {{page.PageName}}
           </label>
         </div>
       </div>

@@ -131,7 +131,7 @@ export class ViewSalesApplicationComponent implements AfterViewInit {
 
             for (var i = 0; i < dashBoardAccess.length; i++)
             {
-              if (getAllowedPage?.PageId === dashBoardAccess[i]?.PageId)
+              if (getAllowedPage?.PageId.toString() === dashBoardAccess[i]?.PageId)
               {
                 this.viewPage = false;
                 break;

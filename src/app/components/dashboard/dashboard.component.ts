@@ -133,7 +133,7 @@ export class DashboardComponent implements OnInit {
 
             for (var i = 0; i < dashBoardAccess.length; i++)
             {
-              if (getAllowedPage?.PageId === dashBoardAccess[i]?.PageId)
+              if (getAllowedPage?.PageId.toString() === dashBoardAccess[i]?.PageId)
               {
                 this.viewPage = false;
                 break;

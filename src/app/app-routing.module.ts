@@ -6,6 +6,7 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { LoginComponent } from './components/login/login.component';
 import { SalesApplicationFormComponent } from './components/sales-application-form/sales-application-form.component';
 import { SignUpUserComponent } from './components/signup-user/signup-user.component';
+import { StandaloneSalesApplicationFormComponent } from './components/standalone-sales-application-form/standalone-sales-application-form.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { AuthGuard } from './service/guard/auth.guard';
 
@@ -22,7 +23,9 @@ const routes: Routes = [
   { path: 'resetPassword', redirectTo: '/forgotPassword', pathMatch: 'full'},
   { path: 'forgotPassword', component: ForgotPasswordComponent},
   { path: 'verify', redirectTo: '/verify-email-address', pathMatch: 'full' },
-  { path: 'verify-email-address', component: VerifyEmailComponent }
+  { path: 'verify-email-address', component: VerifyEmailComponent },
+  { path: 'new-application', component: StandaloneSalesApplicationFormComponent
+  }
 ];
 
 @NgModule({
@@ -36,5 +39,6 @@ export const routingComponents = [
   SalesApplicationFormComponent,
   ForgotPasswordComponent,
   VerifyEmailComponent,
-  SignUpUserComponent
+  SignUpUserComponent,
+  StandaloneSalesApplicationFormComponent
 ]
