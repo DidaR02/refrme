@@ -26,7 +26,7 @@ export class UserListComponent implements OnInit {
   canLogin: string;
   canAddFile: string;
   canCreateFolder: string;
-  disableView: any[] = [];
+  disableView: DisableView[] = [];
   canDelete: string;
   isAdmin: string;
   adminAccessLevel: string;
@@ -78,7 +78,7 @@ export class UserListComponent implements OnInit {
     canDownload: new FormControl(),
     canShare: new FormControl(),
     canLogin: new FormControl(),
-    disableView: this.fb.array([]),
+    displayPagesChecked: this.fb.array([]),
     canDelete: new FormControl(),
     isAdmin: new FormControl(),
     adminAccessLevel: new FormControl(),
@@ -95,22 +95,22 @@ export class UserListComponent implements OnInit {
     partialAccess: new FormControl()
   });
 
-  checkArray: FormArray = this.manageUserGroups.get('disableView') as FormArray;
-
   onCheckboxChange(e: any) {
-  //this.checkArray = this.manageUserGroups.get('disableView') as FormArray;
 
-  if (e.target.checked) {
-    this.checkArray.push(new FormControl(e.target.value));
-  } else {
-    let i: number = 0;
-    this.checkArray.controls.forEach((item: any) => {
-      if (item.value == e.target.value) {
-        this.checkArray.removeAt(i);
-        return;
-      }
-      i++;
-    });
+    if (e.target.checked) {
+
+      this.displayPagesChecked.forEach(page => {
+          if (page.PageId.toString() === e.target.value) {
+            page.IsChecked = true;
+          }
+      });
+    } else {
+
+      this.displayPagesChecked.forEach(page => {
+            if (page.PageId.toString() === e.target.value) {
+              page.IsChecked = false;
+            }
+        });
     }
   }
 
@@ -170,17 +170,14 @@ export class UserListComponent implements OnInit {
     this.setupControlModel();
   }
 
-  setCheckBoxes(disableViewList: any[]) {
-    if (disableViewList.length > 0) {
+  setCheckBoxes(disableViewList: DisableView[]) {
+    if (disableViewList && disableViewList.length > 0) {
 
       for (var item = 0; item <= disableViewList.length - 1; item++)
       {
-        let pages2Check = this.displayPagesChecked.find(x => x.PageId.toString() === disableViewList[item]);
         this.displayPagesChecked.forEach(page => {
-          if (page.PageId === pages2Check?.PageId) {
+          if (page.PageId.toString() === disableViewList[item]?.PageId.toString()) {
             page.IsChecked = true;
-
-            this.checkArray.push(new FormControl(page.PageId.toString()));
           }
         });
       }
@@ -207,18 +204,22 @@ export class UserListComponent implements OnInit {
         canSubmitAllApplications: this.convertDataType.getStringBoolean(this.canSubmitAllApplications?.toString()),
         displaySalesApplications: this.convertDataType.getStringBoolean(this.displaySalesApplications?.toString()),
         canReferUsers: this.convertDataType.getStringBoolean(this.canReferUsers?.toString()),
+        displayPagesChecked: this.displayPagesChecked,
         // please create new methods
         salesTally: this.convertDataType.getAdminAccess(this.salesTally?.toString()),
         collectionsTarget: this.convertDataType.getAdminAccess(this.collectionsTarget?.toString()),
         brandAffiliateChoice: this.convertDataType.getAdminAccess(this.brandAffiliateChoice?.toString()),
-        partialAccess: this.convertDataType.getAdminAccess(this.partialAccess?.toString()),
-        disableView: this.displayPagesChecked
+        partialAccess: this.convertDataType.getAdminAccess(this.partialAccess?.toString())
       }
     );
   }
 
   async submitUserDetails(){
+
+    this.setDisableView();
+
     const userDetails = this.manageUserGroups.value;
+
     if(userDetails)
     {
       this.selectedUser.firstName = userDetails.firstName;
@@ -228,7 +229,6 @@ export class UserListComponent implements OnInit {
       this.userAccess.canDownload = userDetails.canDownload;
       this.userAccess.canShare = userDetails.canShare;
       this.userAccess.canLogin = userDetails.canLogin;
-      this.userAccess.disableView = userDetails.disableView;
       this.userAccess.canDelete = userDetails.canDelete;
       this.userAccess.isAdmin = userDetails.isAdmin;
       this.userAccess.adminAccessLevel = userDetails.adminAccessLevel;
@@ -244,6 +244,8 @@ export class UserListComponent implements OnInit {
       this.userAccess.brandAffiliateChoice = userDetails.brandAffiliateChoice;
       this.userAccess.partialAccess = userDetails.partialAccess;
 
+      this.userAccess.disableView = this.disableView;
+
       await this.authService.SetFsUserData(this.selectedUser);
       await this.authService.SetDbUserData(this.selectedUser);
       this.authService.userAccess = this.userAccess;
@@ -251,6 +253,22 @@ export class UserListComponent implements OnInit {
 
       this.saveComplete = true
     }
+  }
+
+  private setDisableView() {
+    this.displayPagesChecked.forEach(checkedItem => {
+
+      const existView = this.disableView?.find(dv => dv?.PageId.toString() === checkedItem.PageId.toString());
+      const existViewIndex = this.disableView?.findIndex(dv => dv?.PageId.toString() === checkedItem.PageId.toString());
+
+      if (checkedItem.IsChecked && !existView?.PageId) {
+        this.disableView = this.disableView ? this.disableView : [];
+        this.disableView.push({ PageId: checkedItem.PageId.toString() } as DisableView);
+      }
+      if (checkedItem.IsChecked === false && checkedItem.PageId.toString() === existView?.PageId?.toString()) {
+        this.disableView.splice(existViewIndex, 1);
+      }
+    });
   }
 
   resetMsg()
