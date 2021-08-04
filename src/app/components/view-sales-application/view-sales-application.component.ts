@@ -70,10 +70,11 @@ export class ViewSalesApplicationComponent implements AfterViewInit {
           a['saleApplicationId'] = saleApplication.key;
           this.salesApplications.push(a as SaleApplication);
 
+        });
+
           this.dataSource = new MatTableDataSource(this.salesApplications);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
-        });
       },
       (error) => {
         throw error

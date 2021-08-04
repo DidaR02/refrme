@@ -47,6 +47,8 @@ export class SignUpUserComponent implements OnInit {
       if(signUpDetails.email && signUpDetails.password && signUpDetails.firstName && signUpDetails.lastName)
       {
         let fName: string = signUpDetails.lastName;
+        let promoAgentCode = "RM" + signUpDetails.firstName.substring(0, 1).toUpperCase() + signUpDetails.lastName.substring(0, 1).toUpperCase() + new Date("YYMMDD") + Math.floor(1000 + Math.random() * 9000);
+
         const newUser: User = {
           uid : '',
           firstName : signUpDetails.firstName,
@@ -55,7 +57,7 @@ export class SignUpUserComponent implements OnInit {
           email : signUpDetails.email,
           emailVerified : false,
           photoURL: '',
-          promocode: "FirstName3letters. 3 letter surname, 3 numbers(date of registrations mmddyyxx)"
+          promocode: promoAgentCode
         };
 
         await this.authenticationService.SignUp(newUser, signUpDetails.password);

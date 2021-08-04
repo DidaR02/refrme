@@ -5,6 +5,6 @@ export interface User {
     photoURL: string;
     emailVerified: boolean;
     firstName: string;
-  lastName: string;
-  promocode: string;
+    lastName: string;
+    promocode: string;
  }

@@ -52,7 +52,7 @@ export class SalesApplicationFormComponent implements OnInit {
   signedInUser: SignedInUser
 
   viewPage = true;
-  submitOwnApplications = false;
+  submitOwnApplications = true;
 
   displayPages: PageDisplayList[] = [];
   private pageName: string = 'salesApplications';
@@ -111,7 +111,7 @@ export class SalesApplicationFormComponent implements OnInit {
         //if user cant view dashboard, redirect user to no access page.
      if(this.userAccess?.disableView)
         {
-          let dashBoardAccess: DisableView[] = this.userAccess?.disableView;
+          let salesAppAccess: DisableView[] = this.userAccess?.disableView;
 
           if (this.displayPages.length < 1)
           {
@@ -122,9 +122,9 @@ export class SalesApplicationFormComponent implements OnInit {
           {
             let getAllowedPage = this.displayPages.find(x => x.PageName === this.pageName)
 
-            for (var i = 0; i < dashBoardAccess.length; i++)
+            for (var i = 0; i < salesAppAccess.length; i++)
             {
-              if (getAllowedPage?.PageId.toString() === dashBoardAccess[i]?.PageId)
+              if (getAllowedPage?.PageId.toString() === salesAppAccess[i]?.PageId)
               {
                 this.viewPage = false;
                 break;
@@ -186,7 +186,7 @@ export class SalesApplicationFormComponent implements OnInit {
         //if user cant view dashboard, redirect user to no access page.
         if(this.userAccess?.canSubmitAllApplications)
         {
-          this.submitOwnApplications = true;
+          this.submitOwnApplications = false;
         }
       }
 
@@ -239,7 +239,7 @@ export class SalesApplicationFormComponent implements OnInit {
    async getSalesApplications(){
     if(this.applicationFormState?.length > 0 && this.applicationFormState === "editSales")
     {
-       await this.getSalesApplicationsList();
+       await this.getSalesApplicationsList(this.submitOwnApplications);
     }
   }
 
@@ -511,7 +511,7 @@ export class SalesApplicationFormComponent implements OnInit {
     this.ResetForm();
   }
 
-  private async getSalesApplicationsList(){
+  private async getSalesApplicationsList(getOwnSalesApplications: boolean = false){
 
     let salesList = this.fsCrud.getSalesApplicationList();
       salesList.snapshotChanges().subscribe(
