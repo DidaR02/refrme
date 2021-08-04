@@ -224,45 +224,51 @@ export class UserListComponent implements OnInit {
     {
       this.selectedUser.firstName = userDetails.firstName;
       this.selectedUser.lastName = userDetails.lastName;
-      this.userAccess.canAddFile = userDetails.canAddFile;
-      this.userAccess.canCreateFolder = userDetails.canCreateFolder;
-      this.userAccess.canDownload = userDetails.canDownload;
-      this.userAccess.canShare = userDetails.canShare;
-      this.userAccess.canLogin = userDetails.canLogin;
-      this.userAccess.canDelete = userDetails.canDelete;
-      this.userAccess.isAdmin = userDetails.isAdmin;
-      this.userAccess.adminAccessLevel = userDetails.adminAccessLevel;
-      this.userAccess.canShareFeed = userDetails.canShareFeed;
-      this.userAccess.canConnectPeers = userDetails.canConnectPeers;
-      this.userAccess.canChat = userDetails.canChat;
-      this.userAccess.canSubmitAllApplications = userDetails.canSubmitAllApplications;
-      this.userAccess.displaySalesApplications = userDetails.displaySalesApplications;
-      this.userAccess.canReferUsers = userDetails.canReferUsers;
-      this.userAccess.salesTally = userDetails.salesTally;
-      this.userAccess.collectionsTarget = userDetails.collectionsTarget;
-      this.userAccess.canViewUserDetailsPOPI = userDetails.canViewUserDetailsPOPI;
-      this.userAccess.brandAffiliateChoice = userDetails.brandAffiliateChoice;
-      this.userAccess.partialAccess = userDetails.partialAccess;
-
-      this.userAccess.disableView = this.disableView;
 
       await this.authService.SetFsUserData(this.selectedUser);
       await this.authService.SetDbUserData(this.selectedUser);
-      this.authService.userAccess = this.userAccess;
-      await this.authService.SetUserAccess(this.authService.userAccess.uid);
+
+      if (this.viewPage)
+      {
+        this.userAccess.canAddFile = userDetails.canAddFile;
+        this.userAccess.canCreateFolder = userDetails.canCreateFolder;
+        this.userAccess.canDownload = userDetails.canDownload;
+        this.userAccess.canShare = userDetails.canShare;
+        this.userAccess.canLogin = userDetails.canLogin;
+        this.userAccess.canDelete = userDetails.canDelete;
+        this.userAccess.isAdmin = userDetails.isAdmin;
+        this.userAccess.adminAccessLevel = userDetails.adminAccessLevel;
+        this.userAccess.canShareFeed = userDetails.canShareFeed;
+        this.userAccess.canConnectPeers = userDetails.canConnectPeers;
+        this.userAccess.canChat = userDetails.canChat;
+        this.userAccess.canSubmitAllApplications = userDetails.canSubmitAllApplications;
+        this.userAccess.displaySalesApplications = userDetails.displaySalesApplications;
+        this.userAccess.canReferUsers = userDetails.canReferUsers;
+        this.userAccess.salesTally = userDetails.salesTally;
+        this.userAccess.collectionsTarget = userDetails.collectionsTarget;
+        this.userAccess.canViewUserDetailsPOPI = userDetails.canViewUserDetailsPOPI;
+        this.userAccess.brandAffiliateChoice = userDetails.brandAffiliateChoice;
+        this.userAccess.partialAccess = userDetails.partialAccess;
+        this.userAccess.disableView = this.disableView;
+
+        this.authService.userAccess = this.userAccess;
+        await this.authService.SetUserAccess(this.authService.userAccess.uid);
+      }
 
       this.saveComplete = true
     }
   }
 
   private setDisableView() {
+
+    this.disableView = this.disableView ? this.disableView : [];
     this.displayPagesChecked.forEach(checkedItem => {
 
       const existView = this.disableView?.find(dv => dv?.PageId.toString() === checkedItem.PageId.toString());
       const existViewIndex = this.disableView?.findIndex(dv => dv?.PageId.toString() === checkedItem.PageId.toString());
 
       if (checkedItem.IsChecked && !existView?.PageId) {
-        this.disableView = this.disableView ? this.disableView : [];
+
         this.disableView.push({ PageId: checkedItem.PageId.toString() } as DisableView);
       }
       if (checkedItem.IsChecked === false && checkedItem.PageId.toString() === existView?.PageId?.toString()) {

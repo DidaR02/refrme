@@ -6,20 +6,20 @@
   </ul>
 </div>
 
-<div *ngIf="viewPage ; else elseBlock">
-  <div *ngIf="selectedUser" class="selectedUser">
-    <form [formGroup]="manageUserGroups" id="editUser-form" action="#">
-      <h2>{{selectedUser.firstName | uppercase}} {{selectedUser.lastName | uppercase}} Details</h2>
-      <div><span>id: </span>{{selectedUser.uid}}</div>
-      <div class="form-group">
-        <label for="first-name">First Name: </label>
-        <input type="text" id="first-name" formControlName="firstName" placeholder="firstName">
-      </div>
-      <div class="form-group">
-        <label for="user-name">Last Name: </label>
-        <input type="text" id="user-name" formControlName="lastName" placeholder="lastName">
-      </div>
 
+<div *ngIf="selectedUser" class="selectedUser">
+  <form [formGroup]="manageUserGroups" id="editUser-form" action="#">
+    <h2>{{selectedUser.firstName | uppercase}} {{selectedUser.lastName | uppercase}} Details</h2>
+    <div><span>id: </span>{{selectedUser.uid}}</div>
+    <div class="form-group">
+      <label for="first-name">First Name: </label>
+      <input type="text" id="first-name" formControlName="firstName" placeholder="firstName">
+    </div>
+    <div class="form-group">
+      <label for="user-name">Last Name: </label>
+      <input type="text" id="user-name" formControlName="lastName" placeholder="lastName">
+    </div>
+    <div *ngIf="viewPage">
       <div class="form-group">
         <label>Can Share Feed ? *</label>
         <br>
@@ -200,23 +200,23 @@
           </label>
         </div>
       </div>
+    </div>
+    <button type="submit" class="btn btn-success btn-primary" (click)="submitUserDetails()">Save</button>
 
-      <button type="submit" class="btn btn-success btn-primary" (click)="submitUserDetails()">Save</button>
-
-      <div *ngIf="saveComplete">
-        <div class="alert alert-success alert-dismissible">
-          <a href="#" class="close" data-dismiss="alert" aria-label="close" (click)="resetMsg()">&times;</a>
-          <strong>Saved!</strong> User account information has been saved.
-        </div>
+    <div *ngIf="saveComplete">
+      <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close" (click)="resetMsg()">&times;</a>
+        <strong>Saved!</strong> User account information has been saved.
       </div>
+    </div>
 
-    </form>
-  </div>
+  </form>
+
 
 </div>
 <ng-template #elseBlock>
   <div class="alert alert-warning">
-    <strong>No User Access !</strong> You do not have permission to view this page. Please contact your
+    <strong>No User Access !</strong> You do not have admin perpermission to view this page. Please contact your
     administrator.
   </div>
 </ng-template>
