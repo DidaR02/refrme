@@ -11,6 +11,7 @@ import { UserAccess } from 'src/app/models/userDetails/IUserAccess';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
 import { UserManagerService } from 'src/app/service/authentication/userManager.service';
+import { DataTypeConversionService } from 'src/app/service/shared/dataType-conversion.service';
 
 @Component({
   selector: 'app-sales-application-form',
@@ -61,7 +62,9 @@ export class SalesApplicationFormComponent implements OnInit {
     public fsCrud: FireBaseCrudService,
     public formBuilder: FormBuilder,
     public userManagerService: UserManagerService,
-    public authService: AuthenticationService) {
+    public authService: AuthenticationService,
+    public convertDataType: DataTypeConversionService
+  ) {
 
     let displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
     if (!displayPageList || displayPageList.length < 1)
@@ -181,10 +184,9 @@ export class SalesApplicationFormComponent implements OnInit {
         this.userAccess = this.authService?.userAccess;
       }
 
-      if(this.userAccess)
+      if(this.userAccess?.canSubmitAllApplications)
       {
-        //if user cant view dashboard, redirect user to no access page.
-        if(this.userAccess?.canSubmitAllApplications)
+        if(this.convertDataType.getBoolean(this.userAccess?.canSubmitAllApplications))
         {
           this.submitOwnApplications = false;
         }
@@ -523,6 +525,10 @@ export class SalesApplicationFormComponent implements OnInit {
           this.salesApplicationsList.push(a as SaleApplication);
         });
 
+          if (getOwnSalesApplications)
+          {
+            this.salesApplicationsList = this.salesApplicationsList.filter(x => x.AgentPromoCode === this.user.promocode);
+          }
         this.prePopulateSalesFormData(this.saleApplicationId);
       }
     );

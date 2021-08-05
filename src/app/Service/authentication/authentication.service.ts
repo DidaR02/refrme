@@ -295,7 +295,7 @@ export class AuthenticationService {
             canConnectPeers: "false",
             canChat: "false",
             canSubmitAllApplications: "false",
-            displaySalesApplications: "true",
+            viewAllSalesApplications: "true",
             canReferUsers: "false",
             salesTally: [],
             collectionsTarget: [],

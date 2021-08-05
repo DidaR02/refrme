@@ -37,7 +37,7 @@ export class UserListComponent implements OnInit {
   canConnectPeers: string;
   canChat: string;
   canSubmitAllApplications: string;
-  displaySalesApplications: string;
+  viewAllSalesApplications: string;
   canReferUsers: string;
   salesTally: string[];
   collectionsTarget: string[];
@@ -86,7 +86,7 @@ export class UserListComponent implements OnInit {
     canConnectPeers: new FormControl(),
     canChat: new FormControl(),
     canSubmitAllApplications: new FormControl(),
-    displaySalesApplications: new FormControl(),
+    viewAllSalesApplications: new FormControl(),
     canReferUsers: new FormControl(),
     salesTally: new FormControl(),
     collectionsTarget: new FormControl(),
@@ -158,7 +158,7 @@ export class UserListComponent implements OnInit {
     this.canConnectPeers = userAccess.canConnectPeers;
     this.canChat = userAccess.canChat;
     this.canSubmitAllApplications = userAccess.canSubmitAllApplications;
-    this.displaySalesApplications = userAccess.displaySalesApplications;
+    this.viewAllSalesApplications = userAccess.viewAllSalesApplications;
     this.canReferUsers = userAccess.canReferUsers;
     this.salesTally = userAccess.salesTally;
     this.collectionsTarget = userAccess.collectionsTarget;
@@ -202,7 +202,7 @@ export class UserListComponent implements OnInit {
         canChat: this.convertDataType.getStringBoolean(this.canChat?.toString()),
         canViewUserDetailsPOPI: this.convertDataType.getStringBoolean(this.canViewUserDetailsPOPI?.toString()),
         canSubmitAllApplications: this.convertDataType.getStringBoolean(this.canSubmitAllApplications?.toString()),
-        displaySalesApplications: this.convertDataType.getStringBoolean(this.displaySalesApplications?.toString()),
+        viewAllSalesApplications: this.convertDataType.getStringBoolean(this.viewAllSalesApplications?.toString()),
         canReferUsers: this.convertDataType.getStringBoolean(this.canReferUsers?.toString()),
         displayPagesChecked: this.displayPagesChecked,
         // please create new methods
@@ -242,7 +242,7 @@ export class UserListComponent implements OnInit {
         this.userAccess.canConnectPeers = userDetails.canConnectPeers;
         this.userAccess.canChat = userDetails.canChat;
         this.userAccess.canSubmitAllApplications = userDetails.canSubmitAllApplications;
-        this.userAccess.displaySalesApplications = userDetails.displaySalesApplications;
+        this.userAccess.viewAllSalesApplications = userDetails.viewAllSalesApplications;
         this.userAccess.canReferUsers = userDetails.canReferUsers;
         this.userAccess.salesTally = userDetails.salesTally;
         this.userAccess.collectionsTarget = userDetails.collectionsTarget;

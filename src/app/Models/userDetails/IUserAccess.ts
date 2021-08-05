@@ -5,7 +5,7 @@ export interface UserAccess {
     canConnectPeers: string;
     canChat: string;
     canSubmitAllApplications: string;
-    displaySalesApplications: string;
+    viewAllSalesApplications: string;
     canReferUsers: string;
     salesTally: string[];
     collectionsTarget: string[];

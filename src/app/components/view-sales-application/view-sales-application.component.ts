@@ -34,6 +34,7 @@ export class ViewSalesApplicationComponent implements AfterViewInit {
   private userAccess: UserAccess;
   viewPage: boolean = true;
   displayPages: PageDisplayList[] = [];
+  viewAllSalesApplications: boolean = false;
   private signedInUser: SignedInUser;
 
   private pageName: string = "viewSalesApplications";
@@ -71,6 +72,11 @@ export class ViewSalesApplicationComponent implements AfterViewInit {
           this.salesApplications.push(a as SaleApplication);
 
         });
+
+        if (this.viewAllSalesApplications === false)
+        {
+          this.salesApplications = this.salesApplications.filter(x => x.AgentPromoCode === this.user?.promocode)
+        }
 
           this.dataSource = new MatTableDataSource(this.salesApplications);
           this.dataSource.paginator = this.paginator;
@@ -119,7 +125,7 @@ export class ViewSalesApplicationComponent implements AfterViewInit {
         //if user cant view dashboard, redirect user to no access page.
         if(this.userAccess?.disableView)
         {
-          let dashBoardAccess: DisableView[] = this.userAccess?.disableView;
+          let isViewApplicationsDisabled: DisableView[] = this.userAccess?.disableView;
 
           if (this.displayPages.length < 1)
           {
@@ -130,9 +136,9 @@ export class ViewSalesApplicationComponent implements AfterViewInit {
           {
             let getAllowedPage = this.displayPages.find(x => x.PageName === this.pageName)
 
-            for (var i = 0; i < dashBoardAccess.length; i++)
+            for (var i = 0; i < isViewApplicationsDisabled.length; i++)
             {
-              if (getAllowedPage?.PageId.toString() === dashBoardAccess[i]?.PageId)
+              if (getAllowedPage?.PageId.toString() === isViewApplicationsDisabled[i]?.PageId)
               {
                 this.viewPage = false;
                 break;
@@ -140,6 +146,11 @@ export class ViewSalesApplicationComponent implements AfterViewInit {
             }
           }
         }
+
+          if (this.userAccess?.viewAllSalesApplications)
+          {
+            this.viewAllSalesApplications = this.convertDataType.getBoolean(this.userAccess.viewAllSalesApplications?.toString())
+          }
       }
 
       if(this.userManagerService.user){
