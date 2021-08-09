@@ -16,7 +16,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   constructor(
     public authService: AuthenticationService,
-    public router: Router,) { }
+    public router: Router) { }
 
   ngOnInit(): void {
   }

@@ -11,7 +11,7 @@ import { UserAccess } from '../../models/userDetails/IUserAccess';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  userData: any; // Save logged in user data
+  userData: User; // Save logged in user data
  userAccess: UserAccess;
 
   constructor(public afs: AngularFirestore,   // Inject Firestore service
@@ -48,6 +48,10 @@ export class AuthenticationService {
           await this.SetFsUserData(user, result.user);
           await this.SetDbUserData(user, result);
           await this.SetUserAccess(result.user.uid);
+
+          const newUser = localStorage.getItem('user');
+          this.userData = newUser ? JSON.parse(newUser) : null;
+
           this.SendVerificationMail();
         }
       } catch (error) {

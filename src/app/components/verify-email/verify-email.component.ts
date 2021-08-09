@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 
 @Component({
@@ -9,10 +10,16 @@ import { AuthenticationService } from 'src/app/service/authentication/authentica
 export class VerifyEmailComponent implements OnInit {
 
   constructor(
-    public authService: AuthenticationService
+    public authService: AuthenticationService,
+    public router: Router
   ) { }
 
   ngOnInit() {
+  }
+
+  redirectTologin()
+  {
+    this.router.navigate(['login']);
   }
 
 }
