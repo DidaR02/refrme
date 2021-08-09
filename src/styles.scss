@@ -517,7 +517,7 @@ input.gn-search:focus {
     outline: none;
     display: inline-block;
     vertical-align: top;
-    position: relative;
+    // position: relative;
     margin: 0;
     cursor: pointer;
     border: 1px solid var(--bc, var(--border));

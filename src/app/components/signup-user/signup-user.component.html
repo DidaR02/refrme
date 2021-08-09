@@ -3,16 +3,17 @@
   <div class="row align-items-center">
     <div class="col">
 
-      <div class="container">
+      <div class="container form-panel">
 
         <div class="signup-user">
-          <h1>Please create Sign In credentials</h1>
-          <br>
+          <!-- <h1>Please create Sign In credentials</h1>
+          <br> -->
 
-          <form [formGroup]="signUpFormGroup" id="signUp-form" action="#" (ngSubmit)="submitSigUpDetails()">
+          <form [formGroup]="signUpFormGroup" id="signUp-form" action="#" (ngSubmit)="submitSigUpDetails()"
+            class="signup-form animate-box" data-animate-effect="fadeIn">
 
             <div class="panel panel-primary">
-              <div class="panel-heading">Your Personal Details</div>
+              <h2 class="panel-heading">Your Personal Details</h2>
               <div class="panel-body">
 
                 <div class="form-row row">
@@ -56,19 +57,18 @@
                 </div>
               </div>
 
+              <div class="form-group">
+                <input type="submit" value="Sign Up" class="btn btn-success btn-primary">
+              </div>
+
             </div>
-            <button type="submit" class="btn btn-success btn-primary">Sign Up</button>
 
             <div class="signup-div" style="padding-top: 15px;">
               <p>
                 I already have an account.
-                <span>
-                  <li class="signup-item" style="list-style-type: none;">
-                    <a class="sign-link" (click)="redirectToLogin()">
-                      <i class="fas fa-sign-in-alt"></i>Sign in with an existing account
-                    </a>
-                  </li>
-                </span>
+                <a class="sign-link" (click)="redirectToLogin()">
+                  <i class="fas fa-sign-in-alt"></i>Sign in with an existing account
+                </a>
               </p>
             </div>
 

@@ -7,6 +7,9 @@ import { UserAccess } from 'src/app/models/userDetails/IUserAccess';
 import { UserManagerService } from 'src/app/service/authentication/userManager.service';
 import { UserListComponent } from '../user-list/user-list.component';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
+import { PageDisplayList, DisableView } from 'src/app/models/Settings/IPageDisplaySettings';
+import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
+import { DataTypeConversionService } from 'src/app/service/shared/dataType-conversion.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -16,8 +19,6 @@ import { AuthenticationService } from 'src/app/service/authentication/authentica
 export class UserProfileComponent implements OnInit {
   user: User;
   userAccess: UserAccess;
-  viewDashboard: boolean = true;
-
   signedInUser: SignedInUser;
 
   /*For UsersList*/
@@ -28,10 +29,18 @@ export class UserProfileComponent implements OnInit {
   preLoader: boolean = true;
   /*End UsersList*/
 
+  viewPage = true;
+  displayPages: PageDisplayList[] = [];
+  private pageName: string = 'userProfile';
+
+  filterUserList: boolean = false;
+
   constructor(
+    public fsCrud: FireBaseCrudService,
     public authService: AuthenticationService,
     public userManagerService: UserManagerService,
-    public router: Router
+    public router: Router,
+    public convertDataType: DataTypeConversionService
   ) {
       // this.refreshAll();
   }
@@ -48,6 +57,16 @@ export class UserProfileComponent implements OnInit {
 
   async getUserInfo()
   {
+    let displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
+    if (!displayPageList || displayPageList.length < 1)
+    {
+      this.fsCrud.getDisaplayPages();
+    }
+    else
+    {
+      this.displayPages = displayPageList;
+    }
+
     this.userManagerService.createSignInUser();
 
     if(this.authService?.isLoggedIn)
@@ -63,20 +82,34 @@ export class UserProfileComponent implements OnInit {
         this.userAccess = this.authService?.userAccess;
       }
 
-      if(this.userAccess)
-      {
-        //if user cant view dashboard, redirect user to no access page.
         if(this.userAccess?.disableView)
         {
-          let dashBoardAccess: string[] = this.userAccess?.disableView;
-          for( var entries in dashBoardAccess) {
-            if (entries == "userProfile")
+          let userProfileAccess: DisableView[] = this.userAccess?.disableView;
+
+          if (this.displayPages.length < 1)
+          {
+            this.fsCrud.getDisaplayPages();
+          }
+
+          if (this.displayPages.length > 1)
+          {
+            let getAllowedPage = this.displayPages.find(x => x.PageName === this.pageName)
+
+            for (var i = 0; i < userProfileAccess.length; i++)
             {
-              this.viewDashboard = false
+              if (getAllowedPage?.PageId.toString() === userProfileAccess[i]?.PageId)
+              {
+                this.viewPage = false;
+                break;
+              }
+              if (getAllowedPage?.PageId.toString() === "userList")
+              {
+                this.filterUserList = true;
+                break;
+              }
             }
-          };
+          }
         }
-      }
 
       if(this.userManagerService.user){
         this.user = {
@@ -110,8 +143,7 @@ export class UserProfileComponent implements OnInit {
 
   async GetAllUsers()
   {
-    if(this.userAccess?.isAdmin)
-    {
+
       let users = this.userManagerService.GetAllUsers();
       console.log(this.userList);
 
@@ -122,9 +154,15 @@ export class UserProfileComponent implements OnInit {
           a['uid'] = currentUser.key;
           this.setupUser(a as User);
         })
+
+        if(!this.convertDataType.getBoolean(this.userAccess?.isAdmin) || this.filterUserList)
+        {
+          this.userList = this.userList.filter(user => user.uid === this.user.uid);
+        }
       });
-      return this.userList;
-    }
+
+
+
     return this.userList;
   }
 
