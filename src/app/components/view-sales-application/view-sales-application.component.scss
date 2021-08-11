@@ -20,3 +20,8 @@ th {
   width: 25%;
 }
 
+@media screen and (max-width: 422px) {
+  table {
+    overflow: scroll;
+  }
+}
