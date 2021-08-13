@@ -1,10 +1,7 @@
-.sales-container h1 {
-  text-align: center
-}
-
-.sales-container,
-.salesForm {
-  width: auto 0px;
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
 }
 
 text {
@@ -50,62 +47,78 @@ textarea {
 }
 
 .form-holder {
+  padding-top: 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
+  text-align: left;
   min-height: 100vh;
-}
-
-.form-holder .form-content {
-  position: relative;
-  text-align: center;
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
   display: -webkit-flex;
-  display: flex;
   -webkit-justify-content: center;
-  justify-content: center;
   -webkit-align-items: center;
-  align-items: center;
-  padding: 60px;
+  margin: auto 0;
 }
 
-.form-content .form-items {
-  border: 3px solid #fff;
-  padding: 40px;
-  display: inline-block;
-  width: 100%;
-  min-width: 540px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  text-align: left;
-  -webkit-transition: all 0.4s ease;
-  transition: all 0.4s ease;
-  background: #fffffd;
-}
-
-.form-content h3 {
-  // color: #fff;
-  text-align: left;
+.form-holder h3 {
+  text-align: center;
   font-size: 28px;
   font-weight: 600;
   padding-bottom: 15px;
   margin-bottom: 5px;
 }
 
-.form-content h3.form-title {
+.form-holder h3.form-title {
   margin-bottom: 30px;
 }
 
 .form-content p {
-  // color: #fff;
   text-align: left;
   font-size: 17px;
   font-weight: 300;
   line-height: 20px;
   margin-bottom: 30px;
+}
+
+label {
+  padding: 12px 12px 0px 0;
+  display: inline-block;
+}
+
+.form-check {
+  display: inline-block;
+  position: relative;
+}
+
+input[type=text],
+input[type=email],
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+.panel-heading {
+  padding-top: 15px;
 }
