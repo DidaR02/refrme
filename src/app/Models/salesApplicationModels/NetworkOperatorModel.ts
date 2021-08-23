@@ -1,3 +1,5 @@
+import { NamedTupleMember } from "typescript";
+
 export class NetworkOperator{
     IsActive!: boolean;
     NetworkOperatorId!: string;
@@ -25,4 +27,40 @@ export class ProductMessage{
   ProductMessage: string = '';
   InstallationAmount?: string = '';
   ActivationAmount?: string = '';
+}
+
+export class NetworkOperatorLTEProducts{
+  ProdId: number;
+  FixedLTEServices: FixedLTEServices;
+}
+
+export class FixedLTEServices{
+  ServiceId: number;
+  LTEPacks: LTEPacks;
+  LTEPricePercentage: LTEPricePercentage;
+}
+
+export class LTEPacks{
+  PrackId: number;
+  LTEPackDetails: LTEPackDetails;
+}
+
+export class LTEPackDetails{
+  DataService: DataService;
+  DataValidityInDays: number;
+  PackageName: string;
+  ResellerTier3CostPriceExVat: number;
+  RRPIncVat: number;
+  ResellerPriceIncVat: number;
+  ResellerPriceExVat: number;
+}
+
+export class DataService{
+  AnyTime: number;
+  NightTime: number
+}
+
+export class LTEPricePercentage {
+  percId: number;
+  Percentage: number;
 }

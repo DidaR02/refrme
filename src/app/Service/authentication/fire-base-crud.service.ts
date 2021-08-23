@@ -22,6 +22,7 @@ export class FireBaseCrudService {
   public UserPersonalDetailsList!: AngularFireList<any>;
   public SalesApplicationList!: AngularFireList<any>;
   public NetworkOperatorProductList!: AngularFireList<any>;
+  public NetworkOperatorLTEProductsList!: AngularFireList<any>;
   public DisplayPagesList!: AngularFireList<any>;
   private displayPages: PageDisplayList[] = []
   private filePath: string = "RefrMe/storage/VerificationDocuments/";
@@ -175,5 +176,10 @@ export class FireBaseCrudService {
           if (this.displayPages.length > 0)
               localStorage.setItem("displayPages", JSON.stringify(this.displayPages));
         });
-    }
+  }
+
+  getLTEProducts() {
+    this.NetworkOperatorLTEProductsList = this.fireDb.list('NetworkOperatorLTEProducts');
+    return this.NetworkOperatorLTEProductsList;
+  }
 }
