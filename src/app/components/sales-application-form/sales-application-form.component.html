@@ -2,10 +2,12 @@
   <div class="form-holder">
 
     <!-- <div class=" form-content"> -->
-    <div class="container form-items">
+    <div class="container form-items salesForm">
       <div>
-        <h3 *ngIf="showHeader">Online Order Form</h3>
+        <h1 *ngIf="showHeader">Online Order Form</h1>
       </div>
+
+      <br>
 
       <form [formGroup]="salesApplication" id="application-form" action="#" (ngSubmit)="submitUserDetails()">
 

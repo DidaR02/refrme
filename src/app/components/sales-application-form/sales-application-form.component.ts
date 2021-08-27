@@ -637,7 +637,6 @@ export class SalesApplicationFormComponent implements OnInit {
               }
           }
         });
-        console.log(this.mtnFixedLTEServices);
         this.setLTEProducts();
       }
     );
@@ -646,13 +645,9 @@ export class SalesApplicationFormComponent implements OnInit {
     let mtnServes = this.fsCrud.getMTNFixedLTEServices()
       mtnServes.snapshotChanges().subscribe(
       serves => {
-          console.log(serves);
-
           serves.forEach(
             collection => {
               let collectopData = collection.payload.val();
-              console.log(collectopData);
-
               switch (collection.key) {
                 case "PricePercentage":
                   {
@@ -707,11 +702,6 @@ export class SalesApplicationFormComponent implements OnInit {
         this.topUpDataLTEPacks = []
         this.topUpDataLTEPacks =this.mtnFixedLTEServices.TopUpDataLTEPacks;
       }
-
-      console.log(this.lTEPricePercentage);
-      console.log(this.tier3LTEPacks[2]);
-      console.log(this.topUpDataLTEPacks);
-
     }
   }
 
