@@ -1,6 +1,7 @@
 {
   "projects": {
-    "default": "refrme-prod",
+    "default": "refrme-fbbe8",
+    "staging" : "refrme-fbbe8",
     "production": "refrme-prod",
     "refrme-prod": "refrme-prod"
   }

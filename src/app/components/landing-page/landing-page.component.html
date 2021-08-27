@@ -1,19 +1,24 @@
 <div class="container">
-    <div class="center">
-        <div class="row">
-            <div class="col-sm">
-                <button type="submit" class="btn btn-success btn-primary" routerLink="/login" href="/login">Login</button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                <button type="submit" class="btn btn-success btn-primary" routerLink="/join" href="/join">Join</button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                <button type="submit" class="btn btn-success btn-primary" routerLink="/home" href="/home" disabled>Explore</button>
-            </div>
-        </div>
+  <div class="center">
+    <div class="row">
+      <div class="col-sm">
+        <img src="../../../assets/logo/refrme-r.jpg" alt="logo" class="logo">
+      </div>
     </div>
+    <div class="row">
+      <div class="col-sm">
+        <button type="submit" class="btn btn-success btn-primary" (click)="redirectToLogin()">Login</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <button type="submit" class="btn btn-success btn-primary" (click)="redirectToRegister()">Join</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <button type="submit" class="btn btn-success btn-primary" (click)="redirectToHome()" disabled>Explore</button>
+      </div>
+    </div>
+  </div>
 </div>

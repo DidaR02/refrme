@@ -1,0 +1,82 @@
+<div class="container">
+
+  <div class="row align-items-center">
+    <div class="col">
+
+      <div class="container form-panel">
+
+        <div class="signup-user">
+          <!-- <h1>Please create Sign In credentials</h1>
+          <br> -->
+
+          <form [formGroup]="signUpFormGroup" id="signUp-form" action="#" (ngSubmit)="submitSigUpDetails()"
+            class="signup-form animate-box" data-animate-effect="fadeIn">
+
+            <div class="panel panel-primary">
+              <h2 class="panel-heading">Your Personal Details</h2>
+              <div class="panel-body">
+
+                <div class="form-row row">
+                  <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name"
+                      aria-required="true" formControlName="firstName" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name"
+                      aria-required="true" formControlName="lastName" required>
+                  </div>
+                </div>
+
+                <div class="form-row row">
+                  <div class="form-group col-md-6">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email *"
+                      aria-required="true" formControlName="email" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="confirmEmail" name="confirmEmail"
+                      placeholder="Confirm Email *" aria-required="true" formControlName="confirmEmail" required>
+                  </div>
+                </div>
+
+                <div class="form-row row">
+                  <div class="form-group col-md-6">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password *"
+                      aria-required="true" formControlName="password" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                      placeholder="Confirm Password *" aria-required="true" formControlName="confirmPassword" required>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="!this.isPasswordValid">
+                <div class="alert alert-danger alert-dismissible">
+                  <a class="close" data-dismiss="alert" aria-label="close" (click)="resetErrorMsg()">&times;</a>
+                  <strong>Password not valid!</strong> Please reenter your password correctly.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <input type="submit" value="Sign Up" class="btn btn-success btn-primary">
+              </div>
+
+            </div>
+
+            <div class="signup-div" style="padding-top: 15px;">
+              <p>
+                I already have an account.
+                <a class="sign-link" (click)="redirectToLogin()">
+                  <i class="fas fa-sign-in-alt"></i>Sign in with an existing account
+                </a>
+              </p>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

@@ -1,74 +1,185 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList,ViewChild, ViewChildren, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs';
-
-import { SalesApplicationService } from './SalesApplicationService.service';
-import { SortableHeaderDirective, SortEvent } from './sortable.directive';
-
-import { SaleApplication } from '../../Models/SalesApplicationModel';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { EditSalesApplicationComponent } from '../edit-sales-application/edit-sales-application.component';
+import { SaleApplication } from '../../models/salesApplicationModels/SalesApplicationModel';
+
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
+import { DisableView, PageDisplayList } from 'src/app/models/Settings/IPageDisplaySettings';
+import { SignedInUser } from 'src/app/models/userDetails/ISignedInUser';
+import { User } from 'src/app/models/userDetails/IUser';
+import { UserAccess } from 'src/app/models/userDetails/IUserAccess';
+import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
+import { UserManagerService } from 'src/app/service/authentication/userManager.service';
+import { DataTypeConversionService } from 'src/app/service/shared/dataType-conversion.service';
 
 @Component({
   selector: 'app-view-sales-application',
   templateUrl: './view-sales-application.component.html',
-  styleUrls: ['./view-sales-application.component.css']
+  styleUrls: ['./view-sales-application.component.scss']
 })
-export class ViewSalesApplicationComponent implements OnInit {
+export class ViewSalesApplicationComponent implements AfterViewInit {
 
-  ngOnInit(): void {
-    
-  }
-  salesApplications: Observable<SaleApplication[]>;
-  total: Observable<number>;
+  displayedColumns: string[] = ['name', 'surname', 'email'];
+  dataSource!: MatTableDataSource<SaleApplication>;
 
-  public isHidden: Boolean = true;
-  xPosTabMenu: Number;
-  yPosTabMenu: Number;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  salesApplications: SaleApplication[] = [];
 
-  @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
+  public showOverlay = false;
+  user: User;
+  private userAccess: UserAccess;
+  viewPage: boolean = true;
+  displayPages: PageDisplayList[] = [];
+  viewAllSalesApplications: boolean = false;
+  private signedInUser: SignedInUser;
 
-  constructor(public service: SalesApplicationService, public matDialog: MatDialog) {
-    this.salesApplications = service.salesApplications$;
-    this.total = service.total$;
-  }
+  private pageName: string = "viewSalesApplications";
 
-  onSort({column, direction}: SortEvent) {
-    // resetting other headers
-    this.headers.forEach(header => {
-      if (header.sortable !== column) {
-        header.direction = '';
-      }
-    });
-
-    this.service.sortColumn = column;
-    this.service.sortDirection = direction;
+  constructor(
+    public authService: AuthenticationService,
+    public convertDataType: DataTypeConversionService,
+    public userManagerService: UserManagerService,
+    public fsCrud: FireBaseCrudService) {
+    this.getUserInfo();
   }
 
-  rightClick(event) {
-    event.stopPropagation();
-    this.xPosTabMenu = event.clientX;
-    this.yPosTabMenu = event.clientY;
-    this.isHidden = false;
-    return false;
+  ngAfterViewInit() {
+    this.getSalesApplicationList();
   }
 
-  closeRightClickMenu() {
-    this.isHidden = true;
-  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
-  openModal(saleApplicationId: any) {
-    const dialogConfig = new MatDialogConfig();
-    // The user can't close the dialog by clicking outside its body
-    dialogConfig.disableClose = true;
-    dialogConfig.id = "edit-sales-component";
-    dialogConfig.data = {
-      name: "Close",
-      title: "Are you sure you want to close?",
-      description: "Pretend this is a convincing argument on why you shouldn't close :)",
-      actionButtonText: "Close",
-      saleAppId: saleApplicationId
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
-    
-    const modalDialog = this.matDialog.open(EditSalesApplicationComponent, dialogConfig);
+  }
+
+  async getSalesApplicationList() {
+    let salesList = this.fsCrud.getSalesApplicationList();
+
+    salesList.snapshotChanges().subscribe(
+      dataList => {
+        this.salesApplications = [];
+        dataList.forEach(saleApplication => {
+          let a: any = saleApplication.payload.toJSON();
+          a['saleApplicationId'] = saleApplication.key;
+          this.salesApplications.push(a as SaleApplication);
+
+        });
+
+        if (this.viewAllSalesApplications === false)
+        {
+          this.salesApplications = this.salesApplications.filter(x => x.AgentPromoCode === this.user?.promocode)
+        }
+
+          this.dataSource = new MatTableDataSource(this.salesApplications);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+      },
+      (error) => {
+        throw error
+      }
+    );
+  }
+
+   async getUserInfo()
+  {
+    let displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
+    if (!displayPageList || displayPageList.length < 1)
+    {
+      this.fsCrud.getDisaplayPages();
+    }
+    else
+    {
+      this.displayPages = displayPageList;
+    }
+
+    await this.userManagerService.createSignInUser();
+
+    if(this.authService.isLoggedIn)
+    {
+      if(!this.userAccess)
+      {
+        await this.authService.getLocalUserData();
+        await this.userManagerService.createSignInUser();
+      }
+
+      if(this.authService.userAccess)
+      {
+        this.userAccess = this.authService.userAccess;
+      }
+
+      if(this.userAccess)
+      {
+        if(!this.convertDataType.getBoolean(this.userAccess.canLogin?.toString()))
+        {
+          this.viewPage = false
+          return;
+        }
+        //if user cant view dashboard, redirect user to no access page.
+        if(this.userAccess?.disableView)
+        {
+          let isViewApplicationsDisabled: DisableView[] = this.userAccess?.disableView;
+
+          if (this.displayPages.length < 1)
+          {
+            this.fsCrud.getDisaplayPages();
+          }
+
+          if (this.displayPages.length > 1)
+          {
+            let getAllowedPage = this.displayPages.find(x => x.PageName === this.pageName)
+
+            for (var i = 0; i < isViewApplicationsDisabled.length; i++)
+            {
+              if (getAllowedPage?.PageId.toString() === isViewApplicationsDisabled[i]?.PageId)
+              {
+                this.viewPage = false;
+                break;
+              }
+            }
+          }
+        }
+
+          if (this.userAccess?.viewAllSalesApplications)
+          {
+            this.viewAllSalesApplications = this.convertDataType.getBoolean(this.userAccess.viewAllSalesApplications?.toString())
+          }
+      }
+
+      if(this.userManagerService.user){
+        this.user = {
+          uid: this.userManagerService.user?.uid,
+          displayName: this.userManagerService.user?.displayName,
+          email: this.userManagerService.user?.email,
+          emailVerified: this.userManagerService.user?.emailVerified,
+          photoURL: this.userManagerService.user?.photoURL,
+          firstName: this.userManagerService.user?.firstName,
+          lastName: this.userManagerService.user?.lastName,
+          promocode: this.userManagerService.user?.promocode
+        };
+
+        this.signedInUser = {
+          Uid: this.userManagerService.user?.uid,
+          User: this.user,
+          UserAccess: this.userAccess
+        };
+
+        localStorage.setItem('signedInUser', JSON.stringify(this.signedInUser));
+        }
+        else
+        {
+          if(!this.signedInUser || !this.signedInUser.Uid || !this.signedInUser.User || !this.signedInUser.User.uid || !this.signedInUser.UserAccess)
+          {
+            this.userManagerService.createSignInUser();
+          }
+        }
+    }
   }
 }

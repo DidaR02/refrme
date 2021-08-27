@@ -1,0 +1,27 @@
+// .form-content {
+//   width: auto;
+//   height: auto;
+//   overflow-x: scroll 34px;
+//   overflow-y: scroll;
+// }
+
+table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.mat-form-field {
+  font-size: 215%;
+  width: 100%;
+}
+
+td,
+th {
+  width: 25%;
+}
+
+@media screen and (max-width: 422px) {
+  table {
+    overflow: scroll;
+  }
+}

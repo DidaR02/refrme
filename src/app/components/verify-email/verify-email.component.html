@@ -1,1 +1,34 @@
-<p>verify-email works!</p>
+<div class="container">
+  <div class="row verifyemail-contents">
+
+    <div class="success-banner" *ngIf="authService.userData as user; else noUser">
+      <h2 class="panel-heading">Thank You for Registering!</h2>
+
+      <div class="success-info formGoup">
+        <p class="text-center">We have sent a confirmation email to <strong class="email">{{user.email}}</strong>.</p>
+        <p class="text-center">Please check your email and click on the link to verfiy your email address.</p>
+
+        <p class="text-center">Please remember to keep your agent promocode safe at all times <strong
+            class="promocode">{{user.promocode}}</strong>.</p>
+      </div>
+
+      <!-- Calling SendVerificationMail() method using authService Api -->
+      <div class="success-info formGoup">
+        <input type="submit" value="Resend Verification Email" class="btn btn-success btn-primary"
+          (click)="authService.SendVerificationMail()">
+      </div>
+
+    </div>
+    <ng-template #noUser class="no-user">
+      <p>No user was created.</p>
+    </ng-template>
+    <div class="signin-div redirectToLogin">
+      <p>
+        Go to
+        <a class="sign-link redirect" (click)="redirectTologin()">
+          <i class="fas fa-sign-in-alt"></i>Login
+        </a>
+      </p>
+    </div>
+  </div>
+</div>

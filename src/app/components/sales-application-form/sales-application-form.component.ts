@@ -1,56 +1,237 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UserPersonalDetails,AddresDetails } from '../../Models/UserModel';
-import { ServiceProvider } from '../../Models/ServiceProviderModel';
-import { FireBaseCrudService } from '../../Service/fire-base-crud.service';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'; // Reactive form services
-import { NetworkOperator, NetworkOperatorProducts, ProductMessage } from '../../Models/NetworkOperatorModel';
-// import { IfStmt } from '@angular/compiler';
-import { SaleApplication } from '../../Models/SalesApplicationModel';
-import { Router } from "@angular/router";
-import { Key } from 'protractor';
+import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DataService, MTNFixedLTEServices, LTEPacks, PricePercentage, NetworkOperator, NetworkOperatorLTEProducts, NetworkOperatorProducts, ProductMessage, Tier3LTEPacks, TopUpDataLTEPacks } from 'src/app/models/salesApplicationModels/NetworkOperatorModel';
+import { SaleApplication } from 'src/app/models/salesApplicationModels/SalesApplicationModel';
+import { ServiceProvider } from 'src/app/models/salesApplicationModels/ServiceProviderModel';
+import { UserPersonalDetails, AddresDetails } from 'src/app/models/salesApplicationModels/UserModel';
+import { DisableView, PageDisplayList } from 'src/app/models/Settings/IPageDisplaySettings';
+import { SignedInUser } from 'src/app/models/userDetails/ISignedInUser';
+import { User } from 'src/app/models/userDetails/IUser';
+import { UserAccess } from 'src/app/models/userDetails/IUserAccess';
+import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
+import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
+import { UserManagerService } from 'src/app/service/authentication/userManager.service';
+import { DataTypeConversionService } from 'src/app/service/shared/dataType-conversion.service';
 
 @Component({
   selector: 'app-sales-application-form',
   templateUrl: './sales-application-form.component.html',
-  styleUrls: ['./sales-application-form.component.css']
+  styleUrls: ['./sales-application-form.component.scss']
 })
 export class SalesApplicationFormComponent implements OnInit {
   title = 'RefrMe';
-  networkOperators: NetworkOperator[];
+  networkOperators: NetworkOperator[] = [];
   serviceProviders: ServiceProvider[] = [];
-  serviceProvider: ServiceProvider = null;
-  networkOperatorProducts: NetworkOperatorProducts[];
+  serviceProvider: ServiceProvider = new ServiceProvider();
+  networkOperatorProducts: NetworkOperatorProducts[] | any;
   productListMessage: ProductMessage[] = [];
   networkOperatorId: string = "";
   networkOperatorName: string = "";
 
   servProvId: string = "1";
   servProvName: string = "RefrMe";
-  
+
   showPackages: boolean = true;
 
   @Input() AddressType: FormControl = new FormControl();
   @Input() DeliveryInstallOption: FormControl = new FormControl();
 
   verificationDocuments: File[] = [];
-  
+
   createFileElementTagName  = new Map<string, File>();
   message = new ProductMessage();
 
-  salesApplicationsList: SaleApplication[];
+  salesApplicationsList: SaleApplication[] = [];
   @Input() applicationFormState: string ="newSales";
   showHeader: boolean = true;
   @Input() saleApplicationId?: any;
-  @Input() userId : string;
+  @Input() userId : string = '';
   disableDetailsEdit: boolean = true;
+  user: User;
+  userAccess: UserAccess;
 
-  constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder){}
+  signedInUser: SignedInUser
 
-  ngOnInit(){
+  viewPage = true;
+  submitOwnApplications = true;
+
+  displayPages: PageDisplayList[] = [];
+  private pageName: string = 'salesApplications';
+
+  networkOperatorLTEProducts: NetworkOperatorLTEProducts;
+  mtnFixedLTEServices: MTNFixedLTEServices = new MTNFixedLTEServices();
+  lTEPacks: LTEPacks[] = [];
+  lTEPricePercentage: PricePercentage[] = [];
+  dataService: DataService[] = [];
+  switchProducts: string;
+  lteProducts: any;
+  tier3LTEPacks: Tier3LTEPacks[] = [];
+  topUpDataLTEPacks: TopUpDataLTEPacks [] = [];
+
+  constructor(
+    public fsCrud: FireBaseCrudService,
+    public formBuilder: FormBuilder,
+    public userManagerService: UserManagerService,
+    public authService: AuthenticationService,
+    public convertDataType: DataTypeConversionService
+  ) {
+
+    let displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
+    if (!displayPageList || displayPageList.length < 1)
+    {
+      this.fsCrud.getDisaplayPages();
+    }
+  }
+
+  ngOnInit() {
+    this.getUserInfo();
+    this.displaySalesAppType();
     this.getNetworkOperator();
     this.getServiceProviders();
     this.setHeader();
-    this.getSalesApplications();    
+    this.getSalesApplications();
+    // this.getOperatorLTEProducts();
+    this.getMTNFixedLTEServices()
+  }
+
+  async getUserInfo()
+  {
+    let displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
+    if (!displayPageList || displayPageList.length < 1)
+    {
+      this.fsCrud.getDisaplayPages();
+    }
+    else
+    {
+      this.displayPages = displayPageList;
+    }
+
+    this.userManagerService.createSignInUser();
+
+    if(this.authService?.isLoggedIn)
+    {
+      if(!this.userAccess)
+      {
+        //this.authService.getLocalUserData();
+        this.userManagerService.createSignInUser();
+      }
+
+      if(this.authService?.userAccess)
+      {
+        this.userAccess = this.authService?.userAccess;
+      }
+
+      if(this.userAccess)
+      {
+        //if user cant view dashboard, redirect user to no access page.
+     if(this.userAccess?.disableView)
+        {
+          let salesAppAccess: DisableView[] = this.userAccess?.disableView;
+
+          if (this.displayPages.length < 1)
+          {
+            this.fsCrud.getDisaplayPages();
+          }
+
+          if (this.displayPages.length > 1)
+          {
+            let getAllowedPage = this.displayPages.find(x => x.PageName === this.pageName)
+
+            for (var i = 0; i < salesAppAccess.length; i++)
+            {
+              if (getAllowedPage?.PageId.toString() === salesAppAccess[i]?.PageId)
+              {
+                this.viewPage = false;
+                break;
+              }
+            }
+          }
+        }
+      }
+
+      if(this.userManagerService.user){
+        this.user = {
+          uid: this.userManagerService.user?.uid,
+          displayName: this.userManagerService.user?.displayName,
+          email: this.userManagerService.user?.email,
+          emailVerified: this.userManagerService.user?.emailVerified,
+          photoURL: this.userManagerService.user?.photoURL,
+          firstName: this.userManagerService.user?.firstName,
+          lastName: this.userManagerService.user?.lastName,
+          promocode: this.userManagerService.user?.promocode
+        };
+
+        this.signedInUser = {
+          Uid: this.userManagerService.user?.uid,
+          User: this.user,
+          UserAccess: this.userAccess
+        };
+
+        localStorage.setItem('signedInUser', JSON.stringify(this.signedInUser));
+        }
+        else
+        {
+          if(!this.signedInUser || !this.signedInUser.Uid || !this.signedInUser.User || !this.signedInUser.User.uid || !this.signedInUser.UserAccess)
+          {
+            this.userManagerService.createSignInUser();
+          }
+        }
+    }
+  }
+
+  async displaySalesAppType()
+  {
+    this.userManagerService.createSignInUser();
+
+    if(this.authService?.isLoggedIn)
+    {
+      if(!this.userAccess)
+      {
+        //this.authService.getLocalUserData();
+        this.userManagerService.createSignInUser();
+      }
+
+      if(this.authService?.userAccess)
+      {
+        this.userAccess = this.authService?.userAccess;
+      }
+
+      if(this.userAccess?.canSubmitAllApplications)
+      {
+        if(this.convertDataType.getBoolean(this.userAccess?.canSubmitAllApplications))
+        {
+          this.submitOwnApplications = false;
+        }
+      }
+
+      if(this.userManagerService.user){
+        this.user = {
+          uid: this.userManagerService.user?.uid,
+          displayName: this.userManagerService.user?.displayName,
+          email: this.userManagerService.user?.email,
+          emailVerified: this.userManagerService.user?.emailVerified,
+          photoURL: this.userManagerService.user?.photoURL,
+          firstName: this.userManagerService.user?.firstName,
+          lastName: this.userManagerService.user?.lastName,
+          promocode: this.userManagerService.user?.promocode
+        };
+
+        this.signedInUser = {
+          Uid: this.userManagerService.user?.uid,
+          User: this.user,
+          UserAccess: this.userAccess
+        };
+
+        localStorage.setItem('signedInUser', JSON.stringify(this.signedInUser));
+        }
+        else
+        {
+          if(!this.signedInUser || !this.signedInUser.Uid || !this.signedInUser.User || !this.signedInUser.User.uid || !this.signedInUser.UserAccess)
+          {
+            this.userManagerService.createSignInUser();
+          }
+        }
+    }
   }
 
   setHeader(){
@@ -72,7 +253,7 @@ export class SalesApplicationFormComponent implements OnInit {
    async getSalesApplications(){
     if(this.applicationFormState?.length > 0 && this.applicationFormState === "editSales")
     {
-       await this.getSalesApplicationsList();
+       await this.getSalesApplicationsList(this.submitOwnApplications);
     }
   }
 
@@ -82,9 +263,9 @@ export class SalesApplicationFormComponent implements OnInit {
       data =>{
         this.networkOperators = [];
         data.forEach( item =>{
-          let operator = item.payload.toJSON();
+          let operator: any = item.payload.toJSON();
           operator['NetworkOperatorId'] = item.key
-           if(operator)
+          if(operator)
           {
             this.networkOperators.push(operator as NetworkOperator);
           }
@@ -119,7 +300,7 @@ export class SalesApplicationFormComponent implements OnInit {
           this.productListMessage = [];
 
           for(var prodList = 0 ; prodList < this.networkOperatorProducts.length; prodList++){
-            
+
             if(this.networkOperatorProducts[prodList]['Products']){
               for(var prodItem in this.networkOperatorProducts[prodList]['Products']){
 
@@ -130,14 +311,14 @@ export class SalesApplicationFormComponent implements OnInit {
                 this.message.InstallationAmount= this.networkOperators[parseInt(this.networkOperatorId)-1]?.NetworkOperatorNewInstallAmount;
                 this.message.ActivationAmount = this.networkOperators[parseInt(this.networkOperatorId)-1]?.NetworkOperatorExistingInstallAmount
                 this.message.ProductMessage = this.buildNetworkOperatorProductListMessage(this.networkOperatorProducts[prodList]['Products'][prodItem]['ProdName'],
-                
+
                 this.networkOperatorProducts[prodList]['Products'][prodItem]['Download'],
                 this.networkOperatorProducts[prodList]['Products'][prodItem]['Upload'],
                 this.networkOperatorProducts[prodList]['Products'][prodItem]['ProdPrice'],
                 this.networkOperatorProducts[prodList]['Products'][prodItem]['PaymentTerms'],
                 this.message.InstallationAmount,
                 this.message.ActivationAmount);
-                
+
                 this.productListMessage.push(this.message as ProductMessage);
               }
             }
@@ -151,7 +332,7 @@ export class SalesApplicationFormComponent implements OnInit {
       }
     );
 
-    
+
   }
 
   buildNetworkOperatorProductListMessage( productName: string, download: string, upload: string, amount: string, payTerms: string, installAmount: string, existInstallAmount: string)
@@ -180,12 +361,12 @@ export class SalesApplicationFormComponent implements OnInit {
       }
     );
 
-    
+
   };
 
   getServiceProvider()
   {
-    
+
     if(this.serviceProviders)
     {
       for(var sp = 0 ; sp <= this.serviceProviders.length; sp++)
@@ -197,6 +378,7 @@ export class SalesApplicationFormComponent implements OnInit {
       }
     }
   }
+
   public addressDetails= new FormGroup({
     AddressLine1: new FormControl('',Validators.required),
     AddressLine2: new FormControl(),
@@ -221,7 +403,7 @@ export class SalesApplicationFormComponent implements OnInit {
     DeliveryInstallOption: new FormControl(this.DeliveryInstallOption.value, Validators.required)
   });
 
-  //private serviceProviderB: ServiceProvider = this.serviceProvider[this.serviceProvider.findIndex(x => x.ServiceProviderId === this.servProvId)]; 
+  //private serviceProviderB: ServiceProvider = this.serviceProvider[this.serviceProvider.findIndex(x => x.ServiceProviderId === this.servProvId)];
   public billingBankDetails = new FormGroup({
     AccountName: new FormControl('',Validators.required),
     BankName: new FormControl('',Validators.required),
@@ -234,6 +416,7 @@ export class SalesApplicationFormComponent implements OnInit {
   public salesApplication = new FormGroup({
     AgentPromoCode: new FormControl(),
     NetworkOperator: new FormControl(),
+    LtePackageDeal: new FormControl(),
     IsCpeFirbreInstalled: new FormControl(),
     NetworkOperatorPackage: new FormControl(),
     UserPersonalDetails: new FormGroup(this.userPersonalDetails.controls),
@@ -251,10 +434,10 @@ export class SalesApplicationFormComponent implements OnInit {
   ResetForm() {
     this.salesApplication.reset();
     this.userPersonalDetails.reset();
-    this.verificationDocuments = null;
-    this.createFileElementTagName = null;
-  } 
-  onfibreInstalledSelected(event)
+    this.verificationDocuments = [];
+    this.createFileElementTagName = new Map<string, File>();
+  }
+  onfibreInstalledSelected(event: any)
   {
     let selecteValue = event.target.value;
     if(selecteValue === "No. I need Fibre installed into my home.")
@@ -266,7 +449,7 @@ export class SalesApplicationFormComponent implements OnInit {
       this.showPackages = true;
     }
   }
-  onSelectedNetworkOperator(event){
+  onSelectedNetworkOperator(event: any){
     if(this.networkOperators)
     {
       const selectedNetOpId = event.target.value;
@@ -283,16 +466,16 @@ export class SalesApplicationFormComponent implements OnInit {
           this.getNetworkOperatorProducts(this.networkOperatorId);
     }
   }
-  
-  changeAddressType(event){
+
+  changeAddressType(event: any){
     //console.log(event.target.value);
   }
-  
-  getIdentityDocumentFile(event) {
+
+  getIdentityDocumentFile(event: any) {
     this.createFileElementTagName.set("IdentityDocument",event.target.files[0]);
   }
 
-  getProofOfResidence(event) {
+  getProofOfResidence(event: any) {
     this.createFileElementTagName.set("ProofOfResidence",event.target.files[0]);
   }
 
@@ -312,6 +495,14 @@ export class SalesApplicationFormComponent implements OnInit {
 
     var saleApplication: SaleApplication = formDetails;
 
+
+    let promoCode = formDetails?.AgentPromoCode;
+    if (this.submitOwnApplications && (promoCode != this.user.promocode))
+    {
+      window.alert("Submitting other applications is not allowed.");
+      return;
+    }
+
     if(userPersonalDetails || saleApplication)
     {
        //if(this.applicationFormState === "newSales") {
@@ -321,10 +512,10 @@ export class SalesApplicationFormComponent implements OnInit {
 
       this.fsCrud.saveSaleApplication(formDetails, this.saleApplicationId);
       if(this.createFileElementTagName != null || this.createFileElementTagName != undefined){
-        //Iterate over map keys  
-        for (let fileElementTag of this.createFileElementTagName.entries()) {  
+        //Iterate over map keys
+        for (let fileElementTag of this.createFileElementTagName.entries()) {
             this.saveFile(fileElementTag[1], fileElementTag[0]);
-        }  
+        }
       }
     }
     else{
@@ -332,28 +523,32 @@ export class SalesApplicationFormComponent implements OnInit {
       return;
     }
 
-    this.ResetForm(); 
+    this.ResetForm();
   }
 
-  private async getSalesApplicationsList(){
+  private async getSalesApplicationsList(getOwnSalesApplications: boolean = false){
 
-    let salesList = await this.fsCrud.getSalesApplicationList();
-      await salesList.snapshotChanges().subscribe(
+    let salesList = this.fsCrud.getSalesApplicationList();
+      salesList.snapshotChanges().subscribe(
       dataList => {
         this.salesApplicationsList = [];
         dataList.forEach(saleApplication => {
-          let a = saleApplication.payload.toJSON();
+          let a: any = saleApplication.payload.toJSON();
           a['SaleApplicationId'] = saleApplication.key;
           this.salesApplicationsList.push(a as SaleApplication);
         });
 
+          if (getOwnSalesApplications)
+          {
+            this.salesApplicationsList = this.salesApplicationsList.filter(x => x.AgentPromoCode === this.user.promocode);
+          }
         this.prePopulateSalesFormData(this.saleApplicationId);
       }
     );
   }
 
   private async prePopulateSalesFormData(saleAppId?: any){
-  
+
     if((this.applicationFormState === "editSales") && (this.salesApplicationsList && this.salesApplicationsList.length > 0))
     {
       this.salesApplicationsList.forEach( entries => {
@@ -362,6 +557,7 @@ export class SalesApplicationFormComponent implements OnInit {
         {
           this.salesApplication.patchValue({
             AgentPromoCode: entries.AgentPromoCode?.toString(),
+            LtePackageDeal: entries.LtePackageDeal?.toString(),
             NetworkOperator: entries.NetworkOperator?.toString(),
             IsCpeFirbreInstalled: entries.IsCpeFirbreInstalled?.toString(),
             NetworkOperatorPackage: entries.NetworkOperatorPackage?.toString(),
@@ -404,5 +600,113 @@ export class SalesApplicationFormComponent implements OnInit {
 
       this.disableDetailsEdit = true;
     }
+  }
+
+  onPackageDealSelected(event: any)
+  {
+    if (event || event.target)
+    {
+      if (event?.target?.value === "fibre")
+      {
+        this.switchProducts = "fibre"
+      }
+      if (event?.target?.value === "lte")
+      {
+        this.switchProducts = "lte"
+
+      }
+    }
+  }
+
+  getOperatorLTEProducts()
+  {
+    let networkLTEProductsList = this.fsCrud.getOperatorLTEProducts();
+    networkLTEProductsList.snapshotChanges().subscribe(
+      myList => {
+        this.networkOperatorLTEProducts = new NetworkOperatorLTEProducts();
+
+        myList.forEach(lteProducts => {
+
+          let lteProds: any = lteProducts.payload.toJSON();
+
+          switch (lteProducts.key) {
+            case "MTNFixedLTEServices":
+              {
+                this.mtnFixedLTEServices = lteProds;
+                break;
+              }
+          }
+        });
+        this.setLTEProducts();
+      }
+    );
+  }
+  getMTNFixedLTEServices() {
+    let mtnServes = this.fsCrud.getMTNFixedLTEServices()
+      mtnServes.snapshotChanges().subscribe(
+      serves => {
+          serves.forEach(
+            collection => {
+              let collectopData = collection.payload.val();
+              switch (collection.key) {
+                case "PricePercentage":
+                  {
+                    if (collectopData.length > 0) {
+                      for (var item = 0; item <= collectopData.length - 1; item++) {
+                        if (collectopData[item]) {
+                          this.lTEPricePercentage.push(collectopData[item]);
+                        }
+                      }
+                    }
+                    break;
+                  }
+
+                case "Tier3LTEPacks":
+                  {
+                    if (collectopData.length > 0) {
+                      for (var item = 0; item <= collectopData.length - 1; item++) {
+                        if (collectopData[item]) {
+                          this.tier3LTEPacks.push(collectopData[item]);
+                        }
+                      }
+                    }
+                    break;
+                  }
+
+                case "TopUpDataLTEPacks":
+                  {
+                    if (collectopData.length > 0) {
+                      for (var item = 0; item <= collectopData.length - 1; item++) {
+                        if (collectopData[item]) {
+                          this.topUpDataLTEPacks.push(collectopData[item]);
+                        }
+                      }
+                    }
+                    break;
+                  }
+              }
+            });
+        });
+}
+  setLTEProducts() {
+    if (this.mtnFixedLTEServices) {
+      if (this.mtnFixedLTEServices?.PricePercentage) {
+        this.lTEPricePercentage = []
+        this.lTEPricePercentage = this.mtnFixedLTEServices.PricePercentage;
+      }
+      if (this.mtnFixedLTEServices?.Tier3LTEPacks) {
+        this.tier3LTEPacks = []
+        this.tier3LTEPacks = this.mtnFixedLTEServices.Tier3LTEPacks;
+      }
+      if (this.mtnFixedLTEServices?.TopUpDataLTEPacks) {
+        this.topUpDataLTEPacks = []
+        this.topUpDataLTEPacks =this.mtnFixedLTEServices.TopUpDataLTEPacks;
+      }
+    }
+  }
+
+  onSelectTier3LTEPacks(event: any) {
+     console.log("Selected");
+    console.log(event?.target?.value);
   }
 }
