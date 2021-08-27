@@ -7,7 +7,7 @@ import { NetworkOperator, NetworkOperatorProducts } from './NetworkOperatorModel
 export class SaleApplication{
     public SaleApplicationId!: string;
     public AgentPromoCode!: string;
-    public PackageDeal!: string;
+    public LtePackageDeal!: string;
     public serviceProvider!: ServiceProvider;
     public NetworkOperator!: NetworkOperator;
     public NetworkOperatorPackage!: NetworkOperatorProducts;

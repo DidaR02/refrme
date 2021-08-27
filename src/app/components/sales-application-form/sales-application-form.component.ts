@@ -416,7 +416,7 @@ export class SalesApplicationFormComponent implements OnInit {
   public salesApplication = new FormGroup({
     AgentPromoCode: new FormControl(),
     NetworkOperator: new FormControl(),
-    PackageDeal: new FormControl(),
+    LtePackageDeal: new FormControl(),
     IsCpeFirbreInstalled: new FormControl(),
     NetworkOperatorPackage: new FormControl(),
     UserPersonalDetails: new FormGroup(this.userPersonalDetails.controls),
@@ -503,16 +503,6 @@ export class SalesApplicationFormComponent implements OnInit {
       return;
     }
 
-    var packageDeal = this.saleApplicationId?.PackageDeal;
-    if (packageDeal === "Fibre")
-    {
-
-    }
-    if (packageDeal === "LTE")
-    {
-
-    }
-
     if(userPersonalDetails || saleApplication)
     {
        //if(this.applicationFormState === "newSales") {
@@ -567,7 +557,7 @@ export class SalesApplicationFormComponent implements OnInit {
         {
           this.salesApplication.patchValue({
             AgentPromoCode: entries.AgentPromoCode?.toString(),
-            PackageDeal: entries.PackageDeal?.toString(),
+            LtePackageDeal: entries.LtePackageDeal?.toString(),
             NetworkOperator: entries.NetworkOperator?.toString(),
             IsCpeFirbreInstalled: entries.IsCpeFirbreInstalled?.toString(),
             NetworkOperatorPackage: entries.NetworkOperatorPackage?.toString(),
