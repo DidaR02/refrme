@@ -25,54 +25,90 @@
         <div class="row">
           <div class="col">
             <div class="form-group">
-              <label for="isCpeFirbreInstalled">Do you have Fibre installed already?</label>
-              <select class="form-control select" formControlName="IsCpeFirbreInstalled" id="isCpeFirbreInstalled"
-                (change)='onfibreInstalledSelected($event)'>
-                <option selected>Select your option</option>
-                <option>No. I need Fibre installed into my home.</option>
-                <option>Yes. I have Fibre installed but i have no Internet Service Provider.</option>
-                <option>Yes. I have Fibre installed and would like to switch to RefrMe. (Activation R499)</option>
+              <label for="PackageDeal">Please select package deal</label>
+              <select class="select" id="PackageDeal" (change)='onPackageDealSelected($event)'>
+                <option value="none" selected>Select your option</option>
+                <option value="fibre">Fibre</option>
+                <option value="lte">LTE</option>
               </select>
             </div>
           </div>
         </div>
 
-        <div class="row">
-          <div class="col">
-            <ng-template [ngIf]="showPackages">
-              <div class="form-group">
-                <label for="selectNetworkOperator">Please select network operator</label>
-                <select class="form-control" formControlName="NetworkOperator" id="selectNetworkOperator"
-                  (change)='onSelectedNetworkOperator($event)'>
-                  <option *ngFor="let netOp of networkOperators" [value]="netOp.NetworkOperatorId">
-                    {{netOp.NetworkOperatorName}}</option>
-                </select>
-              </div>
-            </ng-template>
-          </div>
-        </div>
-
-        <ng-template [ngIf]="showPackages">
+        <ng-template [ngIf]="switchProducts === 'fibre'">
           <div class="row">
             <div class="col">
               <div class="form-group">
-                <label for="selectNetworkOperatorPackage"> {{networkOperatorName}} Package Options. *Installation of R
-                  {{message.InstallationAmount}} not
-                  applicable if
-                  you have a {{networkOperatorName}} CPE installed into your home already.</label>
-                <select class="form-control" formControlName="NetworkOperatorPackage" id="selectNetworkOperatorPackage">
-                  <option selected="selected">Please select your Internet speed package. *Installation of R
-                    {{message.InstallationAmount}} not applicable if you have a {{networkOperatorName}} CPE installed
-                    into
-                    your home already.</option>
-                  <option *ngFor="let Products of productListMessage" [value]="Products.prodId">
-                    {{Products.ProductMessage}}
-                  </option>
+                <label for="isCpeFirbreInstalled">Do you have Fibre installed already?</label>
+                <select class="form-control select" formControlName="IsCpeFirbreInstalled" id="isCpeFirbreInstalled"
+                  (change)='onfibreInstalledSelected($event)'>
+                  <option selected>Select your option</option>
+                  <option>No. I need Fibre installed into my home.</option>
+                  <option>Yes. I have Fibre installed but i have no Internet Service Provider.</option>
+                  <option>Yes. I have Fibre installed and would like to switch to RefrMe. (Activation R499)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <ng-template [ngIf]="showPackages">
+                <div class="form-group">
+                  <label for="selectNetworkOperator">Please select network operator</label>
+                  <select id="selectNetworkOperator" (change)='onSelectedNetworkOperator($event)'>
+                    <option *ngFor="let netOp of networkOperators" [value]="netOp.NetworkOperatorId">
+                      {{netOp.NetworkOperatorName}}</option>
+                  </select>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+
+          <ng-template [ngIf]="showPackages">
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="selectNetworkOperatorPackage"> {{networkOperatorName}} Package Options. *Installation of
+                    R
+                    {{message.InstallationAmount}} not
+                    applicable if
+                    you have a {{networkOperatorName}} CPE installed into your home already.</label>
+                  <select class="form-control" formControlName="NetworkOperatorPackage"
+                    id="selectNetworkOperatorPackage">
+                    <option selected="selected">Please select your Internet speed package. *Installation of R
+                      {{message.InstallationAmount}} not applicable if you have a {{networkOperatorName}} CPE installed
+                      into
+                      your home already.</option>
+                    <option *ngFor="let Products of productListMessage" [value]="Products.prodId">
+                      {{Products.ProductMessage}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ng-template>
+
+
+        <ng-template [ngIf]="switchProducts === 'lte'">
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="PackageDealSelect">Please select LTE Package</label>
+                <select id="PackageDealSelect" (change)='onSelectTier3LTEPacks($event)'>
+                  <option selected="selected" [value]="0">select LTE Package</option>
+                  <option *ngFor="let fixedLte of tier3LTEPacks" [value]="fixedLte.PackageName">
+                    {{fixedLte.PackageName}}</option>
                 </select>
               </div>
             </div>
           </div>
         </ng-template>
+
+
+
+
 
         <div class="panel panel-primary">
           <div class="panel-heading">Your Personal Details</div>

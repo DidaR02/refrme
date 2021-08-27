@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NetworkOperator, NetworkOperatorProducts, ProductMessage } from 'src/app/models/salesApplicationModels/NetworkOperatorModel';
+import { DataService, MTNFixedLTEServices, LTEPacks, PricePercentage, NetworkOperator, NetworkOperatorLTEProducts, NetworkOperatorProducts, ProductMessage, Tier3LTEPacks, TopUpDataLTEPacks } from 'src/app/models/salesApplicationModels/NetworkOperatorModel';
 import { SaleApplication } from 'src/app/models/salesApplicationModels/SalesApplicationModel';
 import { ServiceProvider } from 'src/app/models/salesApplicationModels/ServiceProviderModel';
 import { UserPersonalDetails, AddresDetails } from 'src/app/models/salesApplicationModels/UserModel';
@@ -58,6 +58,16 @@ export class SalesApplicationFormComponent implements OnInit {
   displayPages: PageDisplayList[] = [];
   private pageName: string = 'salesApplications';
 
+  networkOperatorLTEProducts: NetworkOperatorLTEProducts;
+  mtnFixedLTEServices: MTNFixedLTEServices = new MTNFixedLTEServices();
+  lTEPacks: LTEPacks[] = [];
+  lTEPricePercentage: PricePercentage[] = [];
+  dataService: DataService[] = [];
+  switchProducts: string;
+  lteProducts: any;
+  tier3LTEPacks: Tier3LTEPacks[] = [];
+  topUpDataLTEPacks: TopUpDataLTEPacks [] = [];
+
   constructor(
     public fsCrud: FireBaseCrudService,
     public formBuilder: FormBuilder,
@@ -80,6 +90,8 @@ export class SalesApplicationFormComponent implements OnInit {
     this.getServiceProviders();
     this.setHeader();
     this.getSalesApplications();
+    // this.getOperatorLTEProducts();
+    this.getMTNFixedLTEServices()
   }
 
   async getUserInfo()
@@ -404,6 +416,7 @@ export class SalesApplicationFormComponent implements OnInit {
   public salesApplication = new FormGroup({
     AgentPromoCode: new FormControl(),
     NetworkOperator: new FormControl(),
+    PackageDeal: new FormControl(),
     IsCpeFirbreInstalled: new FormControl(),
     NetworkOperatorPackage: new FormControl(),
     UserPersonalDetails: new FormGroup(this.userPersonalDetails.controls),
@@ -490,6 +503,16 @@ export class SalesApplicationFormComponent implements OnInit {
       return;
     }
 
+    var packageDeal = this.saleApplicationId?.PackageDeal;
+    if (packageDeal === "Fibre")
+    {
+
+    }
+    if (packageDeal === "LTE")
+    {
+
+    }
+
     if(userPersonalDetails || saleApplication)
     {
        //if(this.applicationFormState === "newSales") {
@@ -544,6 +567,7 @@ export class SalesApplicationFormComponent implements OnInit {
         {
           this.salesApplication.patchValue({
             AgentPromoCode: entries.AgentPromoCode?.toString(),
+            PackageDeal: entries.PackageDeal?.toString(),
             NetworkOperator: entries.NetworkOperator?.toString(),
             IsCpeFirbreInstalled: entries.IsCpeFirbreInstalled?.toString(),
             NetworkOperatorPackage: entries.NetworkOperatorPackage?.toString(),
@@ -586,5 +610,123 @@ export class SalesApplicationFormComponent implements OnInit {
 
       this.disableDetailsEdit = true;
     }
+  }
+
+  onPackageDealSelected(event: any)
+  {
+    if (event || event.target)
+    {
+      if (event?.target?.value === "fibre")
+      {
+        this.switchProducts = "fibre"
+      }
+      if (event?.target?.value === "lte")
+      {
+        this.switchProducts = "lte"
+
+      }
+    }
+  }
+
+  getOperatorLTEProducts()
+  {
+    let networkLTEProductsList = this.fsCrud.getOperatorLTEProducts();
+    networkLTEProductsList.snapshotChanges().subscribe(
+      myList => {
+        this.networkOperatorLTEProducts = new NetworkOperatorLTEProducts();
+
+        myList.forEach(lteProducts => {
+
+          let lteProds: any = lteProducts.payload.toJSON();
+
+          switch (lteProducts.key) {
+            case "MTNFixedLTEServices":
+              {
+                this.mtnFixedLTEServices = lteProds;
+                break;
+              }
+          }
+        });
+        console.log(this.mtnFixedLTEServices);
+        this.setLTEProducts();
+      }
+    );
+  }
+  getMTNFixedLTEServices() {
+    let mtnServes = this.fsCrud.getMTNFixedLTEServices()
+      mtnServes.snapshotChanges().subscribe(
+      serves => {
+          console.log(serves);
+
+          serves.forEach(
+            collection => {
+              let collectopData = collection.payload.val();
+              console.log(collectopData);
+
+              switch (collection.key) {
+                case "PricePercentage":
+                  {
+                    if (collectopData.length > 0) {
+                      for (var item = 0; item <= collectopData.length - 1; item++) {
+                        if (collectopData[item]) {
+                          this.lTEPricePercentage.push(collectopData[item]);
+                        }
+                      }
+                    }
+                    break;
+                  }
+
+                case "Tier3LTEPacks":
+                  {
+                    if (collectopData.length > 0) {
+                      for (var item = 0; item <= collectopData.length - 1; item++) {
+                        if (collectopData[item]) {
+                          this.tier3LTEPacks.push(collectopData[item]);
+                        }
+                      }
+                    }
+                    break;
+                  }
+
+                case "TopUpDataLTEPacks":
+                  {
+                    if (collectopData.length > 0) {
+                      for (var item = 0; item <= collectopData.length - 1; item++) {
+                        if (collectopData[item]) {
+                          this.topUpDataLTEPacks.push(collectopData[item]);
+                        }
+                      }
+                    }
+                    break;
+                  }
+              }
+            });
+        });
+}
+  setLTEProducts() {
+    if (this.mtnFixedLTEServices) {
+      if (this.mtnFixedLTEServices?.PricePercentage) {
+        this.lTEPricePercentage = []
+        this.lTEPricePercentage = this.mtnFixedLTEServices.PricePercentage;
+      }
+      if (this.mtnFixedLTEServices?.Tier3LTEPacks) {
+        this.tier3LTEPacks = []
+        this.tier3LTEPacks = this.mtnFixedLTEServices.Tier3LTEPacks;
+      }
+      if (this.mtnFixedLTEServices?.TopUpDataLTEPacks) {
+        this.topUpDataLTEPacks = []
+        this.topUpDataLTEPacks =this.mtnFixedLTEServices.TopUpDataLTEPacks;
+      }
+
+      console.log(this.lTEPricePercentage);
+      console.log(this.tier3LTEPacks[2]);
+      console.log(this.topUpDataLTEPacks);
+
+    }
+  }
+
+  onSelectTier3LTEPacks(event: any) {
+     console.log("Selected");
+    console.log(event?.target?.value);
   }
 }

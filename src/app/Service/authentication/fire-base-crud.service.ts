@@ -23,6 +23,7 @@ export class FireBaseCrudService {
   public SalesApplicationList!: AngularFireList<any>;
   public NetworkOperatorProductList!: AngularFireList<any>;
   public NetworkOperatorLTEProductsList!: AngularFireList<any>;
+  public MTNFixedLTEServicesList!: AngularFireList<any>;
   public DisplayPagesList!: AngularFireList<any>;
   private displayPages: PageDisplayList[] = []
   private filePath: string = "RefrMe/storage/VerificationDocuments/";
@@ -178,8 +179,13 @@ export class FireBaseCrudService {
         });
   }
 
-  getLTEProducts() {
+  getOperatorLTEProducts() {
     this.NetworkOperatorLTEProductsList = this.fireDb.list('NetworkOperatorLTEProducts');
     return this.NetworkOperatorLTEProductsList;
+  }
+
+  getMTNFixedLTEServices() {
+    this.MTNFixedLTEServicesList = this.fireDb.list('NetworkOperatorLTEProducts/MTNFixedLTEServices');
+    return this.MTNFixedLTEServicesList;
   }
 }

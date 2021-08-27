@@ -30,23 +30,42 @@ export class ProductMessage{
 }
 
 export class NetworkOperatorLTEProducts{
-  ProdId: number;
-  FixedLTEServices: FixedLTEServices;
+  MTNFixedLTEServices: MTNFixedLTEServices = new MTNFixedLTEServices();
 }
 
-export class FixedLTEServices{
-  ServiceId: number;
-  LTEPacks: LTEPacks;
-  LTEPricePercentage: LTEPricePercentage;
+export class MTNFixedLTEServices{
+  Tier3LTEPacks: Tier3LTEPacks[];
+  PricePercentage: PricePercentage[] = [];
+  TopUpDataLTEPacks: TopUpDataLTEPacks[];
+}
+
+export class Tier3LTEPacks
+{
+  // LtePackId: string;
+  DataService: DataService = new DataService();
+  DataValidityInDays: number;
+  PackageName: string;
+  ResellerTier3CostPriceExVat: number;
+  RRPIncVat: number;
+  ResellerPriceIncVat: number;
+  ResellerPriceExVat: number;
+}
+
+export class TopUpDataLTEPacks
+{
+  // TopUpPackId: string;
+  DataService: DataService = new DataService();
+  DataValidityInDays: number;
+  PackageName: string;
+  ResellerTier3CostPriceExVat: number;
+  RRPIncVat: number;
+  ResellerPriceIncVat: number;
+  ResellerPriceExVat: number;
 }
 
 export class LTEPacks{
-  PrackId: number;
-  LTEPackDetails: LTEPackDetails;
-}
-
-export class LTEPackDetails{
-  DataService: DataService;
+  // LtePackId: string;
+  DataService: DataService = new DataService();
   DataValidityInDays: number;
   PackageName: string;
   ResellerTier3CostPriceExVat: number;
@@ -60,7 +79,7 @@ export class DataService{
   NightTime: number
 }
 
-export class LTEPricePercentage {
+export class PricePercentage {
   percId: number;
   Percentage: number;
 }
