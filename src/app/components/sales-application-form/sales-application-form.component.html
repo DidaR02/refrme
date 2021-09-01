@@ -98,7 +98,7 @@
               <div class="form-group">
                 <label for="LtePackageDeal">Please select LTE Package</label>
                 <select formControlName="LtePackageDeal" id="LtePackageDeal" (change)='onSelectTier3LTEPacks($event)'>
-                  <option selected="selected" [value]="0">select LTE Package</option>
+                  <option selected [value]="0">select LTE Package</option>
                   <option *ngFor="let fixedLte of tier3LTEPacks" [value]="fixedLte.PackageName">
                     {{fixedLte.PackageName}}</option>
                 </select>

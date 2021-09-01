@@ -667,6 +667,10 @@ export class SalesApplicationFormComponent implements OnInit {
                     if (collectopData.length > 0) {
                       for (var item = 0; item <= collectopData.length - 1; item++) {
                         if (collectopData[item]) {
+
+                          //Set prices on the package name for drop downlist and application purpose
+                          collectopData[item]['PackageName'] = collectopData[item]['PackageName'] + " @ R " + collectopData[item]['ResellerPriceIncVat'].toString();
+
                           this.tier3LTEPacks.push(collectopData[item]);
                         }
                       }
