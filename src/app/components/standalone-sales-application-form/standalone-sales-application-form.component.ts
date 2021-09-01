@@ -4,7 +4,7 @@ import { NetworkOperator, NetworkOperatorProducts, ProductMessage, NetworkOperat
 import { SaleApplication } from "src/app/Models/salesApplicationModels/SalesApplicationModel";
 import { ServiceProvider } from "src/app/Models/salesApplicationModels/ServiceProviderModel";
 import { UserPersonalDetails, AddresDetails } from "src/app/Models/salesApplicationModels/UserModel";
-import { FireBaseCrudService } from "src/app/Service/authentication/fire-base-crud.service";
+import { FireBaseCrudService } from "src/app/service/authentication/fire-base-crud.service";
 
 @Component({
   selector: 'quick-application-form',
