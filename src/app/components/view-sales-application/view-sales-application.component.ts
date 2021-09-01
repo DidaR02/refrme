@@ -1,16 +1,16 @@
 import { Component, OnInit, QueryList,ViewChild, ViewChildren, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { SaleApplication } from '../../models/salesApplicationModels/SalesApplicationModel';
+import { SaleApplication } from '../../Models/salesApplicationModels/SalesApplicationModel';
 
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
-import { DisableView, PageDisplayList } from 'src/app/models/Settings/IPageDisplaySettings';
-import { SignedInUser } from 'src/app/models/userDetails/ISignedInUser';
-import { User } from 'src/app/models/userDetails/IUser';
-import { UserAccess } from 'src/app/models/userDetails/IUserAccess';
+import { DisableView, PageDisplayList } from 'src/app/Models/Settings/IPageDisplaySettings';
+import { SignedInUser } from 'src/app/Models/userDetails/ISignedInUser';
+import { User } from 'src/app/Models/userDetails/IUser';
+import { UserAccess } from 'src/app/Models/userDetails/IUserAccess';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { UserManagerService } from 'src/app/service/authentication/userManager.service';
 import { DataTypeConversionService } from 'src/app/service/shared/dataType-conversion.service';

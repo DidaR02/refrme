@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FireBaseCrudService } from './service/authentication/fire-base-crud.service';
-import { PageDisplayList } from "./models/Settings/IPageDisplaySettings"
+import { PageDisplayList } from "./Models/Settings/IPageDisplaySettings"
 
 declare var gnMenu: any;
 

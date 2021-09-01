@@ -1,11 +1,11 @@
 import { Injectable, NgZone } from '@angular/core';
-import { User } from '../../models/userDetails/IUser';
+import { User } from '../../Models/userDetails/IUser';
 import auth from 'firebase';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { UserAccess } from '../../models/userDetails/IUserAccess';
+import { UserAccess } from '../../Models/userDetails/IUserAccess';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class AuthenticationService {
       }
       else
       {
-        this.router.navigate(['login']);
+        this.router.navigate(['landing']);
       }
     }
 
@@ -64,7 +64,7 @@ export class AuthenticationService {
       this.afAuth.signOut().then(() => {
         localStorage.clear();
         if (redirect)
-          {this.router.navigate(['landing']);}
+          {this.router.navigate(['home']);}
       });
     }
 

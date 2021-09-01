@@ -1,8 +1,8 @@
-import { ServiceProvider } from './ServiceProviderModel';
-import { UserPersonalDetails, AddresDetails } from './UserModel';
-import { BankDetails } from './BankDetails';
-import { FileElement } from '../file-element/file-element';
-import { NetworkOperator, NetworkOperatorProducts } from './NetworkOperatorModel';
+import { FileElement } from "../file-element/file-element";
+import { BankDetails } from "./BankDetails";
+import { NetworkOperator, NetworkOperatorProducts } from "./NetworkOperatorModel";
+import { ServiceProvider } from "./ServiceProviderModel";
+import { UserPersonalDetails, AddresDetails } from "./UserModel";
 
 export class SaleApplication{
     public SaleApplicationId!: string;

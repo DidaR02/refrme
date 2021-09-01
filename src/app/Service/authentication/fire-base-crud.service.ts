@@ -3,11 +3,11 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 
-import {UserPersonalDetails} from './../../models/salesApplicationModels/UserModel'
-import { SaleApplication } from './../../models/salesApplicationModels/SalesApplicationModel'
+import {UserPersonalDetails} from './../../Models/salesApplicationModels/UserModel'
+import { SaleApplication } from './../../Models/salesApplicationModels/SalesApplicationModel'
 import { Observable} from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { PageDisplayList } from 'src/app/models/Settings/IPageDisplaySettings';
+import { PageDisplayList } from 'src/app/Models/Settings/IPageDisplaySettings';
 
 @Injectable({
   providedIn: 'root'

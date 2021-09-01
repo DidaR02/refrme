@@ -1,17 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DataService, MTNFixedLTEServices, LTEPacks, PricePercentage, NetworkOperator, NetworkOperatorLTEProducts, NetworkOperatorProducts, ProductMessage, Tier3LTEPacks, TopUpDataLTEPacks } from 'src/app/models/salesApplicationModels/NetworkOperatorModel';
-import { SaleApplication } from 'src/app/models/salesApplicationModels/SalesApplicationModel';
-import { ServiceProvider } from 'src/app/models/salesApplicationModels/ServiceProviderModel';
-import { UserPersonalDetails, AddresDetails } from 'src/app/models/salesApplicationModels/UserModel';
-import { DisableView, PageDisplayList } from 'src/app/models/Settings/IPageDisplaySettings';
-import { SignedInUser } from 'src/app/models/userDetails/ISignedInUser';
-import { User } from 'src/app/models/userDetails/IUser';
-import { UserAccess } from 'src/app/models/userDetails/IUserAccess';
-import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
+import { NetworkOperator, NetworkOperatorProducts, ProductMessage, NetworkOperatorLTEProducts, MTNFixedLTEServices, LTEPacks, PricePercentage, DataService, Tier3LTEPacks, TopUpDataLTEPacks } from 'src/app/Models/salesApplicationModels/NetworkOperatorModel';
+import { SaleApplication } from 'src/app/Models/salesApplicationModels/SalesApplicationModel';
+import { ServiceProvider } from 'src/app/Models/salesApplicationModels/ServiceProviderModel';
+import { UserPersonalDetails, AddresDetails } from 'src/app/Models/salesApplicationModels/UserModel';
+import { PageDisplayList, DisableView } from 'src/app/Models/Settings/IPageDisplaySettings';
+import { SignedInUser } from 'src/app/Models/userDetails/ISignedInUser';
+import { User } from 'src/app/Models/userDetails/IUser';
+import { UserAccess } from 'src/app/Models/userDetails/IUserAccess';
+import { AuthenticationService } from 'src/app/Service/authentication/authentication.service';
 import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
-import { UserManagerService } from 'src/app/service/authentication/userManager.service';
+import { UserManagerService } from 'src/app/Service/authentication/userManager.service';
 import { DataTypeConversionService } from 'src/app/service/shared/dataType-conversion.service';
+
 
 @Component({
   selector: 'app-sales-application-form',

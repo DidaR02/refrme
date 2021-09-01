@@ -8,7 +8,7 @@ import { SalesApplicationFormComponent } from './components/sales-application-fo
 import { SignUpUserComponent } from './components/signup-user/signup-user.component';
 import { StandaloneSalesApplicationFormComponent } from './components/standalone-sales-application-form/standalone-sales-application-form.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
-import { AuthGuard } from './service/guard/auth.guard';
+import { AuthGuard } from './Service/guard/auth.guard';
 
 
 const routes: Routes = [

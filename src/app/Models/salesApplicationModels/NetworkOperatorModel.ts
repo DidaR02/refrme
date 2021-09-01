@@ -1,5 +1,3 @@
-import { NamedTupleMember } from "typescript";
-
 export class NetworkOperator{
     IsActive!: boolean;
     NetworkOperatorId!: string;
