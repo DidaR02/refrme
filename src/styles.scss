@@ -23,10 +23,10 @@
 
 html,
 body {
-  height: 100%;
+  min-height: 100%;
   font-family: Roboto, Arial, sans-serif;
   margin: auto;
-  width: 100%;
+  min-width: 100%;
   // background-image: linear-gradient(to bottom right, rgb(8, 143, 8), #5e9ea0);
   background-color: #5e9ea0; // whitesmoke;
 }
@@ -398,7 +398,6 @@ input.gn-search:focus {
 
 .container>.dashboard-content span {
   display: block;
-  font-size: 55%;
   color: #74818e;
   padding: 0 0 0.6em 0.1em;
 }

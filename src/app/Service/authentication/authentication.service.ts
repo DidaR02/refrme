@@ -55,7 +55,7 @@ export class AuthenticationService {
           this.SendVerificationMail();
         }
       } catch (error) {
-        window.alert(error.message);
+        window.alert(error);
       }
     }
 

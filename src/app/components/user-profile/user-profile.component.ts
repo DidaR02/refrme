@@ -6,10 +6,10 @@ import { User } from 'src/app/Models/userDetails//IUser';
 import { UserAccess } from 'src/app/Models/userDetails/IUserAccess';
 import { UserManagerService } from 'src/app/Service/authentication/userManager.service';
 import { UserListComponent } from '../user-list/user-list.component';
-import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
+import { AuthenticationService } from 'src/app/Service/authentication/authentication.service';
 import { PageDisplayList, DisableView } from 'src/app/Models/Settings/IPageDisplaySettings';
 import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
-import { DataTypeConversionService } from 'src/app/service/shared/dataType-conversion.service';
+import { DataTypeConversionService } from 'src/app/Service/shared/dataType-conversion.service';
 
 @Component({
   selector: 'app-user-profile',

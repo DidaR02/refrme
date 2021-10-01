@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList,ViewChild, ViewChildren, AfterViewInit } from '@angular/core';
+import { Component, OnInit, QueryList,ViewChild, ViewChildren, AfterViewInit, HostListener } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SaleApplication } from '../../Models/salesApplicationModels/SalesApplicationModel';
@@ -11,16 +11,16 @@ import { DisableView, PageDisplayList } from 'src/app/Models/Settings/IPageDispl
 import { SignedInUser } from 'src/app/Models/userDetails/ISignedInUser';
 import { User } from 'src/app/Models/userDetails/IUser';
 import { UserAccess } from 'src/app/Models/userDetails/IUserAccess';
-import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
-import { UserManagerService } from 'src/app/service/authentication/userManager.service';
-import { DataTypeConversionService } from 'src/app/service/shared/dataType-conversion.service';
+import { AuthenticationService } from 'src/app/Service/authentication/authentication.service';
+import { UserManagerService } from 'src/app/Service/authentication/userManager.service';
+import { DataTypeConversionService } from 'src/app/Service/shared/dataType-conversion.service';
 
 @Component({
   selector: 'app-view-sales-application',
   templateUrl: './view-sales-application.component.html',
   styleUrls: ['./view-sales-application.component.scss']
 })
-export class ViewSalesApplicationComponent implements AfterViewInit {
+export class ViewSalesApplicationComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['name', 'surname', 'email'];
   dataSource!: MatTableDataSource<SaleApplication>;
@@ -36,7 +36,8 @@ export class ViewSalesApplicationComponent implements AfterViewInit {
   displayPages: PageDisplayList[] = [];
   viewAllSalesApplications: boolean = false;
   private signedInUser: SignedInUser;
-
+  innerWidth: number;
+  largeDisplay: boolean = true;
   private pageName: string = "viewSalesApplications";
 
   constructor(
@@ -47,7 +48,15 @@ export class ViewSalesApplicationComponent implements AfterViewInit {
     this.getUserInfo();
   }
 
+  ngOnInit() {
+    this.dataSource = new MatTableDataSource<SaleApplication>();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.getSalesApplicationList();
+  }
   ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
     this.getSalesApplicationList();
   }
 
@@ -60,6 +69,25 @@ export class ViewSalesApplicationComponent implements AfterViewInit {
     }
   }
 
+
+@HostListener('window:resize', ['$event'])
+onResize(event: Event) {
+  this.innerWidth = window.innerWidth;
+  if (window.innerWidth <= 600)
+  {
+    this.largeDisplay = false;
+  }
+
+}
+  getInitialsFromFirstname(name: string) {
+
+    if (name)
+    {
+      return name.trim().substring(0, 1).toUpperCase();
+    }
+
+    return name;
+  }
   async getSalesApplicationList() {
     let salesList = this.fsCrud.getSalesApplicationList();
 
