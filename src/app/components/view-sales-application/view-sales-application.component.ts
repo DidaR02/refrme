@@ -36,8 +36,6 @@ export class ViewSalesApplicationComponent implements OnInit, AfterViewInit {
   displayPages: PageDisplayList[] = [];
   viewAllSalesApplications: boolean = false;
   private signedInUser: SignedInUser;
-  innerWidth: number;
-  largeDisplay: boolean = true;
   private pageName: string = "viewSalesApplications";
 
   constructor(
@@ -60,7 +58,7 @@ export class ViewSalesApplicationComponent implements OnInit, AfterViewInit {
     this.getSalesApplicationList();
   }
 
-  applyFilter(event: Event) {
+  async applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -69,16 +67,6 @@ export class ViewSalesApplicationComponent implements OnInit, AfterViewInit {
     }
   }
 
-
-@HostListener('window:resize', ['$event'])
-onResize(event: Event) {
-  this.innerWidth = window.innerWidth;
-  if (window.innerWidth <= 600)
-  {
-    this.largeDisplay = false;
-  }
-
-}
   getInitialsFromFirstname(name: string) {
 
     if (name)
