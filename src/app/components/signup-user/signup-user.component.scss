@@ -1,6 +1,7 @@
 .container {
   height: 100%;
-  margin: auto
+  margin: auto;
+  max-width: 100%;
 }
 
 li:hover {
@@ -9,13 +10,11 @@ li:hover {
 
 .align-items-center {
   height: 100%;
-  margin: auto;
   padding-bottom: 15px;
 }
 
 .signup-form {
   padding: 30px;
-  // margin-top: 4em;
   -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
@@ -28,16 +27,9 @@ li:hover {
   margin: auto;
 }
 
-h1 {
-  text-align: center;
-  /* font-size: 5vw; */
-}
-
-h2 {
+.signup-form h2 {
   text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 20px;
-  margin: 0 0 30px 0;
+  font-size: 2vw;
   color: #000000;
 }
 
@@ -90,20 +82,8 @@ textarea {
   color: #000;
 }
 
-.signup-form h2 {
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 20px;
-  margin: 0 0 30px 0;
-  color: #000000;
-}
-
-.signup-form .form-group {
-  margin-bottom: 30px;
-}
-
 .signup-form .form-group p {
-  font-size: 14px;
+  font-size: 1rem;
   color: #9f9f9f;
   font-weight: 300;
 }
@@ -113,7 +93,7 @@ textarea {
 }
 
 .form-control {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 300;
   height: 50px;
   padding-left: 0;
@@ -167,32 +147,32 @@ textarea {
 /* If the screen size is 600px wide or less, set the font-size*/
 
 @media screen and (max-width: 600px) {
-  h1 {
-    font-size: 5vw;
+  label {
+    font-size: 2.5vw;
   }
 
-  label {
+  .form-control {
     font-size: 3vw;
   }
 
-  input {
-    font-size: 2.7vw;
-    width: 100%;
+  .row>* {
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 700px) {
+  .signup-form h2 {
+    font-size: 4vw;
+  }
+}
+
+@media screen and (min-width: 700px) {
   .col-md-6 {
     width: 100% !important;
   }
 
-  .signup-form {
-    padding: 15px 15px;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .col-md-6 {
-    width: 100% !important;
+  .form-control {
+    font-size: 1.2vw;
   }
 }
