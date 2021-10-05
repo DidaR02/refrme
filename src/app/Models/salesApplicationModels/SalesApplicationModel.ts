@@ -11,8 +11,7 @@ export class SaleApplication{
     public serviceProvider!: ServiceProvider;
     public NetworkOperator!: NetworkOperator;
     public NetworkOperatorPackage!: NetworkOperatorProducts;
-    public NetworkOperatorPackageInstall!: NetworkOperatorProducts; //Yes and No
- //Yes and No
+    public NetworkOperatorPackageInstall!: NetworkOperatorProducts;
     public IsCpeFirbreInstalled!: string;
     public UserPersonalDetails!: UserPersonalDetails;
     public AddressDetails!: AddresDetails;
