@@ -60,6 +60,8 @@
           document.addEventListener(self.eventtype, self.bodyClickFn);
         });
         this.menu.addEventListener('click', function (ev) {
+          ev.stopPropagation();
+          ev.preventDefault();
           self._closeMenu();
           document.removeEventListener(self.eventtype, self.bodyClickFn);
         });
