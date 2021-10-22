@@ -255,7 +255,13 @@ export class SalesApplicationFormComponent implements OnInit {
     if(this.applicationFormState?.length > 0 && this.applicationFormState === "editSales")
     {
        await this.getSalesApplicationsList(this.submitOwnApplications);
-    }
+     }
+     else
+    {
+      this.salesApplication.patchValue({
+        AgentPromoCode: this.user?.promocode?.toString()
+      });
+      }
   }
 
   getNetworkOperator(){
@@ -557,7 +563,7 @@ export class SalesApplicationFormComponent implements OnInit {
          if (entries.SaleApplicationId === saleAppId?.toString() )
         {
           this.salesApplication.patchValue({
-            AgentPromoCode: entries.AgentPromoCode?.toString(),
+            AgentPromoCode: entries.AgentPromoCode?.toString() ?? this.user?.promocode?.toString(),
             LtePackageDeal: entries.LtePackageDeal?.toString(),
             NetworkOperator: entries.NetworkOperator?.toString(),
             IsCpeFirbreInstalled: entries.IsCpeFirbreInstalled?.toString(),
@@ -601,6 +607,12 @@ export class SalesApplicationFormComponent implements OnInit {
 
       this.disableDetailsEdit = true;
     }
+    else
+    {
+      this.salesApplication.patchValue({
+        AgentPromoCode: this.user?.promocode?.toString(),
+      });
+      }
   }
 
   onPackageDealSelected(event: any)
