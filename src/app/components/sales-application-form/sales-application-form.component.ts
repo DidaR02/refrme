@@ -11,7 +11,7 @@ import { UserAccess } from 'src/app/Models/userDetails/IUserAccess';
 import { AuthenticationService } from 'src/app/Service/authentication/authentication.service';
 import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
 import { UserManagerService } from 'src/app/Service/authentication/userManager.service';
-import { DataTypeConversionService } from 'src/app/service/shared/dataType-conversion.service';
+import { DataTypeConversionService } from 'src/app/Service/shared/dataType-conversion.service';
 
 
 @Component({
