@@ -103,13 +103,12 @@
                     {{fixedLte.PackageName}}</option>
                 </select>
               </div>
+              <div *ngIf="tier3LTEPackageType === 'SimAndRouter'">
+                <p style="color: red;">Once off router cost: R1999.00</p>
+              </div>
             </div>
           </div>
         </ng-template>
-
-
-
-
 
         <div class="panel panel-primary">
           <div class="panel-heading">Your Personal Details</div>

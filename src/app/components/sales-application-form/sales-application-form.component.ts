@@ -67,6 +67,7 @@ export class SalesApplicationFormComponent implements OnInit {
   switchProducts: string;
   lteProducts: any;
   tier3LTEPacks: Tier3LTEPacks[] = [];
+  tier3LTEPackageType: string;
   topUpDataLTEPacks: TopUpDataLTEPacks [] = [];
 
   constructor(
@@ -424,6 +425,7 @@ export class SalesApplicationFormComponent implements OnInit {
     AgentPromoCode: new FormControl(),
     NetworkOperator: new FormControl(),
     LtePackageDeal: new FormControl(),
+    LtePackageDealType: new FormControl(),
     IsCpeFirbreInstalled: new FormControl(),
     NetworkOperatorPackage: new FormControl(),
     UserPersonalDetails: new FormGroup(this.userPersonalDetails.controls),
@@ -502,6 +504,10 @@ export class SalesApplicationFormComponent implements OnInit {
 
     var saleApplication: SaleApplication = formDetails;
 
+    if (this.tier3LTEPackageType === "SimAndRouter")
+    {
+      saleApplication.LtePackageDealType = this.tier3LTEPackageType
+    }
 
     let promoCode = formDetails?.AgentPromoCode;
     if (this.submitOwnApplications && (promoCode != this.user.promocode))
@@ -517,7 +523,7 @@ export class SalesApplicationFormComponent implements OnInit {
           this.fsCrud.saveUserDetails(userPersonalDetails, this.userId);
        //}
 
-      this.fsCrud.saveSaleApplication(formDetails, this.saleApplicationId);
+      this.fsCrud.saveSaleApplication(saleApplication, this.saleApplicationId);
       if(this.createFileElementTagName != null || this.createFileElementTagName != undefined){
         //Iterate over map keys
         for (let fileElementTag of this.createFileElementTagName.entries()) {
@@ -565,6 +571,7 @@ export class SalesApplicationFormComponent implements OnInit {
           this.salesApplication.patchValue({
             AgentPromoCode: entries.AgentPromoCode?.toString() ?? this.user?.promocode?.toString(),
             LtePackageDeal: entries.LtePackageDeal?.toString(),
+            LtePackageDealType: entries.LtePackageDealType?.toString(),
             NetworkOperator: entries.NetworkOperator?.toString(),
             IsCpeFirbreInstalled: entries.IsCpeFirbreInstalled?.toString(),
             NetworkOperatorPackage: entries.NetworkOperatorPackage?.toString(),
@@ -602,6 +609,8 @@ export class SalesApplicationFormComponent implements OnInit {
             TermsAndConditionsAccepted: entries.TermsAndConditionsAccepted,
             MarketingConsent: entries.MarketingConsent,
           });
+
+           this.tier3LTEPackageType = entries.LtePackageDealType?.toString();
         }
       });
 
@@ -723,7 +732,14 @@ export class SalesApplicationFormComponent implements OnInit {
   }
 
   onSelectTier3LTEPacks(event: any) {
-     console.log("Selected");
-    console.log(event?.target?.value);
+    if (event?.target?.value) {
+      let packs = event?.target?.value;
+      this.tier3LTEPacks.forEach(x => {
+        if (x.PackageName === packs) {
+          this.tier3LTEPackageType = x.PackageType.toString();
+          return;
+        }
+      });
+    }
   }
 }

@@ -47,6 +47,7 @@ export class Tier3LTEPacks
   RRPIncVat: number;
   ResellerPriceIncVat: number;
   ResellerPriceExVat: number;
+  PackageType: string;
 }
 
 export class TopUpDataLTEPacks

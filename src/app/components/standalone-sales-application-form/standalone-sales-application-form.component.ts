@@ -49,7 +49,9 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
   switchProducts: string;
   lteProducts: any;
   tier3LTEPacks: Tier3LTEPacks[] = [];
-  topUpDataLTEPacks: TopUpDataLTEPacks [] = [];
+  tier3LTEPackageType: string;
+  topUpDataLTEPacks: TopUpDataLTEPacks[] = [];
+
   constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder){}
 
   ngOnInit(){
