@@ -2,12 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { Router, RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from "@angular/router";
 import { PageDisplayList, DisableView } from "src/app/Models/Settings/IPageDisplaySettings";
 import { SignedInUser } from "src/app/Models/userDetails/ISignedInUser";
-import { User } from "src/app/Models/userDetails/IUser";
-import { UserAccess } from "src/app/Models/userDetails/IUserAccess";
-import { AuthenticationService } from "src/app/service/authentication/authentication.service";
+import { User, UserAccess } from "src/app/Models/userDetails/IUser";
+import { AuthenticationService } from "src/app/Service/authentication/authentication.service";
 import { FireBaseCrudService } from "src/app/service/authentication/fire-base-crud.service";
 import { UserManagerService } from "src/app/Service/authentication/userManager.service";
-import { DataTypeConversionService } from "src/app/service/shared/dataType-conversion.service";
+import { DataTypeConversionService } from "src/app/Service/shared/dataType-conversion.service";
 
 declare var gnMenu: any;
 

@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { SignedInUser } from 'src/app/Models/userDetails/ISignedInUser';
-import { User } from 'src/app/Models/userDetails//IUser';
-import { UserAccess } from 'src/app/Models/userDetails/IUserAccess';
+import { User,UserAccess } from 'src/app/Models/userDetails//IUser';
 import { UserManagerService } from 'src/app/Service/authentication/userManager.service';
-import { UserListComponent } from '../user-list/user-list.component';
 import { AuthenticationService } from 'src/app/Service/authentication/authentication.service';
 import { PageDisplayList, DisableView } from 'src/app/Models/Settings/IPageDisplaySettings';
 import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';

@@ -13,12 +13,6 @@ export class LandingPageComponent implements OnInit {
   constructor(public authService: AuthenticationService,
     public router: Router,
     public fsCrud: FireBaseCrudService) {
-
-    // let displayPageList = JSON.parse(localStorage.getItem('displayPages') as PageDisplayList | any);
-    // if (!displayPageList || displayPageList.length < 1)
-    // {
-    //   this.fsCrud.getDisaplayPages();
-    // }
   }
 
   ngOnInit(): void {
@@ -37,5 +31,10 @@ export class LandingPageComponent implements OnInit {
   redirectToHome()
   {
     this.router.navigate(['home']);
+  }
+
+  redirectToExplore()
+  {
+    this.router.navigate(['explore']);
   }
 }

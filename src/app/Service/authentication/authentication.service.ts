@@ -1,11 +1,10 @@
 import { Injectable, NgZone } from '@angular/core';
-import { User } from '../../Models/userDetails/IUser';
-import auth from 'firebase';
+import { User, UserAccess } from '../../Models/userDetails/IUser';
+import Auth from 'firebase';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { UserAccess } from '../../Models/userDetails/IUserAccess';
 
 @Injectable({
   providedIn: 'root'
@@ -122,7 +121,7 @@ export class AuthenticationService {
   }
     // Sign in with Google
     GoogleAuth() {
-      return this.AuthLogin(new auth.auth.GoogleAuthProvider());
+      return this.AuthLogin(new Auth.auth.GoogleAuthProvider());
     }
 
     // Auth logic to run auth providers

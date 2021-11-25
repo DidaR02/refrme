@@ -45,6 +45,7 @@
               "src/assets/bootstrap-5.0.1-dist/js/modernizr.custom.js",
               "src/assets/bootstrap-5.0.1-dist/js/classie.js",
               "src/assets/bootstrap-5.0.1-dist/js/gnmenu.js"
+
             ],
             "allowedCommonJsDependencies": [
               "@firebase/app",
@@ -66,8 +67,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "1mb"
                 }
               ],
               "fileReplacements": [{
@@ -90,8 +91,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "1mb"
                 }
               ]
             }

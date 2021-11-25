@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
+import { ExplorePageComponent } from './components/explore-page/explore-page.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { LoginComponent } from './components/login/login.component';
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'landing', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: LandingPageComponent },
+  { path: 'explore', component: ExplorePageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'join', component: SignUpUserComponent},
   { path: 'dashboard',

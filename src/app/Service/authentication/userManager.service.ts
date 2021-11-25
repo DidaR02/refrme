@@ -5,8 +5,7 @@ import { AngularFirestore } from "@angular/fire/firestore";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { SignedInUser } from "src/app/Models/userDetails/ISignedInUser";
-import { User } from "src/app/Models/userDetails/IUser";
-import { UserAccess } from "src/app/Models/userDetails/IUserAccess";
+import { User, UserAccess } from "src/app/Models/userDetails/IUser";
 
 @Injectable({
   providedIn: 'root'

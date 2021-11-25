@@ -1,5 +1,4 @@
-import { User } from './IUser';
-import { UserAccess } from './IUserAccess';
+import { User,UserAccess } from './IUser';
 
 export interface SignedInUser {
     Uid: string;
