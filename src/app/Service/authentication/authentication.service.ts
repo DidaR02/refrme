@@ -119,10 +119,6 @@ export class AuthenticationService {
     const user = JSON.parse(localStorage.getItem('user') as User | any);
     return (user.emailVerified !== false) ? true : false;
   }
-    // Sign in with Google
-    GoogleAuth() {
-      return this.AuthLogin(new Auth.auth.GoogleAuthProvider());
-    }
 
     // Auth logic to run auth providers
     async AuthLogin(provider: any) {
