@@ -2,12 +2,11 @@ import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { PageDisplayList, DisableView } from "src/app/Models/Settings/IPageDisplaySettings";
 import { SignedInUser } from "src/app/Models/userDetails/ISignedInUser";
-import { User } from "src/app/Models/userDetails/IUser";
-import { UserAccess } from "src/app/Models/userDetails/IUserAccess";
+import { User, UserAccess } from "src/app/Models/userDetails/IUser";
 import { AuthenticationService } from "src/app/Service/authentication/authentication.service";
 import { FireBaseCrudService } from "src/app/Service/authentication/fire-base-crud.service";
 import { UserManagerService } from "src/app/Service/authentication/userManager.service";
-import { DataTypeConversionService } from "src/app/service/shared/dataType-conversion.service";
+import { DataTypeConversionService } from "src/app/Service/shared/dataType-conversion.service";
 
 @Component({
   selector: 'app-edit-sales-application',
@@ -96,7 +95,7 @@ export class EditSalesApplicationComponent implements OnInit {
 
             for (var i = 0; i < dashBoardAccess.length; i++)
             {
-              if (getAllowedPage?.PageId === dashBoardAccess[i]?.PageId)
+              if (getAllowedPage?.PageId.toString() === dashBoardAccess[i]?.PageId)
               {
                 this.viewPage = false;
                 break;

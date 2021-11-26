@@ -6,9 +6,9 @@ import { ServiceProvider } from 'src/app/Models/salesApplicationModels/ServicePr
 import { UserPersonalDetails, AddresDetails } from 'src/app/Models/salesApplicationModels/UserModel';
 import { PageDisplayList, DisableView } from 'src/app/Models/Settings/IPageDisplaySettings';
 import { SignedInUser } from 'src/app/Models/userDetails/ISignedInUser';
-import { User,UserAccess } from 'src/app/Models/userDetails/IUser';
+import { User, UserAccess } from 'src/app/Models/userDetails/IUser';
 import { AuthenticationService } from 'src/app/Service/authentication/authentication.service';
-import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
+import { FireBaseCrudService } from 'src/app/Service/authentication/fire-base-crud.service';
 import { UserManagerService } from 'src/app/Service/authentication/userManager.service';
 import { DataTypeConversionService } from 'src/app/Service/shared/dataType-conversion.service';
 

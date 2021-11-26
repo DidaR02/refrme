@@ -7,7 +7,7 @@ import { DisableView, PageDisplayList, PageDisplayListChecked } from 'src/app/Mo
 import { SignedInUser } from 'src/app/Models/userDetails/ISignedInUser';
 import { AuthenticationService } from 'src/app/Service/authentication/authentication.service';
 import { DataTypeConversionService } from 'src/app/Service/shared/dataType-conversion.service';
-import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
+import { FireBaseCrudService } from 'src/app/Service/authentication/fire-base-crud.service';
 
 @Component({
   selector: 'user-list',

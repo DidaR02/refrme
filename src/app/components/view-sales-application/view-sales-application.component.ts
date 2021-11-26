@@ -6,7 +6,7 @@ import { SaleApplication } from '../../Models/salesApplicationModels/SalesApplic
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
+import { FireBaseCrudService } from 'src/app/Service/authentication/fire-base-crud.service';
 import { DisableView, PageDisplayList } from 'src/app/Models/Settings/IPageDisplaySettings';
 import { SignedInUser } from 'src/app/Models/userDetails/ISignedInUser';
 import { User, UserAccess } from 'src/app/Models/userDetails/IUser';

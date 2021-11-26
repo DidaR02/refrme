@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthenticationService } from "src/app/Service/authentication/authentication.service";
-import { FireBaseCrudService } from "src/app/service/authentication/fire-base-crud.service";
+import { FireBaseCrudService } from "src/app/Service/authentication/fire-base-crud.service";
 
 @Component({
   selector: 'app-landing-page',
