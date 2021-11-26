@@ -21,5 +21,11 @@ onScrollTo(location: string){
       const element = document.getElementById(location);
       if (element != undefined) element.scrollIntoView();
         });
-  }, 500);}
+  }, 500);
+}
+
+  back2Home()
+  {
+    this.router.navigate(['home']);
+  }
 }
