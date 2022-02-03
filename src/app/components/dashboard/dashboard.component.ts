@@ -24,6 +24,8 @@ export class DashboardComponent implements OnInit {
   displayPages: PageDisplayList[] = [];
   private signedInUser: SignedInUser;
   private pageName: string = "dashboard";
+  showHeader: boolean = true;
+
 
   constructor(private router: Router,
     public authService: AuthenticationService,
@@ -58,6 +60,7 @@ export class DashboardComponent implements OnInit {
 
   async clickNavigateHandler(url: string)
   {
+    this.showHeader = false;
     if(url.length > 0)
     {
       switch(url){

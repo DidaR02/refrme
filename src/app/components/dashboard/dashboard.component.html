@@ -41,7 +41,28 @@
 
   <div class="dashboard-content">
     <div *ngIf="viewPage ; else elseBlock" class="dashboard-router">
+
+      <div *ngIf="showHeader">
+        <header class="bg-primary bg-gradient text-white">
+          <div class="container px-4 text-center">
+            <h1 class="fw-bolder">Welcome to RefrMe</h1>
+            <p class="lead">Lets get started with rolling those applications.</p>
+            <!-- <a class="btn btn-lg btn-light" (click)="onScrollTo('products')">Explore Products</a> -->
+          </div>
+        </header>
+      </div>
+
+
       <router-outlet></router-outlet>
+
+      <footer class="footer" style="height: 50px; text-align: center;">
+        <div class="container">
+          <span class="text-muted">© Copyright 2021 | RefrMe.</span>
+          <br>
+          <span class="text-muted">V3.0</span>
+        </div>
+      </footer>
+
     </div>
     <ng-template #elseBlock>
       <div class="alert alert-warning">
