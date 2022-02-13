@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from './app.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { LoginComponent } from './components/login/login.component';
@@ -8,13 +7,14 @@ import { SalesApplicationFormComponent } from './components/sales-application-fo
 import { SignUpUserComponent } from './components/signup-user/signup-user.component';
 import { StandaloneSalesApplicationFormComponent } from './components/standalone-sales-application-form/standalone-sales-application-form.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
-import { AuthGuard } from './service/guard/auth.guard';
-
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'landing', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: LandingPageComponent },
+  { path: 'explore',
+    loadChildren: () => import('./components/explore-page/explore-page.module').then(explorePage => explorePage.ExplorePageModule)
+  },
   { path: 'login', component: LoginComponent },
   { path: 'join', component: SignUpUserComponent},
   { path: 'dashboard',

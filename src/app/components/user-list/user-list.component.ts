@@ -1,14 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { User } from 'src/app/models/userDetails/IUser';
-import { PartialAccess, UserAccess } from 'src/app/models/userDetails/IUserAccess';
-import { DataTypeConversionService } from '../../service/shared/dataType-conversion.service'
-import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
-import { UserManagerService } from 'src/app/service/authentication/userManager.service';
+import { User, PartialAccess, UserAccess  } from 'src/app/Models/userDetails/IUser';
+import { UserManagerService } from 'src/app/Service/authentication/userManager.service';
 import { Event } from '@angular/router';
-import { DisableView, PageDisplayList, PageDisplayListChecked } from 'src/app/models/Settings/IPageDisplaySettings';
-import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
-import { SignedInUser } from 'src/app/models/userDetails/ISignedInUser';
+import { DisableView, PageDisplayList, PageDisplayListChecked } from 'src/app/Models/Settings/IPageDisplaySettings';
+import { SignedInUser } from 'src/app/Models/userDetails/ISignedInUser';
+import { AuthenticationService } from 'src/app/Service/authentication/authentication.service';
+import { DataTypeConversionService } from 'src/app/Service/shared/dataType-conversion.service';
+import { FireBaseCrudService } from 'src/app/Service/authentication/fire-base-crud.service';
 
 @Component({
   selector: 'user-list',

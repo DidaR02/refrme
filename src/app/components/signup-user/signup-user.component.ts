@@ -1,8 +1,8 @@
-import { Component,OnInit } from '@angular/core';
-import {  FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms'; // Reactive form services
-import { ActivatedRoute, Event as RouterEvent, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
-import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
-import { User } from '../../models/userDetails/IUser'
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, Validators } from "@angular/forms";
+import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from "@angular/router";
+import { User } from "src/app/Models/userDetails/IUser";
+import { AuthenticationService } from "src/app/Service/authentication/authentication.service";
 
 @Component({
   selector: 'app-signup-user',

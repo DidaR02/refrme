@@ -5,21 +5,21 @@
       <nav class="gn-menu-wrapper">
         <div class="gn-scroller">
           <ul class="gn-menu">
-            <li class="gn-search-item">
+            <!-- <li class="gn-search-item">
               <input placeholder="Search" type="search" class="gn-search">
               <a class="gn-icon gn-icon-search"><span>Search</span></a>
-            </li>
+            </li> -->
             <li><a class="gn-icon gn-icon-cog" (click)='clickNavigateHandler("newSales")'>Sales
                 Applications</a></li>
             <li><a class="gn-icon gn-icon-cog" (click)='clickNavigateHandler("viewSales")'>View
                 Applications</a></li>
-            <li><a class="gn-icon gn-icon-cog" (click)='clickNavigateHandler("projects")'>Projects</a></li>
+            <li><a class="gn-icon gn-icon-help" (click)='clickNavigateHandler("userProfile")'>Profile</a></li>
+            <!-- <li><a class="gn-icon gn-icon-cog" (click)='clickNavigateHandler("projects")'>Projects</a></li>
             <li><a class="gn-icon gn-icon-help" (click)='clickNavigateHandler("task")'>Tasks</a></li>
             <li><a class="gn-icon gn-icon-cog">Analytics</a></li>
-            <li><a class="gn-icon gn-icon-cog">Chat</a></li>
-            <li><a class="gn-icon gn-icon-help" (click)='clickNavigateHandler("userProfile")'>Profile</a></li>
-            <li><a class="gn-icon gn-icon-cog">Settings</a></li>
-            <li><a class="gn-icon gn-icon-help">Help</a></li>
+            <li><a class="gn-icon gn-icon-cog">Chat</a></li> -->
+            <!-- <li><a class="gn-icon gn-icon-cog">Settings</a></li> -->
+            <!-- <li><a class="gn-icon gn-icon-help">Help</a></li>
             <li>
               <a class="gn-icon gn-icon-archive">Archives</a>
               <ul class="gn-submenu">
@@ -27,21 +27,99 @@
                 <li><a class="gn-icon gn-icon-pictures">Images</a></li>
                 <li><a class="gn-icon gn-icon-videos">Videos</a></li>
               </ul>
-            </li>
+            </li> -->
             <li><a class="gn-icon gn-icon-help" (click)="authService.SignOut(true)">Log Out</a></li>
           </ul>
         </div><!-- /gn-scroller -->
       </nav>
     </li>
-    <li><a href="#"><img src="./assets//logo/refrme-logo.jpg " alt="RefrMe" class="logo"></a></li>
-    <!-- <li><a class="codrops-icon codrops-icon-drop" href="#"><span>User Profile</span></a></li> -->
+    <li><a href="#"><img src="./assets//logo/RefrMe-R.png" alt="RefrMe" class="logo"></a></li>
   </ul>
 
   <br>
 
   <div class="dashboard-content">
     <div *ngIf="viewPage ; else elseBlock" class="dashboard-router">
+
+      <div *ngIf="showHeader">
+        <header class="bg-primary bg-gradient text-white">
+          <div class="container px-4 text-center">
+            <h1 class="fw-bolder">Welcome to RefrMe</h1>
+            <p class="lead">Congratulations on taking the first step to owning your financial freedom and earning your
+              piece
+              of the fourth
+              industrial revolution.</p>
+            <p class="lead">You are now a part of a community of entrepreneur's and the “twenty-percenters” who
+              believe in
+              taking
+              control
+              of their financial future and carving the life of their dreams.</p>
+            <p class="lead">RefrMe allows you to earn a passive income through utility services we all subscribe to
+              such as
+              internet
+              broadband, insurance, electricity and water.</p>
+            <p class="lead">Our current product offerings are Internet Broadband to the home and to the business but
+              our aim is
+              to
+              disrupt
+              and revolutionise other utility industries such as insurance, electricity and water.
+            </p>
+            <!-- <a class="btn btn-lg btn-light" (click)="onScrollTo('products')">Explore Products</a> -->
+          </div>
+        </header>
+
+        <section class="bg-light" id="welcome">
+          <div class="container px-4">
+            <div class="row gx-4 justify-content-center">
+              <div class="col-lg-8">
+                <div class="welcome-content">
+                  <h2>How It Works</h2>
+                  RefrMe is a Referral based marketing platform that is designed to democratise industries in south
+                  Africa that have had a history of being multinational conglomerates and monopolies. We believe that
+                  only through radical transformation of traditional business models will we change the status-quo, get
+                  better prices and service delivery in South Africa. Our business is the perfect answer to problems
+                  specific to south Africa such as poor service delivery, high unemployment and unsustainable
+                  inequality.
+
+                  <h2>How You Earn</h2>
+                  How you make money is simple. Our Referral-Based-Marketing platform pays you a percentage in annuity
+                  for every successful referral you make of our services or service of our affiliate partners. You can
+                  currently earn a passive income by just referring our world class reliable internet services. Everyone
+                  and their grandmother use the internet on a daily basis and RefrMe is the only company that offers you
+                  an opportunity to not only have access to some of the fastest internet broadband solution available in
+                  the world but to actually make money doing it.
+
+                  <h2>What You're Selling</h2>
+                  RefrMe currently offers a wide range of internet broadband solutions and we are currently working on
+                  increasing our product offerings to include financial services and energy solutions. Click Here to
+                  learn more.
+
+                  <h2>Why Join RefrMe</h2>
+                  Be a part of a community of like “minded go-getter”, studies show that less than 20% of the world
+                  population are Entrepreneurial. We at RefrMe are building a home & community for those of us who fall
+                  under “20 percenters”. Working together with our help will allow you to realise your potential and
+                  live the life of your dreams. We are not selling a get rich quick scheme but we are inviting you to
+                  learn, grow and seize opportunities to generate a passive income in area’s that are traditionally
+                  unavailable to me and you.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+
       <router-outlet></router-outlet>
+
+      <footer class="footer" style="height: 50px; text-align: center;">
+        <div class="container">
+          <span class="text-muted">© Copyright 2022 | RefrMe.</span>
+          <br>
+          <span class="text-muted">V3.1</span>
+        </div>
+      </footer>
+
     </div>
     <ng-template #elseBlock>
       <div class="alert alert-warning">

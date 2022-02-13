@@ -1,3 +1,10 @@
+.container {
+  height: 100%;
+  width: 85%;
+  padding-top: 50px;
+  padding-bottom: 15px;
+}
+
 .user {
   max-width: 100%;
 }
@@ -7,10 +14,30 @@
 }
 
 .user-profile {
-  width: 29%;
+  width: auto;
+  height: auto;
 }
 
 .user-image {
-  width: 200px;
-  height: 200px;
+  width: 10vw;
+  height: 10vw;
+}
+
+.user-info {
+  font-size: 0.8rem;
+}
+
+.h2 {
+  font-size: 2em; //0.8rem; 2em;
+}
+
+@media screen and (max-width: 767) {}
+
+@media screen and (max-width: 420) {
+
+  // h1,
+  // h2,
+  // h3 {
+  //   size: 0.8rem;
+  // }
 }

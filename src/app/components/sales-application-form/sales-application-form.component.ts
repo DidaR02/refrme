@@ -1,17 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DataService, MTNFixedLTEServices, LTEPacks, PricePercentage, NetworkOperator, NetworkOperatorLTEProducts, NetworkOperatorProducts, ProductMessage, Tier3LTEPacks, TopUpDataLTEPacks } from 'src/app/models/salesApplicationModels/NetworkOperatorModel';
-import { SaleApplication } from 'src/app/models/salesApplicationModels/SalesApplicationModel';
-import { ServiceProvider } from 'src/app/models/salesApplicationModels/ServiceProviderModel';
-import { UserPersonalDetails, AddresDetails } from 'src/app/models/salesApplicationModels/UserModel';
-import { DisableView, PageDisplayList } from 'src/app/models/Settings/IPageDisplaySettings';
-import { SignedInUser } from 'src/app/models/userDetails/ISignedInUser';
-import { User } from 'src/app/models/userDetails/IUser';
-import { UserAccess } from 'src/app/models/userDetails/IUserAccess';
-import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
-import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
-import { UserManagerService } from 'src/app/service/authentication/userManager.service';
-import { DataTypeConversionService } from 'src/app/service/shared/dataType-conversion.service';
+import { NetworkOperator, NetworkOperatorProducts, ProductMessage, NetworkOperatorLTEProducts, MTNFixedLTEServices, LTEPacks, PricePercentage, DataService, Tier3LTEPacks, TopUpDataLTEPacks } from 'src/app/Models/salesApplicationModels/NetworkOperatorModel';
+import { SaleApplication } from 'src/app/Models/salesApplicationModels/SalesApplicationModel';
+import { ServiceProvider } from 'src/app/Models/salesApplicationModels/ServiceProviderModel';
+import { UserPersonalDetails, AddresDetails } from 'src/app/Models/salesApplicationModels/UserModel';
+import { PageDisplayList, DisableView } from 'src/app/Models/Settings/IPageDisplaySettings';
+import { SignedInUser } from 'src/app/Models/userDetails/ISignedInUser';
+import { User, UserAccess } from 'src/app/Models/userDetails/IUser';
+import { AuthenticationService } from 'src/app/Service/authentication/authentication.service';
+import { FireBaseCrudService } from 'src/app/Service/authentication/fire-base-crud.service';
+import { UserManagerService } from 'src/app/Service/authentication/userManager.service';
+import { DataTypeConversionService } from 'src/app/Service/shared/dataType-conversion.service';
+
 
 @Component({
   selector: 'app-sales-application-form',
@@ -66,6 +66,7 @@ export class SalesApplicationFormComponent implements OnInit {
   switchProducts: string;
   lteProducts: any;
   tier3LTEPacks: Tier3LTEPacks[] = [];
+  tier3LTEPackageType: string;
   topUpDataLTEPacks: TopUpDataLTEPacks [] = [];
 
   constructor(
@@ -254,7 +255,13 @@ export class SalesApplicationFormComponent implements OnInit {
     if(this.applicationFormState?.length > 0 && this.applicationFormState === "editSales")
     {
        await this.getSalesApplicationsList(this.submitOwnApplications);
-    }
+     }
+     else
+    {
+      this.salesApplication.patchValue({
+        AgentPromoCode: this.user?.promocode?.toString()
+      });
+      }
   }
 
   getNetworkOperator(){
@@ -417,6 +424,7 @@ export class SalesApplicationFormComponent implements OnInit {
     AgentPromoCode: new FormControl(),
     NetworkOperator: new FormControl(),
     LtePackageDeal: new FormControl(),
+    LtePackageDealType: new FormControl(),
     IsCpeFirbreInstalled: new FormControl(),
     NetworkOperatorPackage: new FormControl(),
     UserPersonalDetails: new FormGroup(this.userPersonalDetails.controls),
@@ -495,6 +503,10 @@ export class SalesApplicationFormComponent implements OnInit {
 
     var saleApplication: SaleApplication = formDetails;
 
+    if (this.tier3LTEPackageType === "SimAndRouter")
+    {
+      saleApplication.LtePackageDealType = this.tier3LTEPackageType
+    }
 
     let promoCode = formDetails?.AgentPromoCode;
     if (this.submitOwnApplications && (promoCode != this.user.promocode))
@@ -510,7 +522,7 @@ export class SalesApplicationFormComponent implements OnInit {
           this.fsCrud.saveUserDetails(userPersonalDetails, this.userId);
        //}
 
-      this.fsCrud.saveSaleApplication(formDetails, this.saleApplicationId);
+      this.fsCrud.saveSaleApplication(saleApplication, this.saleApplicationId);
       if(this.createFileElementTagName != null || this.createFileElementTagName != undefined){
         //Iterate over map keys
         for (let fileElementTag of this.createFileElementTagName.entries()) {
@@ -556,8 +568,9 @@ export class SalesApplicationFormComponent implements OnInit {
          if (entries.SaleApplicationId === saleAppId?.toString() )
         {
           this.salesApplication.patchValue({
-            AgentPromoCode: entries.AgentPromoCode?.toString(),
+            AgentPromoCode: entries.AgentPromoCode?.toString() ?? this.user?.promocode?.toString(),
             LtePackageDeal: entries.LtePackageDeal?.toString(),
+            LtePackageDealType: entries.LtePackageDealType?.toString(),
             NetworkOperator: entries.NetworkOperator?.toString(),
             IsCpeFirbreInstalled: entries.IsCpeFirbreInstalled?.toString(),
             NetworkOperatorPackage: entries.NetworkOperatorPackage?.toString(),
@@ -595,11 +608,19 @@ export class SalesApplicationFormComponent implements OnInit {
             TermsAndConditionsAccepted: entries.TermsAndConditionsAccepted,
             MarketingConsent: entries.MarketingConsent,
           });
+
+           this.tier3LTEPackageType = entries.LtePackageDealType?.toString();
         }
       });
 
       this.disableDetailsEdit = true;
     }
+    else
+    {
+      this.salesApplication.patchValue({
+        AgentPromoCode: this.user?.promocode?.toString(),
+      });
+      }
   }
 
   onPackageDealSelected(event: any)
@@ -666,6 +687,10 @@ export class SalesApplicationFormComponent implements OnInit {
                     if (collectopData.length > 0) {
                       for (var item = 0; item <= collectopData.length - 1; item++) {
                         if (collectopData[item]) {
+
+                          //Set prices on the package name for drop downlist and application purpose
+                          collectopData[item]['PackageName'] = collectopData[item]['PackageName'] + " @ R " + collectopData[item]['ResellerPriceIncVat'].toString();
+
                           this.tier3LTEPacks.push(collectopData[item]);
                         }
                       }
@@ -706,7 +731,14 @@ export class SalesApplicationFormComponent implements OnInit {
   }
 
   onSelectTier3LTEPacks(event: any) {
-     console.log("Selected");
-    console.log(event?.target?.value);
+    if (event?.target?.value) {
+      let packs = event?.target?.value;
+      this.tier3LTEPacks.forEach(x => {
+        if (x.PackageName === packs) {
+          this.tier3LTEPackageType = x.PackageType.toString();
+          return;
+        }
+      });
+    }
   }
 }

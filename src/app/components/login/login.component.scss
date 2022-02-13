@@ -4,16 +4,30 @@
     box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
   }
 
+  .container {
+    height: 100%;
+    width: 100%;
+  }
+
   .signin-user {
     height: auto;
     width: 100%;
     margin: auto;
   }
 
-  .container,
+  .signin-user h1 {
+    text-align: center;
+  }
+
   .signin-contents {
-    height: 100%;
-    width: 85;
+    margin: auto;
+    width: 80%;
+  }
+
+  @media screen and (max-width: 440px) {
+    .signin-contents {
+      width: 100%;
+    }
   }
 
   .form-row {

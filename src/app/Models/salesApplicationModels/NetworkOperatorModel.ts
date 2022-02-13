@@ -1,5 +1,3 @@
-import { NamedTupleMember } from "typescript";
-
 export class NetworkOperator{
     IsActive!: boolean;
     NetworkOperatorId!: string;
@@ -49,6 +47,7 @@ export class Tier3LTEPacks
   RRPIncVat: number;
   ResellerPriceIncVat: number;
   ResellerPriceExVat: number;
+  PackageType: string;
 }
 
 export class TopUpDataLTEPacks
