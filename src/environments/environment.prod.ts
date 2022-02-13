@@ -7,7 +7,7 @@ export const environment = {
     projectId: "refrme-prod",
     storageBucket: "refrme-prod.appspot.com",
     messagingSenderId: "652002857194",
-    appId: "1:652002857194:web:975635beee5f2de587c793",
-    measurementId: "G-JQNKDLB8BS"
+    appId: "1:652002857194:web:d37a02524af0b82187c793",
+    measurementId: "G-GR514WEXRS"
   }
 };

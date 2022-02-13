@@ -1,13 +1,12 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { SaleApplication } from "src/app/Models/salesApplicationModels/SalesApplicationModel";
+import { UserPersonalDetails } from "src/app/Models/salesApplicationModels/UserModel";
+import { PageDisplayList } from "src/app/Models/Settings/IPageDisplaySettings";
+import { AngularFirestore } from '@angular/fire/compat//firestore';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/compat/storage';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
+import { Injectable } from "@angular/core";
+import { Observable, finalize } from "rxjs";
 
-import {UserPersonalDetails} from './../../models/salesApplicationModels/UserModel'
-import { SaleApplication } from './../../models/salesApplicationModels/SalesApplicationModel'
-import { Observable} from 'rxjs';
-import { finalize } from 'rxjs/operators';
-import { PageDisplayList } from 'src/app/models/Settings/IPageDisplaySettings';
 
 @Injectable({
   providedIn: 'root'
@@ -66,7 +65,7 @@ export class FireBaseCrudService {
           }
 
           await this.fireStorage.ref(storagepath).updateMetadata(metadata).toPromise().then(
-             function(returnMetaData){
+             function(returnMetaData: any){
                newCustomMetaData = returnMetaData;
              });
           this.metaData  = newCustomMetaData;
@@ -98,13 +97,13 @@ export class FireBaseCrudService {
     if(userDetails)
     {
       userId = userId ?? this.fireDb.database.ref().child('ApplicantDetails').push().key;
-      this.fireDb.database.ref('ApplicantDetails/' + userId).set(userDetails, function(error) {
-        if (error) {
-          alert("Data saved failed! \n" + error);
-        } else {
-          alert("Data saved successfully!");
-        }
-      });
+      this.fireDb.database.ref('ApplicantDetails/' + userId).set(userDetails, (error: any) => {
+          if (error) {
+            alert("Data saved failed! \n" + error);
+          } else {
+            alert("Data saved successfully!");
+          }
+        });
     }
     else{
       alert("Please enter applicant personal details!");
@@ -115,7 +114,7 @@ export class FireBaseCrudService {
     if(saleApplication)
     {
       saleApplicationId =  saleApplicationId ?? this.fireDb.database.ref().child('SaleApplication').push().key;
-      this.fireDb.database.ref('SaleApplication/' + saleApplicationId).set(saleApplication, function(error) {
+      this.fireDb.database.ref('SaleApplication/' + saleApplicationId).set(saleApplication, (error: any) => {
         if (error) {
           alert("Save SaleApplication failed! \n" + error);
         } else {
@@ -159,11 +158,11 @@ export class FireBaseCrudService {
     {
       this.DisplayPagesList = this.fireDb.list('tb_displayPages');
       this.DisplayPagesList.snapshotChanges().subscribe(
-        (displayPageList) => {
+        (displayPageList: any[]) => {
 
           this.displayPages = [];
 
-          displayPageList.forEach(pages => {
+          displayPageList.forEach((pages: { payload: { toJSON: () => any; }; }) => {
             let dp = pages.payload.toJSON();
             if (dp) {
               let currentPage = dp as PageDisplayList;

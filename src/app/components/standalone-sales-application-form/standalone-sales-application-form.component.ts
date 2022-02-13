@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'; // Reactive form
-import { DataService, LTEPacks, MTNFixedLTEServices, NetworkOperator, NetworkOperatorLTEProducts, NetworkOperatorProducts, PricePercentage, ProductMessage, Tier3LTEPacks, TopUpDataLTEPacks } from 'src/app/models/salesApplicationModels/NetworkOperatorModel';
-import { SaleApplication } from 'src/app/models/salesApplicationModels/SalesApplicationModel';
-import { ServiceProvider } from 'src/app/models/salesApplicationModels/ServiceProviderModel';
-import { UserPersonalDetails, AddresDetails } from 'src/app/models/salesApplicationModels/UserModel';
-import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
+import { Component, OnInit, Input } from "@angular/core";
+import { FormControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { NetworkOperator, NetworkOperatorProducts, ProductMessage, NetworkOperatorLTEProducts, MTNFixedLTEServices, LTEPacks, PricePercentage, DataService, Tier3LTEPacks, TopUpDataLTEPacks } from "src/app/Models/salesApplicationModels/NetworkOperatorModel";
+import { SaleApplication } from "src/app/Models/salesApplicationModels/SalesApplicationModel";
+import { ServiceProvider } from "src/app/Models/salesApplicationModels/ServiceProviderModel";
+import { UserPersonalDetails, AddresDetails } from "src/app/Models/salesApplicationModels/UserModel";
+import { FireBaseCrudService } from "src/app/Service/authentication/fire-base-crud.service";
 
 @Component({
   selector: 'quick-application-form',
@@ -49,7 +49,9 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
   switchProducts: string;
   lteProducts: any;
   tier3LTEPacks: Tier3LTEPacks[] = [];
-  topUpDataLTEPacks: TopUpDataLTEPacks [] = [];
+  tier3LTEPackageType: string;
+  topUpDataLTEPacks: TopUpDataLTEPacks[] = [];
+
   constructor(public fsCrud: FireBaseCrudService, public formBuilder: FormBuilder){}
 
   ngOnInit(){
@@ -458,6 +460,10 @@ export class StandaloneSalesApplicationFormComponent implements OnInit {
                     if (collectopData.length > 0) {
                       for (var item = 0; item <= collectopData.length - 1; item++) {
                         if (collectopData[item]) {
+
+                          //Set prices on the package name for drop downlist and application purpose
+                          collectopData[item]['PackageName'] = collectopData[item]['PackageName'] + " @ R " + collectopData[item]['ResellerPriceIncVat'].toString();
+
                           this.tier3LTEPacks.push(collectopData[item]);
                         }
                       }

@@ -1,26 +1,25 @@
-import { Component, OnInit, QueryList,ViewChild, ViewChildren, AfterViewInit } from '@angular/core';
+import { Component, OnInit, QueryList,ViewChild, ViewChildren, AfterViewInit, HostListener } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { SaleApplication } from '../../models/salesApplicationModels/SalesApplicationModel';
+import { SaleApplication } from '../../Models/salesApplicationModels/SalesApplicationModel';
 
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
-import { DisableView, PageDisplayList } from 'src/app/models/Settings/IPageDisplaySettings';
-import { SignedInUser } from 'src/app/models/userDetails/ISignedInUser';
-import { User } from 'src/app/models/userDetails/IUser';
-import { UserAccess } from 'src/app/models/userDetails/IUserAccess';
-import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
-import { UserManagerService } from 'src/app/service/authentication/userManager.service';
-import { DataTypeConversionService } from 'src/app/service/shared/dataType-conversion.service';
+import { FireBaseCrudService } from 'src/app/Service/authentication/fire-base-crud.service';
+import { DisableView, PageDisplayList } from 'src/app/Models/Settings/IPageDisplaySettings';
+import { SignedInUser } from 'src/app/Models/userDetails/ISignedInUser';
+import { User, UserAccess } from 'src/app/Models/userDetails/IUser';
+import { AuthenticationService } from 'src/app/Service/authentication/authentication.service';
+import { UserManagerService } from 'src/app/Service/authentication/userManager.service';
+import { DataTypeConversionService } from 'src/app/Service/shared/dataType-conversion.service';
 
 @Component({
   selector: 'app-view-sales-application',
   templateUrl: './view-sales-application.component.html',
   styleUrls: ['./view-sales-application.component.scss']
 })
-export class ViewSalesApplicationComponent implements AfterViewInit {
+export class ViewSalesApplicationComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['name', 'surname', 'email'];
   dataSource!: MatTableDataSource<SaleApplication>;
@@ -36,7 +35,6 @@ export class ViewSalesApplicationComponent implements AfterViewInit {
   displayPages: PageDisplayList[] = [];
   viewAllSalesApplications: boolean = false;
   private signedInUser: SignedInUser;
-
   private pageName: string = "viewSalesApplications";
 
   constructor(
@@ -47,11 +45,19 @@ export class ViewSalesApplicationComponent implements AfterViewInit {
     this.getUserInfo();
   }
 
+  ngOnInit() {
+    this.dataSource = new MatTableDataSource<SaleApplication>();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.getSalesApplicationList();
+  }
   ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
     this.getSalesApplicationList();
   }
 
-  applyFilter(event: Event) {
+  async applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -60,6 +66,15 @@ export class ViewSalesApplicationComponent implements AfterViewInit {
     }
   }
 
+  getInitialsFromFirstname(name: string) {
+
+    if (name)
+    {
+      return name.trim().substring(0, 1).toUpperCase();
+    }
+
+    return name;
+  }
   async getSalesApplicationList() {
     let salesList = this.fsCrud.getSalesApplicationList();
 

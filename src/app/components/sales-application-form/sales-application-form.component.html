@@ -98,18 +98,17 @@
               <div class="form-group">
                 <label for="LtePackageDeal">Please select LTE Package</label>
                 <select formControlName="LtePackageDeal" id="LtePackageDeal" (change)='onSelectTier3LTEPacks($event)'>
-                  <option selected="selected" [value]="0">select LTE Package</option>
+                  <option selected [value]="0">select LTE Package</option>
                   <option *ngFor="let fixedLte of tier3LTEPacks" [value]="fixedLte.PackageName">
                     {{fixedLte.PackageName}}</option>
                 </select>
               </div>
+              <div *ngIf="tier3LTEPackageType === 'SimAndRouter'">
+                <p style="color: red;">Once off router cost: R1999.00</p>
+              </div>
             </div>
           </div>
         </ng-template>
-
-
-
-
 
         <div class="panel panel-primary">
           <div class="panel-heading">Your Personal Details</div>
@@ -236,35 +235,45 @@
                     on-site technician option *</label>
                   <ul class="deliveryInstallOption" id="deliveryInstallOption" style="list-style-type: none;">
                     <li class="DeliveryInstallOption-list">
-                      <label class="radio-inline"><input type="radio" class="form-control"
+                      <label class="radio-inline"><input type="radio" class="form-control radio-inline-input"
                           formControlName="DeliveryInstallOption" name="DeliveryInstallOption"
                           class="installation-option" value="Courier delivery for Free">Courier delivery for
                         Free</label>
                     </li>
                     <li class="DeliveryInstallOption-list">
-                      <label class="radio-inline"><input type="radio" class="form-control"
+                      <label class="radio-inline"><input type="radio" class="form-control radio-inline-input"
                           formControlName="DeliveryInstallOption" name="DeliveryInstallOption"
                           class="installation-option"
                           value="Collection at our Head office in Bryanston, Johannesburg">Collection at our Head
                         office
                         in Bryanston, Johannesburg</label>
                     </li>
-                    <li class="DeliveryInstallOption-list">
-                      <label class="radio-inline"><input type="radio" class="form-control"
-                          formControlName="DeliveryInstallOption" name="DeliveryInstallOption"
-                          class="installation-option"
-                          value="On-site Technician (For 10Mbps - 50Mbps packages R599)">On-site Technician (For
-                        10Mbps
-                        -
-                        50Mbps packages R599)</label>
-                    </li>
-                    <li class="DeliveryInstallOption-list">
-                      <label class="radio-inline"><input type="radio" class="form-control"
-                          formControlName="DeliveryInstallOption" name="DeliveryInstallOption"
-                          class="installation-option" value="On-site Technician (For 100Mbps+ packages Free)">On-site
-                        Technician (For 100Mbps+
-                        packages Free)</label>
-                    </li>
+                    <ng-template [ngIf]="switchProducts === 'lte'">
+                      <li class="DeliveryInstallOption-list">
+                        <label class="radio-inline"><input type="radio" class="form-control radio-inline-input"
+                            formControlName="DeliveryInstallOption" name="DeliveryInstallOption"
+                            class="installation-option" value="No router needed">No router needed</label>
+                      </li>
+                    </ng-template>
+                    <ng-template [ngIf]="switchProducts === 'fibre'">
+                      <li class="DeliveryInstallOption-list">
+                        <label class="radio-inline"><input type="radio" class="form-control radio-inline-input"
+                            formControlName="DeliveryInstallOption" name="DeliveryInstallOption"
+                            class="installation-option"
+                            value="On-site Technician (For 10Mbps - 50Mbps packages R599)">On-site Technician (For
+                          10Mbps
+                          -
+                          50Mbps packages R599)</label>
+                      </li>
+                      <li class="DeliveryInstallOption-list">
+                        <label class="radio-inline"><input type="radio" class="form-control radio-inline-input"
+                            formControlName="DeliveryInstallOption" name="DeliveryInstallOption"
+                            class="installation-option" value="On-site Technician (For 100Mbps+ packages Free)">On-site
+                          Technician (For 100Mbps+
+                          packages Free)</label>
+                      </li>
+                    </ng-template>
+
                   </ul>
                 </div>
               </div>
@@ -274,13 +283,25 @@
 
         <ng-template [ngIf]="showPackages">
           <div class="panel panel-primary">
-            <div class="panel-heading">
-              <p>
-                Bitco Debit Order Information <small>*We will only start billing the day the
-                  service is activated. Please note that all services are billed pro-rata.
-                  Billing takes place last business day of every month.</small>
-              </p>
-            </div>
+            <ng-template [ngIf]="switchProducts === 'fibre'">
+              <div class="panel-heading">
+                <p>
+                  Bitco Debit Order Information <small>*We will only start billing the day the
+                    service is activated. Please note that all services are billed pro-rata.
+                    Billing takes place last business day of every month.</small>
+                </p>
+              </div>
+            </ng-template>
+            <ng-template [ngIf]="switchProducts === 'lte'">
+              <div class="panel-heading">
+                <p>
+                  RefrMe Debit Order Information <small>*We will only start billing the day the
+                    service is activated. Please note that all services are billed pro-rata.
+                    Billing takes place last business day of every month.</small>
+                </p>
+              </div>
+            </ng-template>
+
             <div class="panel-body">
               <p>
                 We will only start billing the day the service is activated. Please note that all services are billed
@@ -354,42 +375,83 @@
                   id="uploadProofOfResidence" (change)="getProofOfResidence($event)">
               </div>
               <div class="form-group">
-                <label for="debitOrderMandateAccepted">I hereby authorize Bitco, to debit my account in advance with
-                  the
-                  total amount payable on my monthly account</label>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input form-control-file" id="debitOrderMandateAccepted"
-                    formControlName="DebitOrderMandateAccepted" value="Yes">
-                  <label class="form-check-label" for="debitOrderMandateAccepted">Yes, I Agree to the Electronic
-                    Mandate
-                    terms listed below. <a
-                      href="https://www.bitco.co.za/wp-content/uploads/BitCO-Home-Debit-Order-Mandate-Generic.pdf"
-                      target="_blank">Click here to read debit order mandate</a></label>
-                </div>
+
+                <ng-template [ngIf]="switchProducts === 'fibre'">
+                  <label for="debitOrderMandateAccepted">I hereby authorize Bitco, to debit my account in advance with
+                    the
+                    total amount payable on my monthly account</label>
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input form-control-file" id="debitOrderMandateAccepted"
+                      formControlName="DebitOrderMandateAccepted" value="Yes">
+                    <label class="form-check-label" for="debitOrderMandateAccepted">Yes, I Agree to the Electronic
+                      Mandate
+                      terms listed below. <a
+                        href="https://www.bitco.co.za/wp-content/uploads/BitCO-Home-Debit-Order-Mandate-Generic.pdf"
+                        target="_blank">Click here to read debit order mandate</a></label>
+
+                  </div>
+                </ng-template>
+                <ng-template [ngIf]="switchProducts === 'lte'">
+                  <label for="debitOrderMandateAccepted">I hereby authorize RefrMe, to debit my account in advance with
+                    the
+                    total amount payable on my monthly account</label>
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input form-control-file" id="debitOrderMandateAccepted"
+                      formControlName="DebitOrderMandateAccepted" value="Yes">
+                    <label class="form-check-label" for="debitOrderMandateAccepted">Yes, I Agree to the Electronic
+                      Mandate
+                      terms listed below. <a
+                        href="../../../assets/RefrMeTermsAndConditions/RefrME-Independent-Business-Owner-Agreement.pdf"
+                        target="_blank">Click here to read debit order mandate</a></label>
+                  </div>
+                </ng-template>
               </div>
 
               <div class="form-group">
-                <label for="termsAndConditionsAccepted">I have read, understand and agree to the Terms listed below,
-                  and
-                  declare that the information given is true and correct:</label>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input form-control-file" id="termsAndConditionsAccepted"
-                    formControlName="TermsAndConditionsAccepted" value="Yes">
-                  <label class="form-check-label" for="termsAndConditionsAccepted">Yes, I agree to the General &
-                    Service
-                    Terms. <a
-                      href="https://www.bitco.co.za/wp-content/uploads/BitCo-Home-Terms-and-Conditions_20181113.pdf"
-                      target="_blank">Click Here To Read Terms and Conditions</a></label>
-                </div>
+                <ng-template [ngIf]="switchProducts === 'fibre'">
+                  <label for="termsAndConditionsAccepted">I have read, understand and agree to the Terms listed below,
+                    and
+                    declare that the information given is true and correct:</label>
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input form-control-file" id="termsAndConditionsAccepted"
+                      formControlName="TermsAndConditionsAccepted" value="Yes">
+                    <label class="form-check-label" for="termsAndConditionsAccepted">Yes, I agree to the General &
+                      Service
+                      Terms. <a
+                        href="https://www.bitco.co.za/wp-content/uploads/BitCo-Home-Terms-and-Conditions_20181113.pdf"
+                        target="_blank">Click Here To Read Terms and Conditions</a></label></div>
+                </ng-template>
+                <ng-template [ngIf]="switchProducts === 'lte'">
+                  <label for="termsAndConditionsAccepted">I have read, understand and agree to the Terms listed below,
+                    and
+                    declare that the information given is true and correct:</label>
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input form-control-file" id="termsAndConditionsAccepted"
+                      formControlName="TermsAndConditionsAccepted" value="Yes">
+                    <label class="form-check-label" for="termsAndConditionsAccepted">Yes, I agree to the General &
+                      Service
+                      Terms. <a href="../../../assets/RefrMeTermsAndConditions/RefrMe-Home-Broadband-Fixed-lte-tc.pdf"
+                        target="_blank">Click Here To Read Terms and Conditions</a></label>
+                  </div>
+                </ng-template>
+
+
               </div>
 
               <div class="form-group">
-                <label>I hereby give BitCo authority to send service related and product related information via
-                  e-mail</label>
+                <ng-template [ngIf]="switchProducts === 'fibre'">
+                  <label>I hereby give BitCo authority to send service related and product related information via
+                    e-mail</label>
+                </ng-template>
+                <ng-template [ngIf]="switchProducts === 'lte'">
+                  <label>I hereby give RefrMe authority to send service related and product related information via
+                    e-mail</label>
+                </ng-template>
+
                 <br>
                 <label class="radio-inline"><input type="radio" class="form-control-file"
-                    formControlName="MarketingConsent" name="MarketingConsent" class="marketingConsent"
-                    value="Yes">Yes</label>
+                    formControlName="MarketingConsent" name="MarketingConsent" class="marketingConsent" value="Yes"
+                    checked>Yes</label>
                 <label class="radio-inline"><input type="radio" class="form-control-file"
                     formControlName="MarketingConsent" name="MarketingConsent" class="marketingConsent"
                     value="No">No</label>

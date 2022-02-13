@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent } from '@angular/router';
-import { DisableView, PageDisplayList } from 'src/app/models/Settings/IPageDisplaySettings';
-import { SignedInUser } from 'src/app/models/userDetails/ISignedInUser';
-import { User } from 'src/app/models/userDetails/IUser';
-import { UserAccess } from 'src/app/models/userDetails/IUserAccess';
-import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
-import { FireBaseCrudService } from 'src/app/service/authentication/fire-base-crud.service';
-import { UserManagerService } from 'src/app/service/authentication/userManager.service';
-import { DataTypeConversionService } from 'src/app/service/shared/dataType-conversion.service';
+import { Component, OnInit } from "@angular/core";
+import { Router, RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from "@angular/router";
+import { PageDisplayList, DisableView } from "src/app/Models/Settings/IPageDisplaySettings";
+import { SignedInUser } from "src/app/Models/userDetails/ISignedInUser";
+import { User, UserAccess } from "src/app/Models/userDetails/IUser";
+import { AuthenticationService } from "src/app/Service/authentication/authentication.service";
+import { FireBaseCrudService } from "src/app/Service/authentication/fire-base-crud.service";
+import { UserManagerService } from "src/app/Service/authentication/userManager.service";
+import { DataTypeConversionService } from "src/app/Service/shared/dataType-conversion.service";
 
 declare var gnMenu: any;
 
@@ -20,12 +19,13 @@ export class DashboardComponent implements OnInit {
 
   public showOverlay = false;
   user: User;
-  private userData: any;
   private userAccess: UserAccess;
   viewPage: boolean = true;
   displayPages: PageDisplayList[] = [];
   private signedInUser: SignedInUser;
   private pageName: string = "dashboard";
+  showHeader: boolean = true;
+
 
   constructor(private router: Router,
     public authService: AuthenticationService,
@@ -60,6 +60,7 @@ export class DashboardComponent implements OnInit {
 
   async clickNavigateHandler(url: string)
   {
+    this.showHeader = false;
     if(url.length > 0)
     {
       switch(url){

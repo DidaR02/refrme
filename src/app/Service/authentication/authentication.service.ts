@@ -1,11 +1,10 @@
-import { Injectable, NgZone } from '@angular/core';
-import { User } from '../../models/userDetails/IUser';
-import auth from 'firebase';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { UserAccess } from '../../models/userDetails/IUserAccess';
+import { Injectable, NgZone } from "@angular/core";
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat//firestore';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { Router } from "@angular/router";
+import { User, UserAccess } from "src/app/Models/userDetails/IUser";
+
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +25,7 @@ export class AuthenticationService {
       }
       else
       {
-        this.router.navigate(['login']);
+        this.router.navigate(['landing']);
       }
     }
 
@@ -55,7 +54,7 @@ export class AuthenticationService {
           this.SendVerificationMail();
         }
       } catch (error) {
-        window.alert(error.message);
+        window.alert(error);
       }
     }
 
@@ -64,7 +63,7 @@ export class AuthenticationService {
       this.afAuth.signOut().then(() => {
         localStorage.clear();
         if (redirect)
-          {this.router.navigate(['landing']);}
+          {this.router.navigate(['home']);}
       });
     }
 
@@ -120,10 +119,6 @@ export class AuthenticationService {
     const user = JSON.parse(localStorage.getItem('user') as User | any);
     return (user.emailVerified !== false) ? true : false;
   }
-    // Sign in with Google
-    GoogleAuth() {
-      return this.AuthLogin(new auth.auth.GoogleAuthProvider());
-    }
 
     // Auth logic to run auth providers
     async AuthLogin(provider: any) {
