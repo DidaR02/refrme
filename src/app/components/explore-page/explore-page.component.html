@@ -11,6 +11,7 @@
       <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link" (click)="back2Home()">Home</a></li>
         <li class="nav-item"><a class="nav-link" (click)="onScrollTo('about')" target="">About</a></li>
+        <li class="nav-item"><a class="nav-link" (click)="onScrollTo('whatWeDo')">What We Do</a></li>
         <li class="nav-item"><a class="nav-link" (click)="onScrollTo('services')">Services</a></li>
         <li class="nav-item"><a class="nav-link" (click)="onScrollTo('products')">Products</a></li>
         <li class="nav-item"><a class="nav-link" (click)="onScrollTo('contact')">Contact</a></li>
@@ -48,12 +49,51 @@
           best in the market and automating mundane tasks. RefrMe does the due diligence to help our users make the
           smartest decisions. Our next generation comparison platform uses Ai to ensure our users find the right deal,
           every single time.</p>
+
+        <h5>Mission</h5>
+        <p>We're on a mission to reimagine how we compare switch or buy financial services and utility products, using
+          customer data for good and automating mundane tasks such as paperwork. RefrMe helps users make smart
+          decisions, our next generation comparison and customer relations platform connects users to the right deal,
+          every time.</p>
+
+        <h5>Vision</h5>
+        <p>RefrMe makes comparing, switching or buying as easy as possible by providing access to smart comparison
+          services and being and building a reputation as a trusted consumer champion.</p>
       </div>
     </div>
   </div>
 </section>
+
+<!-- What we do section-->
+<section id="whatWeDo">
+  <div class="container px-4">
+    <div class="row gx-4 justify-content-center">
+      <div class="col-lg-8">
+        <h2>What We Do</h2>
+        <p class="lead">RefrMe has developed its own innovative use of technology to deliver its technical, marketing
+          and customer services. Our platform allows us to outsource our internal processes to independent business
+          owners. Our independent business owner operations have three departments. </p>
+        <ul>
+          <li>We outsource our technical and support contracts to qualified technicians to install broadband internet
+            to our customers on a self-employed independent business owner model.
+          </li>
+          <li>We outsource our customer service to talented work at home agents, our agents are under our independent
+            business owner model. Agents are recruited based on experience and are given training on utilizing our
+            platform and the technologies that we have created to generate an income. Our agents dictate their own
+            working hours and receive training in entrepreneurship and how to run their own business.
+          </li>
+          <li>We also offer the opportunity to reward our customers annuity rewards for successful referral's to go
+            with our company philosophy and model. Our business is built to offer as many opportunities as possible for
+            our users to generate an income online.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Services section-->
-<section id="services">
+<section class="bg-light" id="services">
   <div class="container px-4">
     <div class="row gx-4 justify-content-center">
       <div class="col-lg-8">
@@ -79,7 +119,7 @@
             dictate their own working hours and receive training in entrepreneurship and how to run their own
             business.
           </li>
-          <li>We also offer the opportunity to reward our customers annuity rewards for successful referral’s to
+          <li>We also offer the opportunity to reward our customers annuity rewards for successful referral's to
             go with our company philosophy and model. Our business is built to offer as many opportunities as
             possible for our users to generate an income online.
           </li>
@@ -89,53 +129,59 @@
   </div>
 </section>
 <!-- Products section-->
-<section class="bg-light" id="products">
+<section id="products">
   <div class="container px-4">
     <div class="row gx-4 justify-content-center">
       <div class="col-lg-8">
         <h2>Products</h2>
-        <p class="lead">Broadband Fixed-LTE (F/LTE)or 5G</p>
-        <ul>
-          <li>Our current 5g and F/LTE infrastructure is provided by MTN
-          </li>
-          <li>RefrMe manages its own customers and service delivery
-          </li>
-          <li>Uncapped & Capped Internet Packages
-          </li>
-          <li>Best-effort Service
-          </li>
-          <li>Internet speeds from 5Mbps to 25Mbps
-          </li>
-          <li>Installation lead time for a connected building: 3-7 working days
-          </li>
-        </ul>
-
-        <p class="lead">Broadband Home Fibre</p>
-        <ul>
-          <li>Our Current FNOs (Vumatel, Vuma Reach, Frogfoot, Octotel, MFN, Openserve, Huge Networks)
-          </li>
-          <li>RefrMe partners with multiple service providers to provide the best connectivity solutions for homes and
-            businesses.
-          </li>
-          <li>Uncapped Internet
-          </li>
-          <li>Contended (Contention can be up to 1 : 10 during network congestion)
-          </li>
-          <li>Asynchronous (Asymmetrical) - 1 : 5. Upload and download speeds are not the same
-          </li>
-          <li>Best-effort Service
-          </li>
-          <li>Internet speeds from 10Mbps to 100Mbps
-          </li>
-          <li>Installation lead time for a connected building: 3-7 working days
-          </li>
-        </ul>
+        <div class="row align-items-center">
+          <div class="col-sm highlight">
+            <p class="lead">Broadband Fixed-LTE (F/LTE)or 5G</p>
+            <ul>
+              <li>Our current 5g and F/LTE infrastructure is provided by MTN
+              </li>
+              <li>RefrMe manages its own customers and service delivery
+              </li>
+              <li>Uncapped & Capped Internet Packages
+              </li>
+              <li>Best-effort Service
+              </li>
+              <li>Internet speeds from 5Mbps to 25Mbps
+              </li>
+              <li>Installation lead time for a connected building: 3-7 working days
+              </li>
+            </ul>
+          </div>
+          <div class="col-sm highlight">
+            <p class="lead">Broadband Home Fibre</p>
+            <ul>
+              <li>Our Current FNOs (Vumatel, Vuma Reach, Frogfoot, Octotel, MFN, Openserve, Huge Networks)
+              </li>
+              <li>RefrMe partners with multiple service providers to provide the best connectivity solutions for
+                homes and
+                businesses.
+              </li>
+              <li>Uncapped Internet
+              </li>
+              <li>Contended (Contention can be up to 1 : 10 during network congestion)
+              </li>
+              <li>Asynchronous (Asymmetrical) - 1 : 5. Upload and download speeds are not the same
+              </li>
+              <li>Best-effort Service
+              </li>
+              <li>Internet speeds from 10Mbps to 100Mbps
+              </li>
+              <li>Installation lead time for a connected building: 3-7 working days
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 <!-- Contact section-->
-<section id="contact">
+<section class="bg-light" id="contact">
   <div class="container px-4">
     <div class="row gx-4 justify-content-center">
       <div class="col-lg-8">
