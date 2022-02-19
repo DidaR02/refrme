@@ -153,7 +153,8 @@ export class DashboardComponent implements OnInit {
           photoURL: this.userManagerService.user?.photoURL,
           firstName: this.userManagerService.user?.firstName,
           lastName: this.userManagerService.user?.lastName,
-          promocode: this.userManagerService.user?.promocode
+          promocode: this.userManagerService.user?.promocode,
+          referalPromoCode: this.userManagerService.user?.referalPromoCode
         };
 
         this.signedInUser = {

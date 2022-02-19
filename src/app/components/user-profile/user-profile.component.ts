@@ -117,7 +117,8 @@ export class UserProfileComponent implements OnInit {
           photoURL: this.userManagerService.user?.photoURL,
           firstName: this.userManagerService.user?.firstName,
           lastName: this.userManagerService.user?.lastName,
-          promocode: this.userManagerService.user?.promocode
+          promocode: this.userManagerService.user?.promocode,
+          referalPromoCode: this.userManagerService.user?.promocode
         };
 
         this.signedInUser = {
@@ -173,7 +174,8 @@ export class UserProfileComponent implements OnInit {
       emailVerified: user.emailVerified ?? false,
       firstName: user.firstName?? null,
       lastName: user.lastName?? null,
-      promocode: user.promocode ?? null
+      promocode: user.promocode ?? null,
+      referalPromoCode : user.referalPromoCode ?? null
     }
 
     this.userList.push(userData as User);

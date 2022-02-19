@@ -50,6 +50,13 @@
                 </div>
               </div>
 
+              <div class="form-row row">
+                <div class="form-group col-12">
+                  <input type="text" class="form-control" id="referalPromoCode" name="referalPromoCode"
+                    placeholder="Referal Promocode *" aria-required="true" formControlName="referalPromoCode" required>
+                </div>
+              </div>
+
               <div *ngIf="!this.isPasswordValid">
                 <div class="alert alert-danger alert-dismissible">
                   <a class="close" data-dismiss="alert" aria-label="close" (click)="resetErrorMsg()">&times;</a>

@@ -30,7 +30,8 @@ export class SignUpUserComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
     confirmEmail:  ['', Validators.required],
-    confirmPassword: ['', Validators.required]
+    confirmPassword: ['', Validators.required],
+    referalPromoCode : ['', Validators.required]
   });
 
   async submitSigUpDetails()
@@ -61,7 +62,8 @@ export class SignUpUserComponent implements OnInit {
           email : signUpDetails.email,
           emailVerified : false,
           photoURL: '',
-          promocode: promoAgentCode.toUpperCase()
+          promocode: promoAgentCode.toUpperCase(),
+          referalPromoCode: signUpDetails.referalPromoCode
         };
 
         await this.authenticationService.SignUp(newUser, signUpDetails.password);

@@ -7,6 +7,7 @@ export interface User {
     firstName: string;
     lastName: string;
     promocode: string;
+    referalPromoCode: string;
  }
 
  export interface UserAccess {

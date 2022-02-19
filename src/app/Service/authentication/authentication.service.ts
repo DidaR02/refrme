@@ -157,7 +157,8 @@ export class AuthenticationService {
           emailVerified: user.emailVerified ?? false,
           firstName: user.firstName?? null,
           lastName: user.lastName ?? null,
-          promocode: user.promocode ?? null
+          promocode: user.promocode ?? null,
+          referalPromoCode : user.referalPromoCode ?? null
         }
         await userRef.set(userData, {
           merge: true
@@ -204,7 +205,8 @@ export class AuthenticationService {
            emailVerified: user.emailVerified ?? false,
            firstName: user.firstName ?? null,
            lastName: user.lastName ?? null,
-            promocode: user.promocode ?? null
+           promocode: user.promocode ?? null,
+           referalPromoCode : user.referalPromoCode ?? null
          }
          await this.afsDb.database.ref(`tb_user/${user.uid}`)
            .set(userData)

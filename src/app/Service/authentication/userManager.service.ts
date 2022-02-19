@@ -50,7 +50,8 @@ export class UserManagerService {
         photoURL: _user?.photoURL ?? _signedInUser?.photoURL,
         firstName: _user?.firstName,
         lastName: _user?.lastName,
-        promocode: _user?.promocode
+        promocode: _user?.promocode,
+        referalPromoCode: _user?.referalPromoCode
         };
       };
 
