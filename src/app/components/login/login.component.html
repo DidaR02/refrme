@@ -14,13 +14,29 @@
 
               <div class="panel panel-primary">
                 <div class="form-group">
-                  <input type="email" class="form-control" id="email" name="email" placeholder="Email *"
-                    autocomplete="off" aria-required="true" formControlName="email" autocomplete="off" required>
+                  <mat-form-field class="full-width">
+                    <input matInput type="email" placeholder="Email" formControlName="email" required
+                      class="form-control" autocomplete="off">
+                    <mat-error *ngFor="let validation of validation_messages.email">
+                      <mat-error class="error-message" *ngIf="signInFormGroup?.get('email')?.hasError(validation.type)
+                                    && (signInFormGroup?.get('email')?.dirty ||
+                                    signInFormGroup?.get('email')?.touched)">
+                        {{validation.message}}</mat-error>
+                    </mat-error>
+                  </mat-form-field>
                 </div>
                 <div class="form-group">
-                  <input type="password" id="password" name="password" placeholder="Password *" aria-required="true"
-                    formControlName="password" class="form-control ng-valid ng-dirty ng-touched"
-                    ng-reflect-name="Password" autocomplete="off" required>
+
+                  <mat-form-field class="full-width">
+                    <input matInput type="password" placeholder="Password" formControlName="password" required
+                      class="form-control" autocomplete="off">
+                    <mat-error *ngFor="let validation of validation_messages.password">
+                      <mat-error class="error-message" *ngIf="signInFormGroup?.get('password')?.hasError(validation.type) &&
+                            (signInFormGroup?.get('password')?.dirty ||
+                            signInFormGroup?.get('password')?.touched)">
+                        {{validation.message}}</mat-error>
+                    </mat-error>
+                  </mat-form-field>
                 </div>
               </div>
               <div *ngIf="!isUserSignInAllowed">

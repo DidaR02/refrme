@@ -99,7 +99,6 @@ textarea {
   padding-left: 0;
   padding-right: 0;
   border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -o-box-shadow: none;
@@ -139,11 +138,6 @@ textarea {
   text-transform: uppercase;
 }
 
-.signup-form .form-control:focus,
-.signup-form .form-control:active {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-}
-
 /* If the screen size is 600px wide or less, set the font-size*/
 
 @media screen and (max-width: 600px) {
@@ -175,4 +169,23 @@ textarea {
   .form-control {
     font-size: 1.2vw;
   }
+}
+
+.error-message {
+  font-size: 12px;
+}
+
+.double-line-hint {
+  .mat-input-hint-wrapper {
+    flex-wrap: wrap;
+
+    .hint-line {
+      flex: 0 0 100%;
+    }
+  }
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 10px;
 }

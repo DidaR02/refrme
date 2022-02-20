@@ -100,7 +100,6 @@
     padding-left: 0;
     padding-right: 0;
     border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     -o-box-shadow: none;
@@ -136,11 +135,6 @@
     text-transform: uppercase;
   }
 
-  .fh5co-form .form-control:focus,
-  .fh5co-form .form-control:active {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-  }
-
   .btn-primary {
     height: 50px;
     padding-right: 20px;
@@ -173,4 +167,23 @@
 
   .js .animate-box {
     opacity: 0;
+  }
+
+  .error-message {
+    font-size: 12px;
+  }
+
+  .double-line-hint {
+    .mat-input-hint-wrapper {
+      flex-wrap: wrap;
+
+      .hint-line {
+        flex: 0 0 100%;
+      }
+    }
+  }
+
+  .full-width {
+    width: 100%;
+    margin-bottom: 10px;
   }
