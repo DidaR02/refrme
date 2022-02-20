@@ -35,38 +35,14 @@ isUserSignInAllowed : boolean = true;
 
   validation_messages =
     {
-    'firstName': [
-      { type: 'required', message: 'First name is required.' },
-      { type: 'minlength', message: 'First name must be at least 2 characters long.' },
-      { type: 'maxlength', message: 'First name cannot be more than 30 characters long.' },
-      { type: 'pattern', message: 'Your first name must contain only numbers and letters.' }
-        ],
-    'lastName': [
-      { type: 'required', message: 'Last name is required.' },
-      { type: 'minlength', message: 'Last name must be at least 2 characters long.' },
-      { type: 'maxlength', message: 'Last name cannot be more than 30 characters long.' },
-      { type: 'pattern', message: 'Your last name must contain only numbers and letters.' }
-        ],
     'email': [
       { type: 'required', message: 'Email is required.' },
       { type: 'pattern', message: 'Enter a valid email.' }
-        ],
-    'confirmEmail': [
-      { type: 'required', message: 'Email is required.' },
-      { type: 'pattern', message: 'Enter a valid email.' },
-      { type: 'areEqual', message: 'Email mismatch.' }
-        ],
-    'confirmPassword': [
-      { type: 'required', message: 'Confirm password is required.' },
-      { type: 'areEqual', message: 'Password mismatch.' }
         ],
     'password': [
       { type: 'required', message: 'Password is required.' },
       { type: 'minlength', message: 'Password must be at least 6 characters long.' },
       { type: 'pattern', message: 'Your password must contain at least one uppercase, one lowercase, and one number.' }
-        ],
-    'referalPromoCode': [
-      { type: 'required', message: 'Your referal promocode is required.' }
         ]
     }
 
