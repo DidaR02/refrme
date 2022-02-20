@@ -17,7 +17,7 @@
                   <mat-form-field class="full-width">
                     <input matInput type="email" placeholder="Email" formControlName="email" required
                       class="form-control" autocomplete="off">
-                    <mat-error *ngFor="let validation of validation_messages.email">
+                    <mat-error *ngFor="let validation of validation_messages.email" class="error-messages">
                       <mat-error class="error-message" *ngIf="signInFormGroup?.get('email')?.hasError(validation.type)
                                     && (signInFormGroup?.get('email')?.dirty ||
                                     signInFormGroup?.get('email')?.touched)">
@@ -30,7 +30,7 @@
                   <mat-form-field class="full-width">
                     <input matInput type="password" placeholder="Password" formControlName="password" required
                       class="form-control" autocomplete="off">
-                    <mat-error *ngFor="let validation of validation_messages.password">
+                    <mat-error *ngFor="let validation of validation_messages.password" class="error-messages">
                       <mat-error class="error-message" *ngIf="signInFormGroup?.get('password')?.hasError(validation.type) &&
                             (signInFormGroup?.get('password')?.dirty ||
                             signInFormGroup?.get('password')?.touched)">

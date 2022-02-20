@@ -21,7 +21,7 @@
                     <mat-form-field class="full-width">
                       <input matInput placeholder="First Name" formControlName="firstName" required
                         class="form-control">
-                      <mat-error *ngFor="let validation of validation_messages.firstName">
+                      <mat-error *ngFor="let validation of validation_messages.firstName" class="error-messages">
                         <mat-error class="error-message" *ngIf="signUpFormGroup?.get('firstName')?.hasError(validation.type) &&
                              (signUpFormGroup?.get('firstName')?.dirty || signUpFormGroup?.get('firstName')?.touched)">
                           {{validation.message}}</mat-error>
@@ -35,7 +35,7 @@
                   <div class="col-md-6">
                     <mat-form-field class="full-width">
                       <input matInput placeholder="Last Name" formControlName="lastName" required class="form-control">
-                      <mat-error *ngFor="let validation of validation_messages.lastName">
+                      <mat-error *ngFor="let validation of validation_messages.lastName" class="error-messages">
                         <mat-error class="error-message" *ngIf="signUpFormGroup?.get('lastName')?.hasError(validation.type) &&
                              (signUpFormGroup?.get('lastName')?.dirty || signUpFormGroup?.get('lastName')?.touched)">
                           {{validation.message}}</mat-error>
@@ -52,7 +52,7 @@
                       <mat-form-field class="full-width">
                         <input matInput type="email" placeholder="Email" formControlName="email" required
                           class="form-control">
-                        <mat-error *ngFor="let validation of validation_messages.email">
+                        <mat-error *ngFor="let validation of validation_messages.email" class="error-messages">
                           <mat-error class="error-message" *ngIf="signUpFormGroup?.get('matching_emails')?.get('email')?.hasError(validation.type)
                                     && (signUpFormGroup?.get('matching_emails')?.get('email')?.dirty ||
                                     signUpFormGroup?.get('matching_emails')?.get('email')?.touched)">
@@ -65,7 +65,7 @@
                       <mat-form-field class="full-width">
                         <input matInput type="email" placeholder="Confirm Email" formControlName="confirmEmail"
                           [errorStateMatcher]="parentErrorStateMatcher" required class="form-control">
-                        <mat-error *ngFor="let validation of validation_messages.confirmEmail">
+                        <mat-error *ngFor="let validation of validation_messages.confirmEmail" class="error-messages">
                           <mat-error class="error-message" *ngIf="(signUpFormGroup?.get('matching_emails')?.get('confirmEmail')?.hasError(validation.type)||
         signUpFormGroup?.get('matching_emails')?.hasError(validation.type)) &&
         (signUpFormGroup?.get('matching_emails')?.get('confirmEmail')?.dirty ||
@@ -85,7 +85,7 @@
                       <mat-form-field class="full-width">
                         <input matInput type="password" placeholder="Password" formControlName="password" required
                           class="form-control">
-                        <mat-error *ngFor="let validation of validation_messages.password">
+                        <mat-error *ngFor="let validation of validation_messages.password" class="error-messages">
                           <mat-error class="error-message"
                             *ngIf="signUpFormGroup?.get('matching_passwords')?.get('password')?.hasError(validation.type) && (signUpFormGroup?.get('matching_passwords')?.get('password')?.dirty || signUpFormGroup?.get('matching_passwords')?.get('password')?.touched)">
                             {{validation.message}}</mat-error>
@@ -97,7 +97,8 @@
                       <mat-form-field class="full-width">
                         <input matInput type="password" placeholder="Confirm Password" formControlName="confirmPassword"
                           [errorStateMatcher]="parentErrorStateMatcher" required class="form-control">
-                        <mat-error *ngFor="let validation of validation_messages.confirmPassword">
+                        <mat-error *ngFor="let validation of validation_messages.confirmPassword"
+                          class="error-messages">
                           <mat-error class="error-message" *ngIf="(signUpFormGroup?.get('matching_passwords')?.get('confirmPassword')?.hasError(validation.type)||
         signUpFormGroup?.get('matching_passwords')?.hasError(validation.type)) &&
         (signUpFormGroup?.get('matching_passwords')?.get('confirmPassword')?.dirty ||
@@ -117,7 +118,7 @@
                 <mat-form-field class="full-width">
                   <input matInput placeholder="Referal Promocode" formControlName="referalPromoCode" required
                     class="form-control">
-                  <mat-error *ngFor="let validation of validation_messages.referalPromoCode">
+                  <mat-error *ngFor="let validation of validation_messages.referalPromoCode" class="error-messages">
                     <mat-error class="error-message" *ngIf="signUpFormGroup?.get('referalPromoCode')?.hasError(validation.type) &&
                              (signUpFormGroup?.get('referalPromoCode')?.dirty ||
                              signUpFormGroup?.get('referalPromoCode')?.touched)">
